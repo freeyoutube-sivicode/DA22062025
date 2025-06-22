@@ -1,0 +1,254 @@
+@use 'sass:color';
+
+// Colors
+$color-primary: #0066b1; // BMW Blue
+$color-secondary: #1c1c1c; // Dark Gray
+$color-accent: #f7b500; // BMW Gold
+$color-background: #ffffff;
+$color-background-light: #f8f9fa;
+$color-text: #333333;
+$color-text-light: #666666;
+$color-border: #e0e0e0;
+
+// Typography
+$font-family-base: 'Roboto', sans-serif;
+$font-size-base: 16px;
+$font-size-small: 14px;
+$font-size-large: 18px;
+$font-size-xlarge: 24px;
+$font-size-xxlarge: 32px;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-xxl: 3rem;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+
+// Shadows
+$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+// Transitions
+$transition-base: all 0.3s ease;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; // Ensure it takes full viewport height minus header/footer
+  background-color: $color-background-light;
+  padding: $spacing-xxl $spacing-md; // Add padding for smaller screens
+
+  &__container {
+    max-width: 400px; // Match max-width of admin login card
+    width: 100%;
+    padding: $spacing-xl; // Consistent padding inside the card
+    background-color: $color-background;
+    border-radius: $border-radius;
+    box-shadow: $shadow-lg;
+    display: flex;
+    flex-direction: column;
+    align-items: center; // Center content horizontally
+  }
+
+  &__logo {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    &-text {
+      font-size: $font-size-large;
+      font-weight: 700;
+      margin-top: $spacing-xs;
+      color: $color-text;
+    }
+  }
+
+  &__title {
+    text-align: center;
+    // Use a green color for the title similar to admin login
+    color: $color-secondary; // Or a specific green variable if available
+    font-weight: 700;
+    font-size: $font-size-large; // Match font size with admin login
+    margin-bottom: $spacing-lg; // Adjusted margin
+  }
+
+  &__form {
+    width: 100%; // Form takes full width of card
+    display: flex;
+    flex-direction: column;
+    // Use gap for spacing between form groups
+    gap: $spacing-md;
+  }
+
+  &__form-group {
+    margin-bottom: 0; // Remove default margin-bottom if using gap
+  }
+
+  &__input-group {
+    display: flex;
+    align-items: center;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-sm;
+    overflow: hidden; // Hide anything overflowing the border radius
+    width: 100%; // Ensure input group takes full width
+
+    // Focus state for the input group
+    &:focus-within {
+      border-color: $color-primary; // Highlight with primary color
+      box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25); // Add a subtle shadow
+    }
+
+    &-icon {
+      padding: $spacing-sm; // Padding around the icon
+      background-color: transparent; // No background
+      border: none; // No border
+      color: $color-text-light; // Lighter color for icons
+      flex-shrink: 0; // Prevent icon from shrinking
+
+      // Style for the icon element (e.g., <i> or <svg>)
+      i,
+      svg {
+        font-size: $font-size-base; // Match icon size to base font size
+      }
+    }
+  }
+
+  &__input {
+    flex-grow: 1; // Allow input to take remaining space
+    padding: $spacing-sm; // Consistent padding
+    border: none; // Remove border as it's on the input-group
+    font-size: $font-size-base;
+    color: $color-text;
+    width: 100%; // Ensure input takes full width within input-group
+
+    &:focus {
+      outline: none; // Remove default outline
+    }
+  }
+
+  &__options {
+    display: flex;
+    justify-content: space-between; // Space out checkbox and forgot password link
+    align-items: center;
+    width: 100%; // Ensure options take full width
+    margin-bottom: $spacing-md; // Space below options
+  }
+
+  &__form-check {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs; // Space between checkbox and label
+
+    &-input {
+      // Style for the actual checkbox input
+      cursor: pointer;
+    }
+
+    &-label {
+      font-size: $font-size-base;
+      color: $color-text;
+      cursor: pointer; // Make label clickable
+    }
+  }
+
+  &__forgot-password-link {
+    font-size: $font-size-base;
+    color: $color-primary; // Use primary color for the link
+    text-decoration: none; // Remove default underline
+
+    &:hover {
+      text-decoration: underline; // Add underline on hover
+    }
+  }
+
+  &__button {
+    display: block;
+    width: 100%;
+    padding: $spacing-md 0; // Adjust padding
+    // Use a green color for the button background
+    background-color: #0f5132; // Using --bmw-dark-green value directly or reference variable
+    border-color: #0f5132; // Match border color
+    color: $color-background; // White text color
+    font-size: $font-size-large; // Adjust font size
+    font-weight: 500;
+    border-radius: $border-radius; // Using defined border radius
+    transition: $transition-base;
+    text-align: center; // Ensure text is centered
+    cursor: pointer;
+    border: none; // Remove default button border
+
+    &:hover:not(:disabled) {
+      background-color: #0a3622; // Darken on hover
+      border-color: #0a3622;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__register-text {
+    text-align: center;
+    margin-top: $spacing-md; // Space above the link
+    font-size: $font-size-base;
+    color: $color-text-light;
+
+    a {
+       color: $color-primary; // Use primary color for the link
+       font-weight: 500;
+       text-decoration: none;
+
+       &:hover {
+         text-decoration: underline; // Add underline on hover
+       }
+    }
+  }
+
+   // Styles for Alert message if needed (Ant Design Alert)
+   .ant-alert {
+      width: 100%;
+      margin-bottom: $spacing-md;
+   }
+
+   // Styles for Ant Design form items if you switch back
+  //  .ant-form-item {
+  //     margin-bottom: $spacing-md;
+
+  //     .ant-form-item-label > label {
+  //        font-size: $font-size-base;
+  //        color: $color-text;
+  //     }
+  //  }
+
+  //  .ant-input-affix-wrapper {
+  //     border-radius: $border-radius-sm;
+  //     &:focus-within {
+  //         border-color: $color-primary;
+  //         box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25);
+  //     }
+  //  }
+
+  //  .siteFormItemIcon { // Assuming this was for Ant Design icons
+  //     color: $color-text-light;
+  //  }
+} 

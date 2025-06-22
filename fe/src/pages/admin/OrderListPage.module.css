@@ -1,0 +1,24 @@
+.orderListPage {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.filterSection {
+  margin-bottom: 20px;
+}
+
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+} 

@@ -1,0 +1,328 @@
+/* Admin Layout Styles */
+.adminLayout {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.adminSidebar {
+  position: fixed !important;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: var(--theme-surface-primary) !important;
+  border-right: 1px solid var(--theme-border-color) !important;
+}
+
+.adminSidebar .ant-layout-sider-children {
+  overflow-y: auto;
+}
+
+.adminLogo {
+  height: 64px;
+  margin: 16px;
+  background: var(--theme-primary-color);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-primary-text);
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.adminLogo::after {
+  content: "SiVi CAR";
+}
+
+.adminContentLayout {
+  margin-left: 200px; /* Width of sidebar when expanded */
+  transition: margin-left 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* When sidebar is collapsed */
+.adminContentLayout.collapsed {
+  margin-left: 80px; /* Width of sidebar when collapsed */
+}
+
+.adminHeader {
+  background: var(--theme-bg-primary) !important;
+  padding: 0 24px !important;
+  height: 64px !important;
+  min-height: 64px !important;
+  max-height: 64px !important;
+  line-height: 64px !important;
+  border-bottom: 1px solid var(--theme-border-color);
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  z-index: 999 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex !important;
+  align-items: center !important;
+  height: 64px !important;
+  line-height: 1 !important;
+}
+
+.sidebarToggle {
+  background: transparent !important;
+  border: none !important;
+  color: var(--theme-primary-color) !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  padding: 8px !important;
+  border-radius: 4px !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 16px !important;
+  min-width: 40px !important;
+  height: 40px !important;
+}
+
+.sidebarToggle:hover {
+  background-color: var(--theme-bg-light) !important;
+  color: var(--theme-primary-dark) !important;
+}
+
+.sidebarToggle:focus {
+  outline: 2px solid var(--theme-primary-color) !important;
+  outline-offset: 2px !important;
+}
+
+.headerTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--theme-primary-color);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.headerUser {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.userDropdownLink {
+  color: var(--theme-text-primary) !important;
+  text-decoration: none !important;
+  padding: 0 12px;
+  height: 64px;
+  display: flex !important;
+  align-items: center !important;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.userDropdownLink:hover {
+  background-color: var(--theme-surface-secondary);
+  color: var(--theme-primary-color) !important;
+}
+
+.adminContent {
+  padding: 24px;
+  background: var(--theme-bg-primary);
+  border-radius: 6px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 0; /* This allows flex-grow to work properly */
+}
+
+.adminFooter {
+  background: var(--theme-bg-primary) !important;
+  border-top: 1px solid var(--theme-border-color);
+  padding: 12px 24px !important;
+  text-align: center;
+  flex-shrink: 0;
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerContent {
+  color: var(--theme-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .adminContentLayout,
+  .adminContentLayout.collapsed {
+    margin-left: 0 !important;
+  }
+  
+  .adminSidebar {
+    position: fixed !important;
+    z-index: 1001 !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .adminSidebar:not(.ant-layout-sider-collapsed) {
+    transform: translateX(0);
+  }
+  
+  .adminHeader {
+    padding: 0 16px !important;
+  }
+  
+  .headerLeft {
+    flex-shrink: 0;
+  }
+  
+  .headerTitle {
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .sidebarToggle {
+    margin-right: 12px !important;
+  }
+  
+  .adminContent {
+    margin: 16px;
+    padding: 16px;
+  }
+  
+  .adminFooter {
+    padding: 8px 16px !important;
+  }
+  
+  .footerContent {
+    font-size: 12px;
+  }
+}
+
+/* Fix for Ant Design dropdown positioning */
+.ant-dropdown {
+  z-index: 1050 !important;
+}
+
+/* Custom Menu Styling with Theme Colors */
+.adminSidebar .ant-menu,
+.adminMenu {
+  border-right: none !important;
+  background-color: transparent !important;
+}
+
+.adminSidebar .ant-menu-item,
+.adminMenu .ant-menu-item {
+  margin: 4px 8px;
+  border-radius: 8px !important;
+  background-color: transparent !important;
+  color: var(--theme-text-primary) !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.adminSidebar .ant-menu-item a,
+.adminMenu .ant-menu-item a {
+  color: var(--theme-text-primary) !important;
+  transition: all 0.3s ease;
+}
+
+.adminSidebar .ant-menu-item:hover,
+.adminMenu .ant-menu-item:hover {
+  background-color: var(--theme-primary-light) !important;
+  color: var(--theme-primary-text) !important;
+}
+
+.adminSidebar .ant-menu-item:hover a,
+.adminMenu .ant-menu-item:hover a {
+  color: var(--theme-primary-text) !important;
+}
+
+.adminSidebar .ant-menu-item-selected,
+.adminMenu .ant-menu-item-selected {
+  background-color: var(--theme-primary-color) !important;
+  color: var(--theme-primary-text) !important;
+}
+
+.adminSidebar .ant-menu-item-selected a,
+.adminMenu .ant-menu-item-selected a {
+  color: var(--theme-primary-text) !important;
+  font-weight: 600;
+}
+
+.adminSidebar .ant-menu-item-selected::after,
+.adminMenu .ant-menu-item-selected::after {
+  display: none !important;
+}
+
+/* Menu item icons */
+.adminSidebar .ant-menu-item .anticon,
+.adminMenu .ant-menu-item .anticon {
+  color: inherit !important;
+  transition: all 0.3s ease;
+}
+
+/* Note: Trigger button is now in header, no need for bottom trigger styling */
+
+/* Loading and transition effects */
+.adminLayout * {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure proper scrolling - handled above in main adminContent rule */
+
+/* Force trigger button styling with highest specificity */
+:global(.adminLayout .ant-layout-sider-trigger),
+:global(.adminLayout) :global(.ant-layout-sider-trigger),
+.adminLayout :global(.ant-layout-sider-trigger) {
+  background-color: var(--theme-primary-color, #059669) !important;
+  color: var(--theme-primary-text, #ffffff) !important;
+  border-top: 1px solid var(--theme-border-color, #e0e0e0) !important;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+:global(.adminLayout .ant-layout-sider-trigger:hover),
+:global(.adminLayout) :global(.ant-layout-sider-trigger:hover),
+.adminLayout :global(.ant-layout-sider-trigger:hover),
+:global(.adminLayout .ant-layout-sider-trigger:focus),
+:global(.adminLayout) :global(.ant-layout-sider-trigger:focus),
+.adminLayout :global(.ant-layout-sider-trigger:focus) {
+  background-color: var(--theme-primary-dark, #047857) !important;
+  color: var(--theme-primary-text, #ffffff) !important;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  .adminSidebar {
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .adminHeader {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .adminContent {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .adminFooter {
+    box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.2);
+  }
+}

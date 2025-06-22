@@ -1,0 +1,151 @@
+.brandExperience {
+  padding: 100px 0;
+  background: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.videoSection {
+  position: relative;
+}
+
+.videoWrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  &:hover .playButton {
+    transform: scale(1.1);
+  }
+}
+
+.video {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  
+  :global(.anticon) {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+}
+
+.infoSection {
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #1a1a1a;
+  position: relative;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #0066B1;
+  }
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.valueItem {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #0066B1;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+  }
+}
+
+.learnMoreButton {
+  background: #0066B1;
+  border: none;
+  height: 50px;
+  padding: 0 30px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  
+  &:hover {
+    background: #005599;
+  }
+}
+
+@media (max-width: 992px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .video {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brandExperience {
+    padding: 60px 0;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .values {
+    grid-template-columns: 1fr;
+  }
+} 
