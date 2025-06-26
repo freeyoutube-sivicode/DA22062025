@@ -115,13 +115,15 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
           color: ${theme.colors.text.white} !important;
         }
         
-        /* Footer styles */
+        /* Footer styles - COMMENTED OUT */
+        /*
         #${wrapperId} footer,
         #${wrapperId} .footer,
         #${wrapperId} [data-theme="footer"] {
           background-color: ${theme.colors.palette.secondary} !important;
           color: ${theme.colors.text.white} !important;
         }
+        */
         
         #${wrapperId} [data-theme="footer-link"] {
           color: ${theme.colors.text.white} !important;

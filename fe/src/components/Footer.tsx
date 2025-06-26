@@ -130,7 +130,7 @@ const Footer: React.FC = () => {
 
         {/* Copyright */}
         <div className={styles.footerBottom}>
-          © {new Date().getFullYear()} BMW Vietnam. All rights reserved.
+          © {new Date().getFullYear()} BMW Vietnam.
         </div>
       </div>
     </footer>

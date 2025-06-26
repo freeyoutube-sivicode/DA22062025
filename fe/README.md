@@ -10,22 +10,26 @@ This is the frontend application for the Car Dealership project, built with Reac
 ## Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd car-dealership-frontend
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env` file in the root directory and add the following environment variables:
+
 ```
 REACT_APP_API_URL=http://localhost:3000/api
 ```
 
 4. Start the development server:
+
 ```bash
 npm start
 ```
@@ -43,18 +47,18 @@ The application will be available at `http://localhost:3000`.
 
 ```
 src/
-  ├── components/       # Reusable components
-  │   ├── admin/       # Admin-specific components
-  │   └── common/      # Shared components
-  ├── contexts/        # React contexts
-  ├── pages/          # Page components
-  │   ├── admin/      # Admin pages
-  │   └── public/     # Public pages
-  ├── services/       # API services
-  ├── types/          # TypeScript type definitions
-  ├── utils/          # Utility functions
-  ├── App.tsx         # Main App component
-  └── index.tsx       # Application entry point
+├── components/       # Reusable components
+│   ├── admin/       # Admin-specific components
+│   └── common/      # Shared components
+├── contexts/        # React contexts
+├── pages/          # Page components
+│   ├── admin/      # Admin pages
+│   └── public/     # Public pages
+├── services/       # API services
+├── types/          # TypeScript type definitions
+├── utils/          # Utility functions
+├── App.tsx         # Main App component
+└── index.tsx       # Application entry point
 ```
 
 ## Features
@@ -88,4 +92,4 @@ src/
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details. 
+This project is licensed under the MIT License - see the LICENSE file for details.

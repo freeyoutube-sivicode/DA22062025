@@ -306,4 +306,86 @@ header:not([class*="header__"]),
 .ant-input:focus {
   border-color: var(--theme-primary, #{$color-primary}) !important;
   box-shadow: 0 0 0 2px var(--theme-primary, #{$color-primary})25 !important;
+}
+
+// User Footer theme styles with maximum specificity
+html body footer.user-footer,
+html body .user-footer,
+body .user-footer,
+.user-footer,
+footer.user-footer,
+[class*="user-footer"],
+// Override main.scss footer styles
+html body .footer,
+body .footer,
+.footer,
+// Override CSS module classes
+html body [class*="_footer_"],
+body [class*="_footer_"],
+[class*="_footer_"] {
+  background-color: var(--theme-secondary, #374151) !important;
+  color: var(--theme-text-white, #ffffff) !important;
+  transition: all 0.3s ease !important;
+}
+
+// Even higher specificity override for user-footer
+html body footer.user-footer,
+html body footer[class*="user-footer"],
+html body footer[data-theme="footer"],
+html body .user-footer[data-theme="footer"],
+html body footer.user-footer[data-theme="footer"] {
+  background-color: var(--theme-secondary, #374151) !important;
+  color: var(--theme-text-white, #ffffff) !important;
+}
+
+// Maximum specificity override for user-footer
+html body footer.user-footer[data-theme="footer"],
+html body footer[data-theme="footer"].user-footer,
+html body footer[class*="user-footer"][data-theme="footer"],
+html body .user-footer[class*="user-footer"][data-theme="footer"] {
+  background-color: var(--theme-secondary, #374151) !important;
+  color: var(--theme-text-white, #ffffff) !important;
+}
+
+// Theme-specific overrides
+html body footer.user-footer[data-theme="footer"][data-theme-name="bmw"],
+html body footer.user-footer[data-theme="footer"][data-theme-name="sport"],
+html body footer.user-footer[data-theme="footer"][data-theme-name="luxury"] {
+  background-color: #1c1c1c !important; /* Different theme colors */
+  color: #ffffff !important;
+}
+
+// Simple and powerful footer override
+footer.user-footer {
+  background-color: #ff0000 !important; /* Test RED */
+  color: #ffffff !important;
+}
+
+// Even more specific
+html body footer.user-footer {
+  background-color: #00ff00 !important; /* Test GREEN */
+  color: #ffffff !important;
+}
+
+// Maximum specificity
+html body footer.user-footer[data-theme="footer"] {
+  background-color: var(--theme-secondary, #374151) !important;
+  color: var(--theme-text-white, #fff) !important;
+  transition: all 0.3s;
+}
+
+// Override ThemeWrapper ID selector
+#theme-wrapper-1ys1vdqu4 footer.user-footer,
+#theme-wrapper-1ys1vdqu4 footer.user-footer[data-theme="footer"],
+#theme-wrapper-1ys1vdqu4 .user-footer[data-theme="footer"] {
+  background-color: #ff0000 !important; /* Test RED */
+  color: #ffffff !important;
+}
+
+// Generic override for any theme wrapper
+[id^="theme-wrapper-"] footer.user-footer,
+[id^="theme-wrapper-"] footer.user-footer[data-theme="footer"],
+[id^="theme-wrapper-"] .user-footer[data-theme="footer"] {
+  background-color: #00ff00 !important; /* Test GREEN */
+  color: #ffffff !important;
 } 
