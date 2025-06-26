@@ -1,5 +1,55 @@
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - username
+ *         - email
+ *         - password
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: Auto-generated user ID
+ *         username:
+ *           type: string
+ *           description: Unique username
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: User email address
+ *         password:
+ *           type: string
+ *           description: User password (min 6 characters)
+ *         fullName:
+ *           type: string
+ *           description: User's full name
+ *         phone:
+ *           type: string
+ *           description: User's phone number
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           default: user
+ *           description: User role
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *       example:
+ *         username: john_doe
+ *         email: john@example.com
+ *         password: password123
+ *         fullName: John Doe
+ *         phone: +1234567890
+ *         role: user
+ */
+
+/**
+ * @swagger
  * tags:
  *   - name: Authentication
  *     description: User authentication endpoints
@@ -381,23 +431,4 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- */
-
-const express = require('express');
-const router = express.Router();
-const { register, login, logout, getAllUsers, getUserById, updateUser, deleteUser } = require('../controllers/usersController');
-const { protect, authorize } = require('../middleware/authMiddleware');
-
-router.post('/register', register);
-router.post('/login', login);
-router.post('/logout', protect, logout);
-
-router.route('/')
-  .get(protect, authorize('admin'), getAllUsers);
-
-router.route('/:userId')
-  .get(protect, getUserById)
-  .put(protect, updateUser)
-  .delete(protect, authorize('admin'), deleteUser);
-
-module.exports = router; 
+ */ 
