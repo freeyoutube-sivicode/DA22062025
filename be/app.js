@@ -5,9 +5,9 @@ const orderRoutes = require('./routes/orders');
 const testDriveRoutes = require('./routes/testDriveOrders');
 const serviceRoutes = require('./routes/services');
 const newsEventRoutes = require('./routes/newsEvents');
-const cartRoutes = require('./routes/cart');
-const cartItemRoutes = require('./routes/cartItems');
-const testDriveBookingRoutes = require('./routes/testDriveBooking'); // Corrected import based on filename
+const favoritesRoutes = require('./routes/favorites');
+const roleRoutes = require('./routes/roles');
+const roleUserRoutes = require('./routes/roleUsers');
 const generalOrderRoutes = require('./routes/generalOrders'); // New file for General Orders, using ordersController
 const servicesApis = require('./routes/services'); // Corrected import name
 const newsEventsApis = require('./routes/newsEvents'); // Corrected import name
@@ -21,7 +21,7 @@ app.use('/api/san-pham', productRoutes);
 app.use('/api/nguoi-dung', userRoutes); // API for user management (needs review - possible duplication)
 app.use('/api/vai-tro', roleRoutes);
 app.use('/api/nguoi-dung', roleUserRoutes); // May need to clarify purpose if userRoutes covers this (possible duplication)
-app.use('/api/gio-hang', cartRoutes); // Use cartRoutes for /api/gio-hang
+app.use('/api/gio-hang', favoritesRoutes); // Changed: Cart route now uses favorites functionality
 // Comment out cartItemRoutes as it's causing routing conflicts
 // app.use('/api/gio-hang', cartItemRoutes); 
 app.use('/api/lich-lai-thu', testDriveRoutes); // Route for Test Drive Orders

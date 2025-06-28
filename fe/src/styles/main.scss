@@ -69,10 +69,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-.header__row {
-  display: flex;
-  justify-content: space-between;
-}
 
 button {
   background: none;
@@ -117,248 +113,6 @@ body {
   color: $color-text;
   background-color: $color-background;
   overflow-x: hidden;
-}
-
-// HEADER
-.header {
-  // General header styles (positioning, z-index, etc. - keep some from previous styles)
-  border-bottom: 1px solid $color-border;
-  // padding: $spacing-md 0; // Padding will be handled by internal bars
-  background-color: $color-background; // Default background for the main bar
-  position: relative;
-  z-index: 1000;
-
-  &__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 $spacing-md;
-  }
-
-  &__auth-bar {
-    background-color: $color-secondary; // Dark background for auth bar
-    color: $color-background-light; // Light text color
-    padding: $spacing-xs 0; // Smaller padding
-    font-size: $font-size-small; // Smaller font size
-
-    .header__auth-container {
-      display: flex;
-      justify-content: flex-end; // Align links to the right
-    }
-
-    .header__auth-links {
-      display: flex;
-      gap: $spacing-md; // Space between auth links
-      align-items: center; // Vertically align items
-    }
-
-    .header__auth-link {
-      color: $color-background-light; // Link color
-      text-decoration: none;
-      transition: $transition-base;
-
-      &:hover {
-        color: $color-primary; // Highlight on hover
-      }
-    }
-
-    .header__auth-button {
-       // Style for logout button, similar to link but perhaps with a border
-       background: none;
-       border: none;
-       color: $color-background-light;
-       cursor: pointer;
-       transition: $transition-base;
-
-       &:hover {
-          color: $color-primary;
-       }
-    }
-  }
-
-  &__main-bar {
-    background-color: $color-background; // White background for main bar
-    padding: $spacing-md 0; // Padding for the main bar
-    // border-bottom: 1px solid $color-border; // Already on the main header
-
-    
-
-    .header__row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: $spacing-md; // Add some space between items
-    }
-  }
-
-  // Keep existing styles for logo, nav, search, mobile toggle, and mobile menu
-  // Adjust existing styles as needed to fit within the new structure
-
-  &__logo-link {
-    display: inline-block;
-    flex-shrink: 0;
-  }
-
-  &__logo {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-  }
-
-  &__nav {
-    display: flex;
-    gap: $spacing-lg;
-    flex-grow: 1; // Allow nav to take up available space
-    justify-content: center; // Center nav links if space allows
-
-    @media (max-width: $breakpoint-md) {
-      display: none;
-    }
-  }
-
-  &__nav-link {
-    color: $color-text;
-    font-size: $font-size-base;
-    font-weight: 500;
-    padding: $spacing-sm $spacing-md;
-    text-transform: uppercase;
-    transition: $transition-base;
-
-    &:hover {
-      color: $color-primary;
-    }
-  }
-
-  &__search-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-
-    @media (max-width: $breakpoint-md) {
-       display: none;
-    }
-  }
-
-  &__search-box {
-    border-radius: $border-radius-sm;
-    border: 1px solid $color-border;
-    padding: $spacing-xs $spacing-sm;
-    padding-right: $spacing-lg;
-    width: 180px;
-    font-size: $font-size-small;
-    color: $color-text;
-    transition: $transition-base;
-
-    &:focus {
-      outline: none;
-      border-color: $color-primary;
-      box-shadow: 0 0 0 0.1rem rgba($color-primary, 0.25);
-    }
-  }
-
-  &__search-button {
-    position: absolute;
-    right: $spacing-sm;
-    color: $color-text-light;
-    pointer-events: none;
-  }
-
-  &__mobile-menu-button {
-    display: none;
-    font-size: $font-size-xlarge;
-    color: $color-text;
-
-    @media (max-width: $breakpoint-md) {
-      display: block;
-    }
-  }
-
-  &__mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: $color-background;
-    z-index: 1001;
-    padding: $spacing-lg;
-    overflow-y: auto;
-    // Default state is controlled by the --open modifier and media queries
-    display: none; // Ensure it's hidden by default
-
-    &--open {
-       display: block; // Show when state is open
-    }
-
-    // Ensure mobile menu is always hidden on desktop
-    @media (min-width: 769px){
-       .header__mobile-menu {
-         display: none !important; // Hide the mobile menu explicitly on desktop
-       }
-    }
-
-    @media (max-width: $breakpoint-md) {
-      // Styles specific to the mobile menu on mobile screens
-      // These styles apply when display is block (controlled by --open)
-      .header__mobile-menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: $spacing-lg;
-      }
-
-      .header__mobile-menu-close {
-        font-size: $font-size-xlarge;
-        color: $color-text;
-        display: block;
-        margin-bottom: $spacing-md;
-      }
-
-       .header__mobile-menu-nav {
-         display: flex;
-         flex-direction: column;
-         gap: $spacing-sm;
-         margin-bottom: $spacing-md;
-       }
-
-       .header__mobile-menu-auth {
-         display: flex;
-         flex-direction: column;
-         gap: $spacing-sm;
-         margin-top: $spacing-xl;
-         padding-top: $spacing-lg;
-         border-top: 1px solid $color-border;
-       }
-
-      // Ensure links and buttons within mobile menu have proper styles
-      .header__nav-link, .header__auth-link, .header__auth-button {
-          padding: $spacing-sm 0; // Adjust padding for mobile links
-          font-size: $font-size-large; // Larger font size for mobile
-          text-transform: none; // Remove uppercase for mobile links
-          color: $color-text; // Default color for mobile links
-
-           &:hover {
-               color: $color-primary; // Hover effect
-               background-color: transparent; // No background on hover for mobile
-           }
-      }
-
-       .header__auth-button {
-           text-align: left; // Align button text to the left
-       }
-
-      .header__search-box {
-        width: 100%;
-        padding: $spacing-sm;
-        padding-right: $spacing-lg;
-      }
-
-      .header__search-container {
-          display: flex;
-          width: 100%;
-      }
-    }
-  }
 }
 
 // HOMEPAGE
@@ -1125,6 +879,7 @@ body {
     margin-bottom: 15px;
   }
 
+  /* COMMENTED OUT TO AVOID CONFLICT WITH Header.tsx
   .header__dropdown-menu {
     position: static;
     box-shadow: none;
@@ -1135,6 +890,7 @@ body {
   .header__nav-item:hover .header__dropdown-menu {
     display: block;
   }
+  */
 }
 
 @media (max-width: 768px) {
@@ -1152,9 +908,11 @@ body {
     margin-top: 20px;
   }
 
+  /* COMMENTED OUT TO AVOID CONFLICT WITH Header.tsx
   .header__nav-link {
     padding: 10px;
   }
+  */
 
   .hero-thumbnails {
     margin-top: 20px;
@@ -1862,7 +1620,7 @@ body {
         font-size: $font-size-base; // Font size for buttons
         transition: $transition-base; // Transition for hover effects
         text-align: center;
-        flex-grow: 1; // Allow buttons to grow
+        flex-grow: 1; // Allow buttons to grow to fill space
 
         &.product-card__btn-detail {
           background-color: $color-secondary; // Dark background for detail button
@@ -3499,7 +3257,8 @@ body {
   }
 }
 
-// NAVBAR
+// NAVBAR - COMMENTED OUT TO AVOID CONFLICT WITH Header.tsx
+/*
 .navbar {
   background-color: $color-background;
   box-shadow: $shadow;
@@ -3686,6 +3445,7 @@ body {
     }
   }
 }
+*/
 
 .login-container {
   display: flex;

@@ -9,9 +9,6 @@ import ThemeWrapper from "./ThemeWrapper";
 const MainLayout: React.FC = () => {
   const { user } = useAuth();
 
-  // Only show theme controller for admin users
-  const showThemeController = user?.Role === "admin";
-
   // Simple layout structure - let ThemeWrapper handle all theme styling
   const layoutStyle: React.CSSProperties = {
     display: "flex",
@@ -36,7 +33,7 @@ const MainLayout: React.FC = () => {
           <Outlet />
         </main>
         <Footer />
-        {showThemeController && <ThemeController />}
+        <ThemeController />
       </div>
     </ThemeWrapper>
   );

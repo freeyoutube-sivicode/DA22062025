@@ -57,12 +57,6 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
           background-color: ${theme.colors.palette.primaryDark} !important;
         }
         
-        /* Main bar styles */
-        #${wrapperId} [data-theme="main-bar"] {
-          background-color: ${theme.colors.background.paper} !important;
-          border-bottom: 1px solid ${theme.colors.surface.border} !important;
-        }
-        
         /* Navigation links */
         #${wrapperId} [data-theme="nav-link"] {
           color: ${theme.colors.text.primary} !important;

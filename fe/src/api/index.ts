@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_BASE_URL } from './config';
 
 export const api = axios.create({
-  baseURL: '/api', // Thay đổi base URL này nếu API của bạn có đường dẫn khác
+  baseURL: API_BASE_URL, // Use the correct backend URL
   headers: {
     'Content-Type': 'application/json',
   },

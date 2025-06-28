@@ -83,17 +83,6 @@ header.header,
   transition: all 0.3s ease !important;
 }
 
-// Auth bar theme styles
-html body .header__auth-bar,
-html body header .header__auth-bar,
-html body div .header__auth-bar,
-body .header__auth-bar,
-.header__auth-bar,
-[class*="header__auth-bar"] {
-  background-color: #374151 !important; /* Dark secondary color */
-  color: #ffffff !important;
-}
-
 html body .header__auth-link,
 html body .header__auth-button {
   color: var(--theme-text-white, #ffffff) !important;
@@ -101,16 +90,6 @@ html body .header__auth-button {
   &:hover {
     color: var(--theme-primary, #{$color-primary}) !important;
   }
-}
-
-// Main bar theme styles
-html body .header__main-bar,
-html body header .header__main-bar,
-html body div .header__main-bar,
-body .header__main-bar,
-.header__main-bar,
-[class*="header__main-bar"] {
-  background-color: #ffffff !important; /* White background */
 }
 
 html body .header__nav-link {

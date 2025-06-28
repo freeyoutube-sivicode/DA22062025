@@ -53,13 +53,15 @@ export interface Category {
 
 export interface CartItem {
   _id: string;
-  CartID: string;
-  ProductID: string;
-  Quantity: number;
-  Price: number;
-  Product: Product;
-  createdAt: string;
-  updatedAt: string;
+  ProductID: {
+    _id: string;
+    Product_Name: string;
+    Price: number;
+    Main_Image: string;
+  };
+  quantity: number;
+  priceAtOrder: number;
+  Image: string;
 }
 
 export interface Order {
@@ -104,9 +106,30 @@ export interface UpdateProductData {
 export interface Cart {
   _id: string;
   UserID: string;
-  items: CartItem[]; // Array of CartItem objects
+  items: CartItem[]; // Array of embedded CartItem objects
   Total_Amount: number;
   Status: 'active' | 'completed' | 'cancelled';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FavoriteItem {
+  _id: string;
+  ProductID: {
+    _id: string;
+    Product_Name: string;
+    Price: number;
+    Main_Image: string;
+  };
+  Image: string;
+  createdAt: string;
+}
+
+export interface FavoritesData {
+  _id: string;
+  UserID: string;
+  items: FavoriteItem[];
+  Status: string;
   createdAt: string;
   updatedAt: string;
 } 

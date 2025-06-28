@@ -5,7 +5,6 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  ShoppingCartOutlined,
   TagsOutlined,
   TeamOutlined,
   UserOutlined,
@@ -73,7 +72,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     },
     {
       key: "products",
-      icon: <ShoppingCartOutlined />,
+      icon: <DashboardOutlined />,
       label: <Link to="/admin/products">Sản phẩm</Link>,
     },
     {
