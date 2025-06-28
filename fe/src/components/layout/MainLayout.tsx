@@ -1,21 +1,24 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Header from "./Header";
 import Footer from "./Footer";
 import ThemeController from "../ThemeController";
-import ThemeWrapper from "./ThemeWrapper";
 
-const MainLayout: React.FC = () => {
+interface MainLayoutProps {
+  children: React.ReactNode;
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { user } = useAuth();
 
-  // Simple layout structure - let ThemeWrapper handle all theme styling
+  // Simple layout structure
   const layoutStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
     margin: 0,
     padding: 0,
+    backgroundColor: "#ffffff",
   };
 
   const mainContentStyle: React.CSSProperties = {
@@ -26,16 +29,12 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <ThemeWrapper>
-      <div style={layoutStyle}>
-        <Header />
-        <main style={mainContentStyle}>
-          <Outlet />
-        </main>
-        <Footer />
-        <ThemeController />
-      </div>
-    </ThemeWrapper>
+    <div style={layoutStyle}>
+      <Header />
+      <main style={mainContentStyle}>{children}</main>
+      <Footer />
+      <ThemeController />
+    </div>
   );
 };
 

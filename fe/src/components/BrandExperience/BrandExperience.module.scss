@@ -1,151 +1,181 @@
 .brandExperience {
-  padding: 100px 0;
-  background: #fff;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  min-height: 500px;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 .content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 4rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
 .videoSection {
   position: relative;
 }
 
-.videoWrapper {
+.videoContainer {
   position: relative;
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  
-  &:hover .playButton {
-    transform: scale(1.1);
-  }
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .video {
   width: 100%;
-  height: 400px;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 
-.playButton {
+.playIcon {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 4rem;
   color: white;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  
-  :global(.anticon) {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  font-size: 3rem;
+  opacity: 0.8;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
   }
 }
 
-.infoSection {
-  padding: 20px;
+.textSection {
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 30px;
-  color: #1a1a1a;
-  position: relative;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: #0066B1;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
 }
 
 .description {
   font-size: 1.1rem;
-  line-height: 1.8;
+  line-height: 1.6;
   color: #666;
-  margin-bottom: 40px;
+  margin-bottom: 2rem;
+  text-align: justify;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
 }
 
-.values {
+.cardsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
-  margin-bottom: 40px;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
-.valueItem {
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 15px;
-  transition: transform 0.3s ease;
-  
-  &:hover {
+.card {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  &.hovered {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     transform: translateY(-5px);
-  }
-  
-  h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #0066B1;
-    margin-bottom: 10px;
-  }
-  
-  p {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.6;
+
+    .cardTitle {
+      color: #0284c7;
+    }
   }
 }
 
-.learnMoreButton {
-  background: #0066B1;
-  border: none;
-  height: 50px;
-  padding: 0 30px;
-  font-size: 1.1rem;
-  border-radius: 25px;
-  
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  transition: color 0.3s ease;
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+.cardDescription {
+  color: #666;
+  font-size: 0.9rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+}
+
+.buttonContainer {
+  text-align: center;
+}
+
+.ctaButton {
+  padding: 0 2rem !important;
+  height: 50px !important;
+  font-size: 1.1rem !important;
+  border-radius: 25px !important;
+  background-color: #0284c7 !important;
+  border: none !important;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem !important;
+    height: 45px !important;
+    font-size: 1rem !important;
+  }
+
   &:hover {
-    background: #005599;
-  }
-}
-
-@media (max-width: 992px) {
-  .content {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  
-  .video {
-    height: 300px;
-  }
-}
-
-@media (max-width: 768px) {
-  .brandExperience {
-    padding: 60px 0;
-  }
-  
-  .title {
-    font-size: 2rem;
-  }
-  
-  .values {
-    grid-template-columns: 1fr;
+    background-color: #0369a1 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
   }
 } 

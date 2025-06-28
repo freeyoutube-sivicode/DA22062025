@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API_BASE_URL } from '../api/config';
-import { Product } from '../api/types'; // Import Product type
-import { Typography, Spin, Image as AntdImage, Descriptions, Space, Button, notification, Card, message } from 'antd';
-import { formatCurrency } from '../utils/format';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import './ProductDetailPage.scss';
-import { useDispatch } from 'react-redux';
-import { fetchCart } from '../store/slices/cartSlice';
-import { AppDispatch } from '../store';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API_BASE_URL } from "../api/config";
+import { Product } from "../api/types"; // Import Product type
+import {
+  Typography,
+  Spin,
+  Image as AntdImage,
+  Descriptions,
+  Space,
+  Button,
+  notification,
+  Card,
+  message,
+} from "antd";
+import { formatCurrency } from "../utils/format";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import "./ProductDetailPage.scss";
+import { useDispatch } from "react-redux";
+import { fetchCart } from "../store/slices/cartSlice";
+import { AppDispatch } from "../store";
 
 const { Title, Paragraph } = Typography;
 
@@ -33,8 +43,8 @@ const ProductDetailPage: React.FC = () => {
         // Assuming API response structure is { data: { ...productData } }
         setProduct(response.data.data); // Access nested data if needed, adjust based on actual API response
       } catch (error) {
-        console.error('Error fetching product detail:', error);
-        message.error('Không thể tải chi tiết sản phẩm.');
+        console.error("Error fetching product detail:", error);
+        message.error("Không thể tải chi tiết sản phẩm.");
         setProduct(null); // Set product to null on error
       } finally {
         setLoading(false);
@@ -48,11 +58,11 @@ const ProductDetailPage: React.FC = () => {
 
   const handleAddToCart = async () => {
     try {
-      const userId = localStorage.getItem('userId');
+      const userId = localStorage.getItem("userId");
       if (!userId) {
         notification.warning({
-          message: 'Vui lòng đăng nhập',
-          description: 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng',
+          message: "Vui lòng đăng nhập",
+          description: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng",
         });
         return;
       }
@@ -64,18 +74,19 @@ const ProductDetailPage: React.FC = () => {
       });
 
       notification.success({
-        message: 'Thành công',
-        description: 'Đã thêm sản phẩm vào giỏ hàng',
+        message: "Thành công",
+        description: "Đã thêm sản phẩm vào giỏ hàng",
       });
 
       dispatch(fetchCart());
-
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error("Error adding to cart:", error);
       // Hiển thị thông báo lỗi từ backend nếu có
-      const errorMessage = (error as any).response?.data?.message || 'Không thể thêm sản phẩm vào giỏ hàng';
+      const errorMessage =
+        (error as any).response?.data?.message ||
+        "Không thể thêm sản phẩm vào giỏ hàng";
       notification.error({
-        message: 'Lỗi',
+        message: "Lỗi",
         description: errorMessage,
       });
     } finally {
@@ -84,12 +95,12 @@ const ProductDetailPage: React.FC = () => {
   };
 
   const handleRegisterConsultation = () => {
-    navigate('/dich-vu'); // Navigate to the services page
+    navigate("/dich-vu"); // Navigate to the services page
   };
 
   if (loading) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
+      <div style={{ textAlign: "center", padding: "50px" }}>
         <Spin size="large" tip="Đang tải sản phẩm..." />
       </div>
     );
@@ -97,15 +108,19 @@ const ProductDetailPage: React.FC = () => {
 
   if (!product) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
+      <div style={{ textAlign: "center", padding: "50px" }}>
         <Title level={3}>Không tìm thấy sản phẩm</Title>
-        <Paragraph>Sản phẩm bạn đang tìm kiếm có thể không tồn tại hoặc đã bị gỡ bỏ.</Paragraph>
+        <Paragraph>
+          Sản phẩm bạn đang tìm kiếm có thể không tồn tại hoặc đã bị gỡ bỏ.
+        </Paragraph>
       </div>
     );
   }
 
   // Combine main image and list images without formatting or filtering
-  const allImages = product.List_Image ? [product.Main_Image, ...product.List_Image] : [product.Main_Image];
+  const allImages = product.List_Image
+    ? [product.Main_Image, ...product.List_Image]
+    : [product.Main_Image];
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) =>
@@ -155,7 +170,7 @@ const ProductDetailPage: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`product-detail__gallery-thumbnails-item ${currentImageIndex === index ? 'product-detail__gallery-thumbnails-item--active' : ''}`}
+                    className={`product-detail__gallery-thumbnails-item ${currentImageIndex === index ? "product-detail__gallery-thumbnails-item--active" : ""}`}
                   >
                     <img
                       src={image} // Use the raw URL from the list
@@ -169,28 +184,45 @@ const ProductDetailPage: React.FC = () => {
 
           {/* Product Info */}
           <div className="product-detail__info">
-            <Title level={2} className="product-detail__info-title">{product.Product_Name}</Title>
-            <Typography.Text strong className="product-detail__info-price">{formatCurrency(product.Price)}</Typography.Text>
+            <Title level={2} className="product-detail__info-title">
+              {product.Product_Name}
+            </Title>
+            <Typography.Text strong className="product-detail__info-price">
+              {formatCurrency(product.Price)}
+            </Typography.Text>
 
             <div className="product-detail__info-section">
-              <Title level={4} className="product-detail__info-section-title">Mô tả</Title>
-              <Paragraph>{product.Description || 'Đang cập nhật...'}</Paragraph>
+              <Title level={4} className="product-detail__info-section-title">
+                Mô tả
+              </Title>
+              <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
             </div>
 
             <div className="product-detail__info-section">
-              <Title level={4} className="product-detail__info-section-title">Thông số kỹ thuật</Title>
-              {product.Specifications && Object.keys(product.Specifications).length > 0 ? (
-                <Descriptions bordered size="small" column={{
-                  xs: 1,
-                  sm: 1,
-                  md: 2,
-                  lg: 3,
-                  xl: 4,
-                  xxl: 4,
-                }}>
-                  {Object.entries(product.Specifications).map(([key, value]) => (
-                    <Descriptions.Item key={key} label={key}>{String(value)}</Descriptions.Item>
-                  ))}
+              <Title level={4} className="product-detail__info-section-title">
+                Thông số kỹ thuật
+              </Title>
+              {product.Specifications &&
+              Object.keys(product.Specifications).length > 0 ? (
+                <Descriptions
+                  bordered
+                  size="small"
+                  column={{
+                    xs: 1,
+                    sm: 1,
+                    md: 2,
+                    lg: 3,
+                    xl: 4,
+                    xxl: 4,
+                  }}
+                >
+                  {Object.entries(product.Specifications).map(
+                    ([key, value]) => (
+                      <Descriptions.Item key={key} label={key}>
+                        {String(value)}
+                      </Descriptions.Item>
+                    )
+                  )}
                 </Descriptions>
               ) : (
                 <Paragraph>Đang cập nhật...</Paragraph>
@@ -217,7 +249,10 @@ const ProductDetailPage: React.FC = () => {
               </Button>
             </div>
             {product.Stock !== undefined && (
-              <Typography.Text type="secondary" className="product-detail__info-stock">
+              <Typography.Text
+                type="secondary"
+                className="product-detail__info-stock"
+              >
                 Còn {product.Stock} sản phẩm
               </Typography.Text>
             )}
@@ -228,4 +263,4 @@ const ProductDetailPage: React.FC = () => {
   );
 };
 
-export default ProductDetailPage; 
+export default ProductDetailPage;

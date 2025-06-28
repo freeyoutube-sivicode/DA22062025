@@ -1,11 +1,26 @@
-// Use theme variables
-@use '../../styles/theme-variables' as *;
+// Responsive breakpoints
+$breakpoint-xs: 480px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
 
 .heroSection {
   position: relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  
+  // Mobile optimization
+  @media (max-width: $breakpoint-md) {
+    height: 100vh;
+    min-height: 600px;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    min-height: 500px;
+  }
 }
 
 .heroVideo {
@@ -16,6 +31,11 @@
   height: 100%;
   object-fit: cover;
   z-index: 1;
+  
+  // Optimize video for mobile
+  @media (max-width: $breakpoint-md) {
+    object-position: center;
+  }
 }
 
 .heroContent {
@@ -26,26 +46,108 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--theme-text-white, white);
+  color: white;
   text-align: center;
-  background: var(--theme-bg-overlay, linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)));
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
   padding: 0 20px;
   transition: all 0.3s ease;
+  
+  // Tablet adjustments
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    padding: 0 40px;
+  }
+  
+  // Mobile adjustments
+  @media (max-width: $breakpoint-md) {
+    padding: 0 15px;
+    justify-content: center;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    padding: 0 10px;
+  }
 }
 
 .heroTitle {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   animation: fadeInDown 1s ease-out;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
+  // Large desktop
+  @media (min-width: $breakpoint-xxl) {
+    font-size: 3.5rem;
+  }
+  
+  // Desktop
+  @media (max-width: $breakpoint-xl) and (min-width: $breakpoint-lg) {
+    font-size: 2.8rem;
+  }
+  
+  // Tablet
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    font-size: 2.4rem;
+    letter-spacing: 1px;
+  }
+  
+  // Mobile
+  @media (max-width: $breakpoint-md) {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+  
+  @media (max-width: $breakpoint-xs) {
+    font-size: 1.4rem;
+  }
 }
 
 .heroSubtitle {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   animation: fadeInUp 1s ease-out;
+  
+  // Large desktop
+  @media (min-width: $breakpoint-xxl) {
+    font-size: 1.8rem;
+  }
+  
+  // Desktop
+  @media (max-width: $breakpoint-xl) and (min-width: $breakpoint-lg) {
+    font-size: 1.4rem;
+  }
+  
+  // Tablet
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  // Mobile
+  @media (max-width: $breakpoint-md) {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    font-size: 1.1rem;
+  }
+  
+  @media (max-width: $breakpoint-xs) {
+    font-size: 1rem;
+  }
 }
 
 .heroSearch {
@@ -53,6 +155,23 @@
   max-width: 600px;
   margin-bottom: 2rem;
   animation: fadeIn 1.5s ease-out;
+  
+  // Large desktop
+  @media (min-width: $breakpoint-xxl) {
+    max-width: 700px;
+  }
+  
+  // Tablet
+  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+    max-width: 500px;
+    margin-bottom: 1.5rem;
+  }
+  
+  // Mobile
+  @media (max-width: $breakpoint-md) {
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
 
   :global(.ant-input-affix-wrapper) {
     background: rgba(255, 255, 255, 0.9);
@@ -61,57 +180,128 @@
     padding: 0 20px;
     height: 50px;
     
+    // Mobile adjustments
+    @media (max-width: $breakpoint-md) {
+      height: 45px;
+      padding: 0 15px;
+      border-radius: 25px;
+    }
+    
+    @media (max-width: $breakpoint-sm) {
+      height: 40px;
+      padding: 0 12px;
+    }
+    
     &:hover, &:focus {
       background: white;
     }
+  }
+  
+  :global(.ant-input) {
+    font-size: 1rem;
+    
+    @media (max-width: $breakpoint-md) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.searchInput {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 30px;
+  height: 50px;
+  
+  &:hover, &:focus {
+    background: white;
   }
 }
 
 .heroButtons {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
   animation: fadeInUp 2s ease-out;
+  
+  // Mobile adjustments
+  @media (max-width: $breakpoint-md) {
+    gap: 0.75rem;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 .primaryButton {
-  background: var(--theme-primary, #0066B1);
-  border: none;
+  padding: 0 2rem;
   height: 50px;
-  padding: 0 30px;
   font-size: 1.1rem;
   border-radius: 25px;
-  color: var(--theme-text-white, white);
+  background: #0284c7;
+  border: none;
+  color: white;
   transition: all 0.3s ease;
   
   &:hover {
-    background: var(--theme-primary-dark, #005599);
+    background: #0369a1;
     transform: translateY(-2px);
-    box-shadow: var(--theme-shadow-lg, 0 10px 15px rgba(0, 0, 0, 0.1));
+    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.3);
+  }
+  
+  // Mobile adjustments
+  @media (max-width: $breakpoint-md) {
+    height: 45px;
+    font-size: 1rem;
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    height: 40px;
+    font-size: 0.9rem;
+    padding: 0 1rem;
   }
 }
 
 .secondaryButton {
-  background: transparent;
-  border: 2px solid var(--theme-text-white, white);
-  color: var(--theme-text-white, white);
+  padding: 0 2rem;
   height: 50px;
-  padding: 0 30px;
   font-size: 1.1rem;
   border-radius: 25px;
+  background: transparent;
+  border: 2px solid white;
+  color: white;
   transition: all 0.3s ease;
   
   &:hover {
-    background: var(--theme-primary, rgba(255, 255, 255, 0.1));
-    color: var(--theme-text-white, white);
-    border-color: var(--theme-primary, white);
+    background: white;
+    color: #333;
     transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+  }
+  
+  // Mobile adjustments
+  @media (max-width: $breakpoint-md) {
+    height: 45px;
+    font-size: 1rem;
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: $breakpoint-sm) {
+    height: 40px;
+    font-size: 0.9rem;
+    padding: 0 1rem;
   }
 }
 
+// Animations
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-30px);
   }
   to {
     opacity: 1;
@@ -122,7 +312,7 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -139,22 +329,55 @@
   }
 }
 
-@media (max-width: 768px) {
+// Performance optimizations for mobile
+@media (max-width: $breakpoint-md) {
+  .heroSection {
+    // Reduce animation complexity on mobile
+    .heroTitle,
+    .heroSubtitle,
+    .heroSearch,
+    .heroButtons {
+      animation-duration: 0.8s;
+    }
+  }
+}
+
+// Landscape orientation adjustments for mobile
+@media (max-width: $breakpoint-md) and (orientation: landscape) {
+  .heroSection {
+    height: 100vh;
+    min-height: 400px;
+  }
+  
+  .heroContent {
+    padding: 0 20px;
+  }
+  
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
   }
   
   .heroSubtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .heroSearch {
+    margin-bottom: 0.8rem;
   }
   
   .heroButtons {
-    flex-direction: column;
-    width: 100%;
-    max-width: 300px;
+    flex-direction: row;
+    max-width: 400px;
+    gap: 0.5rem;
   }
   
-  .primaryButton, .secondaryButton {
-    width: 100%;
+  .primaryButton,
+  .secondaryButton {
+    width: auto;
+    height: 35px;
+    font-size: 0.9rem;
+    padding: 0 15px;
   }
 } 

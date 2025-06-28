@@ -1,12 +1,17 @@
-import React from 'react';
-import HeroSection from '../components/HeroSection/HeroSection';
-import FeaturedModels from '../components/FeaturedModels/FeaturedModels';
-import BrandExperience from '../components/BrandExperience/BrandExperience';
-import styles from './HomePage.module.scss';
+import React from "react";
+import HeroSection from "../components/HeroSection/HeroSection";
+import FeaturedModels from "../components/FeaturedModels/FeaturedModels";
+import BrandExperience from "../components/BrandExperience/BrandExperience";
 
 const HomePage: React.FC = () => {
   return (
-    <div className={styles.homePage}>
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#ffffff",
+        padding: "0",
+      }}
+    >
       <HeroSection />
       <FeaturedModels />
       <BrandExperience />
@@ -14,4 +19,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;

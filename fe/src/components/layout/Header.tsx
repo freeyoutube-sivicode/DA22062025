@@ -1,12 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useFavorites } from "../../contexts/FavoritesContext";
-import { FaShoppingCart, FaBars, FaTimes, FaHeart } from "react-icons/fa";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import {
+  FaBars,
+  FaTimes,
+  FaHeart,
+  FaHome,
+  FaCar,
+  FaCogs,
+  FaDollarSign,
+  FaNewspaper,
+  FaCalendarAlt,
+  FaUser,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaUserPlus,
+} from "react-icons/fa";
 
 // Hàm chuyển hex sang rgba
 function hexToRgba(hex: string, alpha: number) {
@@ -24,18 +35,15 @@ const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const { theme } = useTheme();
   const { favoritesCount } = useFavorites();
-  const location = useLocation();
-  const cartState = useSelector((state: RootState) => state.cart);
-  const cart = cartState.cart;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [isSticky, setIsSticky] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isFavoritesHovered, setIsFavoritesHovered] = useState(false);
   const mainBarRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  // Responsive breakpoints
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -52,8 +60,6 @@ const Header: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const itemCount = cart?.items?.length || 0;
 
   const handleLogout = () => {
     logout();
@@ -77,7 +83,7 @@ const Header: React.FC = () => {
     setIsFavoritesHovered(false);
   };
 
-  // Modern CSS-in-JS Styles
+  // Modern CSS-in-JS Styles with Responsive Design
   const headerStyle: React.CSSProperties = {
     position: "relative",
     top: 0,
@@ -92,20 +98,25 @@ const Header: React.FC = () => {
   const authBarStyle: React.CSSProperties = {
     background: `linear-gradient(90deg, ${hexToRgba(theme.colors.palette.primaryDark, 0.16)} 0%, ${hexToRgba(theme.colors.palette.primary, 0.16)} 50%, ${hexToRgba(theme.colors.palette.primaryLight, 0.16)} 100%)`,
     color: "#ffffff",
-    padding: "5px 0",
-    fontSize: "15px",
+    padding: isMobile ? "3px 0" : "5px 0",
+    fontSize: isMobile ? "13px" : "15px",
     width: "100%",
     display: "block",
     backdropFilter: "blur(32px)",
     WebkitBackdropFilter: "blur(32px)",
     borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+    opacity: isSticky ? 0 : 1,
+    transform: isSticky ? "translateY(-100%)" : "translateY(0)",
+    pointerEvents: isSticky ? "none" : "auto",
+    height: isSticky ? 0 : "auto",
+    overflow: "hidden",
   };
 
   const containerStyle: React.CSSProperties = {
     maxWidth: "1200px",
     margin: "0 auto",
-    padding: "0 20px",
+    padding: isMobile ? "0 15px" : isTablet ? "0 20px" : "0 20px",
   };
 
   const authContainerStyle: React.CSSProperties = {
@@ -117,17 +128,19 @@ const Header: React.FC = () => {
   const authLinksStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: isMobile ? "8px" : "16px",
+    flexWrap: "wrap",
   };
 
   const authLinkStyle: React.CSSProperties = {
     color: "#ffffff",
     textDecoration: "none",
-    padding: "6px 12px",
+    padding: isMobile ? "4px 8px" : "6px 12px",
     borderRadius: "6px",
     transition: "all 0.3s ease",
-    fontSize: "15px",
+    fontSize: isMobile ? "13px" : "15px",
     fontWeight: 500,
+    whiteSpace: "nowrap",
   };
 
   const authButtonStyle: React.CSSProperties = {
@@ -135,20 +148,21 @@ const Header: React.FC = () => {
     border: "none",
     color: "#ffffff",
     cursor: "pointer",
-    padding: "6px 12px",
+    padding: isMobile ? "4px 8px" : "6px 12px",
     borderRadius: "6px",
     transition: "all 0.3s ease",
-    fontSize: "15px",
+    fontSize: isMobile ? "13px" : "15px",
     fontWeight: 500,
+    whiteSpace: "nowrap",
   };
 
   const mainBarStyle: React.CSSProperties = {
     background: isSticky
-      ? "linear-gradient(90deg, rgba(255,255,255,0.06) 0%, rgba(0,0,0,0.04) 100%)"
-      : "linear-gradient(90deg, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.06) 100%)",
+      ? "linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.8) 100%)"
+      : "linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.7) 100%)",
     backdropFilter: isSticky ? "blur(48px)" : "blur(40px)",
     WebkitBackdropFilter: isSticky ? "blur(48px)" : "blur(40px)",
-    padding: "10px 0",
+    padding: isMobile ? "8px 0" : "10px 0",
     width: "100%",
     borderBottom: isSticky
       ? "1px solid rgba(0, 0, 0, 0.06)"
@@ -167,37 +181,39 @@ const Header: React.FC = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: "16px",
+    gap: isMobile ? "12px" : "16px",
     width: "100%",
-    minHeight: "48px",
+    minHeight: isMobile ? "40px" : "48px",
   };
 
   const logoStyle: React.CSSProperties = {
-    height: "40px",
+    height: isMobile ? "32px" : isTablet ? "36px" : "40px",
     width: "auto",
     flexShrink: 0,
     display: "block",
+    order: isMobile ? 1 : 1,
   };
 
   const navStyle: React.CSSProperties = {
-    display: "flex",
+    display: isMobile ? "none" : "flex",
     alignItems: "center",
-    gap: "20px",
+    gap: isTablet ? "12px" : "20px",
     flexShrink: 0,
     justifyContent: "center",
     flex: 1,
-    margin: "0 20px",
-    minHeight: "48px",
+    margin: isTablet ? "0 15px" : "0 20px",
+    minHeight: isMobile ? "40px" : "48px",
+    order: isMobile ? 3 : 2,
   };
 
   const navLinkStyle: React.CSSProperties = {
     color: theme.colors.text.primary,
     textDecoration: "none",
     fontWeight: 600,
-    padding: "12px 20px",
+    padding: isTablet ? "8px 12px" : "12px 20px",
     borderRadius: "12px",
     transition: "all 0.3s ease",
-    fontSize: "16px",
+    fontSize: isTablet ? "14px" : "16px",
     whiteSpace: "nowrap",
     flexShrink: 0,
     textAlign: "center",
@@ -205,28 +221,29 @@ const Header: React.FC = () => {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "48px",
+    height: isMobile ? "40px" : "48px",
     position: "relative",
   };
 
   const favoritesLinkStyle: React.CSSProperties = {
     position: "relative",
-    display: "flex",
+    display: isMobile ? "none" : "flex",
     alignItems: "center",
     color: "#ff4757",
     textDecoration: "none",
-    fontSize: "18px",
-    padding: "10px",
+    fontSize: isMobile ? "16px" : "18px",
+    padding: isMobile ? "8px" : "10px",
     borderRadius: "10px",
     transition: "all 0.3s ease",
     backgroundColor: isFavoritesHovered
       ? "rgba(255, 71, 87, 0.15)"
       : "rgba(255, 255, 255, 0.1)",
-    marginRight: "15px",
+    marginRight: isMobile ? "10px" : "15px",
     boxShadow: isFavoritesHovered
       ? "0 4px 15px rgba(255, 71, 87, 0.2)"
       : "0 2px 8px rgba(0, 0, 0, 0.1)",
     transform: isFavoritesHovered ? "scale(1.05)" : "scale(1)",
+    order: isMobile ? 2 : 3,
   };
 
   const favoritesCountStyle: React.CSSProperties = {
@@ -236,9 +253,9 @@ const Header: React.FC = () => {
     backgroundColor: "#ff4757",
     color: "#ffffff",
     borderRadius: "50%",
-    width: "18px",
-    height: "18px",
-    fontSize: "10px",
+    width: isMobile ? "16px" : "18px",
+    height: isMobile ? "16px" : "18px",
+    fontSize: isMobile ? "9px" : "10px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -246,80 +263,79 @@ const Header: React.FC = () => {
     boxShadow: "0 2px 6px rgba(255, 71, 87, 0.3)",
   };
 
-  const cartLinkStyle: React.CSSProperties = {
-    position: "relative",
-    color: theme.colors.text.primary,
-    fontSize: "18px",
-    padding: "8px",
-    borderRadius: "12px",
-    transition: "all 0.3s ease",
-    textDecoration: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    border: "1px solid rgba(0, 0, 0, 0.08)",
-    flexShrink: 0,
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-  };
-
   const mobileMenuButtonStyle: React.CSSProperties = {
     backgroundColor: "transparent",
     border: "none",
     color: theme.colors.text.primary,
-    fontSize: "20px",
+    fontSize: isMobile ? "18px" : "20px",
     cursor: "pointer",
     padding: "8px",
-    display: "none",
+    display: isMobile ? "block" : "none",
+    order: isMobile ? 4 : 4,
   };
 
   const mobileMenuStyle: React.CSSProperties = {
     position: "fixed",
     top: 0,
     right: isMobileMenuOpen ? 0 : "-100%",
-    width: "280px",
+    width: isMobile ? "260px" : "300px",
     height: "100vh",
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
     borderLeft: "1px solid rgba(0, 0, 0, 0.1)",
-    transition: "right 0.3s ease",
+    transition: "right 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
     zIndex: 1001,
     display: "flex",
     flexDirection: "column",
-    boxShadow: "-4px 0 20px rgba(0, 0, 0, 0.1)",
+    boxShadow: "-8px 0 32px rgba(0, 0, 0, 0.15)",
   };
 
   const mobileMenuHeaderStyle: React.CSSProperties = {
     display: "flex",
-    justifyContent: "flex-end",
-    padding: "16px",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: isMobile ? "16px 20px" : "20px 24px",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
   };
 
   const mobileMenuCloseStyle: React.CSSProperties = {
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(0, 0, 0, 0.05)",
     border: "none",
     color: theme.colors.text.primary,
-    fontSize: "20px",
+    fontSize: isMobile ? "18px" : "20px",
     cursor: "pointer",
-    padding: "8px",
+    padding: isMobile ? "10px" : "12px",
+    borderRadius: "12px",
+    transition: "all 0.3s ease",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: isMobile ? "40px" : "44px",
+    height: isMobile ? "40px" : "44px",
   };
 
   const mobileMenuNavStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
-    padding: "16px 0",
+    padding: isMobile ? "12px 0" : "16px 0",
     flex: 1,
+    overflowY: "auto",
   };
 
   const mobileMenuLinkStyle: React.CSSProperties = {
     color: theme.colors.text.primary,
     textDecoration: "none",
-    padding: "16px 20px",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+    padding: isMobile ? "14px 20px" : "16px 24px",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.04)",
     transition: "all 0.3s ease",
-    fontSize: "16px",
+    fontSize: isMobile ? "15px" : "16px",
     fontWeight: 500,
+    display: "flex",
+    alignItems: "center",
+    gap: isMobile ? "10px" : "12px",
+    position: "relative",
   };
 
   const overlayStyle: React.CSSProperties = {
@@ -334,22 +350,6 @@ const Header: React.FC = () => {
     visibility: isMobileMenuOpen ? "visible" : "hidden",
     transition: "all 0.3s ease",
   };
-
-  // Responsive styles
-  const getResponsiveStyles = () => {
-    if (windowWidth <= 768) {
-      return {
-        navStyle: { ...navStyle, display: "none" },
-        mobileMenuButtonStyle: { ...mobileMenuButtonStyle, display: "block" },
-      };
-    }
-    return {
-      navStyle,
-      mobileMenuButtonStyle,
-    };
-  };
-
-  const responsiveStyles = getResponsiveStyles();
 
   // Event handlers
   const handleAuthLinkHover = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -382,20 +382,6 @@ const Header: React.FC = () => {
     e.currentTarget.style.boxShadow = "none";
   };
 
-  const handleCartHover = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
-    e.currentTarget.style.color = theme.colors.palette.primary;
-    e.currentTarget.style.transform = "translateY(-2px) scale(1.05)";
-    e.currentTarget.style.boxShadow = "0 8px 25px rgba(0, 0, 0, 0.2)";
-  };
-
-  const handleCartLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.8)";
-    e.currentTarget.style.color = theme.colors.text.primary;
-    e.currentTarget.style.transform = "translateY(0) scale(1)";
-    e.currentTarget.style.boxShadow = "none";
-  };
-
   const handleMobileLinkHover = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.currentTarget.style.backgroundColor = "rgba(0, 0, 0, 0.05)";
     e.currentTarget.style.color = theme.colors.palette.primary;
@@ -409,17 +395,7 @@ const Header: React.FC = () => {
   return (
     <div style={headerStyle}>
       {/* AUTH BAR: ẩn/hiện mượt mà */}
-      <div
-        style={{
-          ...authBarStyle,
-          opacity: isSticky ? 0 : 1,
-          transform: isSticky ? "translateY(-100%)" : "translateY(0)",
-          pointerEvents: isSticky ? "none" : "auto",
-          height: isSticky ? 0 : "auto",
-          overflow: "hidden",
-        }}
-        data-theme="auth-bar"
-      >
+      <div style={authBarStyle} data-theme="auth-bar">
         <div style={containerStyle}>
           <div style={authContainerStyle}>
             <div style={authLinksStyle}>
@@ -431,7 +407,7 @@ const Header: React.FC = () => {
                     onMouseEnter={handleAuthLinkHover}
                     onMouseLeave={handleAuthLinkLeave}
                   >
-                    Thông tin cá nhân
+                    {isMobile ? "Cá nhân" : "Thông tin cá nhân"}
                   </Link>
                   {user.Role === "admin" && (
                     <Link
@@ -440,7 +416,7 @@ const Header: React.FC = () => {
                       onMouseEnter={handleAuthLinkHover}
                       onMouseLeave={handleAuthLinkLeave}
                     >
-                      Quản trị
+                      {isMobile ? "Admin" : "Quản trị"}
                     </Link>
                   )}
                   <button
@@ -449,7 +425,7 @@ const Header: React.FC = () => {
                     onMouseEnter={handleAuthButtonHover}
                     onMouseLeave={handleAuthButtonLeave}
                   >
-                    Đăng xuất
+                    {isMobile ? "Đăng xuất" : "Đăng xuất"}
                   </button>
                 </>
               ) : (
@@ -480,14 +456,10 @@ const Header: React.FC = () => {
         <div style={containerStyle}>
           <div style={rowStyle}>
             <Link to="/" onClick={closeMobileMenu}>
-              <img
-                src="./images/BMW_logo_(gray).svg.png"
-                alt="Logo"
-                style={logoStyle}
-              />
+              <img src="./images/logo.png" alt="Logo" style={logoStyle} />
             </Link>
 
-            <nav style={responsiveStyles.navStyle}>
+            <nav style={navStyle}>
               <Link
                 to="/"
                 style={navLinkStyle}
@@ -546,7 +518,7 @@ const Header: React.FC = () => {
                 onMouseLeave={handleNavLinkLeave}
                 data-theme="nav-link"
               >
-                Đăng ký lái thử
+                {isTablet ? "Lái thử" : "Đăng ký lái thử"}
               </Link>
             </nav>
 
@@ -567,10 +539,7 @@ const Header: React.FC = () => {
               )}
             </Link>
 
-            <button
-              style={responsiveStyles.mobileMenuButtonStyle}
-              onClick={toggleMobileMenu}
-            >
+            <button style={mobileMenuButtonStyle} onClick={toggleMobileMenu}>
               <FaBars />
             </button>
           </div>
@@ -579,6 +548,15 @@ const Header: React.FC = () => {
 
       <div style={mobileMenuStyle} data-theme="mobile-menu">
         <div style={mobileMenuHeaderStyle}>
+          <div
+            style={{
+              fontSize: "18px",
+              fontWeight: "600",
+              color: theme.colors.text.primary,
+            }}
+          >
+            Danh mục
+          </div>
           <button style={mobileMenuCloseStyle} onClick={toggleMobileMenu}>
             <FaTimes />
           </button>
@@ -592,6 +570,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaHome />
             Trang chủ
           </Link>
           <Link
@@ -602,6 +581,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaCar />
             Sản phẩm
           </Link>
           <Link
@@ -612,6 +592,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaCogs />
             Dịch vụ
           </Link>
           <Link
@@ -622,6 +603,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaDollarSign />
             Bảng giá
           </Link>
           <Link
@@ -632,6 +614,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaNewspaper />
             Tin tức
           </Link>
           <Link
@@ -642,36 +625,86 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
+            <FaCalendarAlt />
             Đăng ký lái thử
+          </Link>
+          <Link
+            to="/cart"
+            style={{
+              ...mobileMenuLinkStyle,
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+              color: "#ff4757",
+            }}
+            onClick={closeMobileMenu}
+            onMouseEnter={handleMobileLinkHover}
+            onMouseLeave={handleMobileLinkLeave}
+            data-theme="mobile-menu-link"
+          >
+            <FaHeart />
+            Yêu thích
+            {favoritesCount > 0 && (
+              <span
+                style={{
+                  backgroundColor: "#ff4757",
+                  color: "#ffffff",
+                  borderRadius: "50%",
+                  width: "18px",
+                  height: "18px",
+                  fontSize: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: "bold",
+                  marginLeft: "auto",
+                }}
+              >
+                {favoritesCount > 99 ? "99+" : favoritesCount}
+              </span>
+            )}
           </Link>
         </nav>
         <div
           style={{
-            padding: "1rem",
-            borderTop: `1px solid rgba(0, 0, 0, 0.1)`,
+            padding: isMobile ? "16px 20px" : "20px 24px",
+            borderTop: "1px solid rgba(0, 0, 0, 0.08)",
+            backgroundColor: "rgba(248, 249, 250, 0.8)",
           }}
         >
           {user ? (
             <>
               <Link
                 to="/profile"
-                style={mobileMenuLinkStyle}
+                style={{
+                  ...mobileMenuLinkStyle,
+                  padding: isMobile ? "10px 0" : "12px 0",
+                  borderBottom: "none",
+                  color: theme.colors.palette.primary,
+                }}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleMobileLinkHover}
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
+                <FaUser />
                 Thông tin cá nhân
               </Link>
               {user.Role === "admin" && (
                 <Link
                   to="/admin"
-                  style={mobileMenuLinkStyle}
+                  style={{
+                    ...mobileMenuLinkStyle,
+                    padding: isMobile ? "10px 0" : "12px 0",
+                    borderBottom: "none",
+                    color: theme.colors.palette.primary,
+                  }}
                   onClick={closeMobileMenu}
                   onMouseEnter={handleMobileLinkHover}
                   onMouseLeave={handleMobileLinkLeave}
                   data-theme="mobile-menu-link"
                 >
+                  <FaCogs />
                   Quản trị
                 </Link>
               )}
@@ -679,16 +712,20 @@ const Header: React.FC = () => {
                 onClick={handleLogout}
                 style={{
                   ...mobileMenuLinkStyle,
+                  padding: isMobile ? "10px 0" : "12px 0",
+                  borderBottom: "none",
                   width: "100%",
                   textAlign: "left",
                   backgroundColor: "transparent",
                   border: "none",
                   cursor: "pointer",
+                  color: "#dc3545",
                 }}
                 onMouseEnter={handleAuthButtonHover}
                 onMouseLeave={handleAuthButtonLeave}
                 data-theme="mobile-menu-link"
               >
+                <FaSignOutAlt />
                 Đăng xuất
               </button>
             </>
@@ -696,22 +733,34 @@ const Header: React.FC = () => {
             <>
               <Link
                 to="/login"
-                style={mobileMenuLinkStyle}
+                style={{
+                  ...mobileMenuLinkStyle,
+                  padding: isMobile ? "10px 0" : "12px 0",
+                  borderBottom: "none",
+                  color: theme.colors.palette.primary,
+                }}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleMobileLinkHover}
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
+                <FaSignInAlt />
                 Đăng nhập
               </Link>
               <Link
                 to="/register"
-                style={mobileMenuLinkStyle}
+                style={{
+                  ...mobileMenuLinkStyle,
+                  padding: isMobile ? "10px 0" : "12px 0",
+                  borderBottom: "none",
+                  color: theme.colors.palette.primary,
+                }}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleMobileLinkHover}
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
+                <FaUserPlus />
                 Đăng ký
               </Link>
             </>

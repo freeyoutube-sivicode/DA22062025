@@ -1,124 +1,21 @@
-// Theme Variables
-$color-primary: #0066B1;
-$color-primary-light: #3385D6;
-$color-primary-dark: #004C8A;
-$color-secondary: #1a1a1a;
-$color-accent: #FF6B35;
-$color-success: #28A745;
-$color-warning: #FFC107;
-$color-danger: #DC3545;
-$color-info: #17A2B8;
-
-// Text Colors
-$color-text-primary: #1a1a1a;
-$color-text-secondary: #666666;
-$color-text-muted: #999999;
-$color-text-white: #ffffff;
-
-// Background Colors
-$color-background-primary: #ffffff;
-$color-background-secondary: #f8f9fa;
-$color-background-dark: #1a1a1a;
-$color-background-light: #f5f5f5;
-
-// Border Colors
-$color-border-light: rgba(0, 0, 0, 0.1);
-$color-border-medium: rgba(0, 0, 0, 0.2);
-$color-border-dark: rgba(0, 0, 0, 0.3);
-
-// Typography
-$font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-$font-family-secondary: 'Poppins', sans-serif;
-$font-family-mono: 'Fira Code', 'Monaco', 'Consolas', monospace;
-
-// Font Sizes
-$font-size-xs: 0.75rem;    // 12px
-$font-size-sm: 0.875rem;   // 14px
-$font-size-base: 1rem;     // 16px
-$font-size-lg: 1.125rem;   // 18px
-$font-size-xl: 1.25rem;    // 20px
-$font-size-2xl: 1.5rem;    // 24px
-$font-size-3xl: 1.875rem;  // 30px
-$font-size-4xl: 2.25rem;   // 36px
-$font-size-5xl: 3rem;      // 48px
-$font-size-6xl: 3.75rem;   // 60px
-
-// Font Weights
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-$font-weight-extrabold: 800;
-
-// Line Heights
-$line-height-tight: 1.25;
-$line-height-normal: 1.5;
-$line-height-relaxed: 1.75;
-
-// Spacing
-$spacing-xs: 0.25rem;   // 4px
-$spacing-sm: 0.5rem;    // 8px
-$spacing-md: 1rem;      // 16px
-$spacing-lg: 1.5rem;    // 24px
-$spacing-xl: 2rem;      // 32px
-$spacing-2xl: 3rem;     // 48px
-$spacing-3xl: 4rem;     // 64px
-$spacing-4xl: 6rem;     // 96px
-
-// Border Radius
-$border-radius-sm: 0.25rem;   // 4px
-$border-radius-md: 0.375rem;  // 6px
-$border-radius-lg: 0.5rem;    // 8px
-$border-radius-xl: 0.75rem;   // 12px
-$border-radius-2xl: 1rem;     // 16px
-$border-radius-full: 9999px;
-
-// Shadows
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-$shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-
-// Transitions
-$transition-fast: 0.15s ease;
-$transition-normal: 0.3s ease;
-$transition-slow: 0.5s ease;
-$transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-// Z-Index
-$z-index-dropdown: 1000;
-$z-index-sticky: 1020;
-$z-index-fixed: 1030;
-$z-index-modal-backdrop: 1040;
-$z-index-modal: 1050;
-$z-index-popover: 1060;
-$z-index-tooltip: 1070;
-
 // ============================================================================
-// RESPONSIVE BREAKPOINTS & UTILITIES
+// RESPONSIVE UTILITIES - BMW WEBSITE
 // ============================================================================
 
-// Breakpoints
+// Import variables
+@use 'variables' as *;
+
+// ============================================================================
+// RESPONSIVE BREAKPOINTS
+// ============================================================================
+
+// Mobile-first breakpoints
 $breakpoint-xs: 480px;
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 992px;
 $breakpoint-xl: 1200px;
 $breakpoint-xxl: 1400px;
-
-// Container Max Widths
-$container-xs: 100%;
-$container-sm: 540px;
-$container-md: 720px;
-$container-lg: 960px;
-$container-xl: 1140px;
-$container-xxl: 1320px;
-
-// Grid System
-$grid-columns: 12;
-$grid-gutter: 1.5rem;
 
 // ============================================================================
 // RESPONSIVE MIXINS
@@ -170,10 +67,17 @@ $grid-gutter: 1.5rem;
 }
 
 // ============================================================================
-// RESPONSIVE UTILITY CLASSES
+// RESPONSIVE CONTAINER SYSTEM
 // ============================================================================
 
-// Container Utilities
+// Container Max Widths
+$container-xs: 100%;
+$container-sm: 540px;
+$container-md: 720px;
+$container-lg: 960px;
+$container-xl: 1140px;
+$container-xxl: 1320px;
+
 .container {
   width: 100%;
   margin-right: auto;
@@ -210,7 +114,14 @@ $grid-gutter: 1.5rem;
   padding-left: $spacing-md;
 }
 
-// Grid System
+// ============================================================================
+// RESPONSIVE GRID SYSTEM
+// ============================================================================
+
+// Grid System Variables
+$grid-columns: 12;
+$grid-gutter: 1.5rem;
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -227,8 +138,8 @@ $grid-gutter: 1.5rem;
 // Responsive Column Classes
 @for $i from 1 through $grid-columns {
   .col-#{$i} {
-    flex: 0 0 calc(#{$i} / #{$grid-columns} * 100%);
-    max-width: calc(#{$i} / #{$grid-columns} * 100%);
+    flex: 0 0 calc(100% * #{$i} / #{$grid-columns});
+    max-width: calc(100% * #{$i} / #{$grid-columns});
     padding-right: calc(#{$grid-gutter} / 2);
     padding-left: calc(#{$grid-gutter} / 2);
   }
@@ -245,8 +156,8 @@ $grid-gutter: 1.5rem;
   @include min-width($value) {
     @for $i from 1 through $grid-columns {
       .col-#{$breakpoint}-#{$i} {
-        flex: 0 0 calc(#{$i} / #{$grid-columns} * 100%);
-        max-width: calc(#{$i} / #{$grid-columns} * 100%);
+        flex: 0 0 calc(100% * #{$i} / #{$grid-columns});
+        max-width: calc(100% * #{$i} / #{$grid-columns});
         padding-right: calc(#{$grid-gutter} / 2);
         padding-left: calc(#{$grid-gutter} / 2);
       }
@@ -290,7 +201,7 @@ $grid-gutter: 1.5rem;
 // RESPONSIVE SPACING UTILITIES
 // ============================================================================
 
-// Margin and Padding Utilities
+// Spacing Sizes
 $spacing-sizes: (
   0: 0,
   1: $spacing-xs,
@@ -303,6 +214,7 @@ $spacing-sizes: (
   8: $spacing-4xl
 );
 
+// Margin and Padding Utilities
 @each $size, $value in $spacing-sizes {
   .m-#{$size} { margin: #{$value} !important; }
   .mt-#{$size} { margin-top: #{$value} !important; }
@@ -718,4 +630,475 @@ $spacing-sizes: (
   .data-reduce\:hidden { display: none !important; }
   .data-reduce\:bg-none { background: none !important; }
   .data-reduce\:border-none { border: none !important; }
+}
+
+// ============================================================================
+// BMW SPECIFIC RESPONSIVE UTILITIES
+// ============================================================================
+
+// BMW Brand Colors
+.bmw-primary { color: $color-primary !important; }
+.bmw-primary-bg { background-color: $color-primary !important; }
+.bmw-secondary { color: $color-secondary !important; }
+.bmw-secondary-bg { background-color: $color-secondary !important; }
+
+// BMW Responsive Typography
+.bmw-title {
+  font-family: $font-family-secondary;
+  font-weight: $font-weight-bold;
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-2xl;
+  }
+  
+  @include min-width($breakpoint-md) {
+    font-size: $font-size-3xl;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    font-size: $font-size-4xl;
+  }
+  
+  @include min-width($breakpoint-xxl) {
+    font-size: $font-size-5xl;
+  }
+}
+
+.bmw-subtitle {
+  font-family: $font-family-secondary;
+  font-weight: $font-weight-semibold;
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-lg;
+  }
+  
+  @include min-width($breakpoint-md) {
+    font-size: $font-size-xl;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    font-size: $font-size-2xl;
+  }
+}
+
+.bmw-body {
+  font-family: $font-family-primary;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-sm;
+  }
+  
+  @include min-width($breakpoint-md) {
+    font-size: $font-size-base;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    font-size: $font-size-lg;
+  }
+}
+
+// BMW Responsive Spacing
+.bmw-section {
+  @include max-width($breakpoint-md) {
+    padding: $spacing-xl 0;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding: $spacing-2xl 0;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding: $spacing-3xl 0;
+  }
+  
+  @include min-width($breakpoint-xxl) {
+    padding: $spacing-4xl 0;
+  }
+}
+
+.bmw-container {
+  @extend .container;
+  
+  @include max-width($breakpoint-md) {
+    padding-left: $spacing-md;
+    padding-right: $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding-left: $spacing-lg;
+    padding-right: $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding-left: $spacing-xl;
+    padding-right: $spacing-xl;
+  }
+}
+
+// BMW Responsive Grid
+.bmw-grid {
+  display: grid;
+  gap: $spacing-lg;
+  
+  @include max-width($breakpoint-md) {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-xl;
+  }
+  
+  @include min-width($breakpoint-xxl) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-2xl;
+  }
+}
+
+// BMW Responsive Buttons
+.bmw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-family-secondary;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  border-radius: $border-radius-lg;
+  transition: all $transition-normal;
+  cursor: pointer;
+  border: none;
+  
+  @include max-width($breakpoint-md) {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+    min-height: 40px;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-base;
+    min-height: 48px;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding: $spacing-md $spacing-xl;
+    font-size: $font-size-lg;
+    min-height: 52px;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.bmw-btn-primary {
+  @extend .bmw-btn;
+  background-color: $color-primary;
+  color: $color-text-white;
+  
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+.bmw-btn-secondary {
+  @extend .bmw-btn;
+  background-color: transparent;
+  color: $color-primary;
+  border: 2px solid $color-primary;
+  
+  &:hover {
+    background-color: $color-primary;
+    color: $color-text-white;
+  }
+}
+
+// BMW Responsive Cards
+.bmw-card {
+  background: $color-background-primary;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  transition: all $transition-normal;
+  
+  @include max-width($breakpoint-md) {
+    padding: $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding: $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding: $spacing-xl;
+  }
+  
+  &:hover {
+    box-shadow: $shadow-xl;
+    transform: translateY(-4px);
+  }
+}
+
+// BMW Responsive Images
+.bmw-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  
+  @include max-width($breakpoint-md) {
+    border-radius: $border-radius-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    border-radius: $border-radius-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    border-radius: $border-radius-xl;
+  }
+}
+
+// BMW Responsive Navigation
+.bmw-nav {
+  display: flex;
+  align-items: center;
+  
+  @include max-width($breakpoint-md) {
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+  
+  @include min-width($breakpoint-md) {
+    flex-direction: row;
+    gap: $spacing-lg;
+  }
+}
+
+.bmw-nav-link {
+  font-family: $font-family-secondary;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  transition: all $transition-normal;
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-base;
+    padding: $spacing-sm;
+  }
+  
+  @include min-width($breakpoint-md) {
+    font-size: $font-size-lg;
+    padding: $spacing-md;
+  }
+  
+  &:hover {
+    color: $color-primary;
+    transform: translateY(-1px);
+  }
+}
+
+// BMW Responsive Forms
+.bmw-form {
+  @include max-width($breakpoint-md) {
+    padding: $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding: $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding: $spacing-xl;
+  }
+}
+
+.bmw-input {
+  width: 100%;
+  padding: $spacing-md;
+  border: 1px solid $color-border-light;
+  border-radius: $border-radius-md;
+  font-family: $font-family-primary;
+  font-size: $font-size-base;
+  transition: all $transition-normal;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-sm;
+    padding: $spacing-sm;
+  }
+}
+
+// BMW Responsive Tables
+.bmw-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  @include max-width($breakpoint-md) {
+    font-size: $font-size-sm;
+  }
+  
+  @include min-width($breakpoint-md) {
+    font-size: $font-size-base;
+  }
+  
+  th, td {
+    padding: $spacing-md;
+    text-align: left;
+    border-bottom: 1px solid $color-border-light;
+    
+    @include max-width($breakpoint-md) {
+      padding: $spacing-sm;
+    }
+  }
+  
+  th {
+    font-weight: $font-weight-semibold;
+    background-color: $color-background-secondary;
+  }
+}
+
+// BMW Responsive Modals
+.bmw-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-index-modal;
+  
+  .bmw-modal-content {
+    background: $color-background-primary;
+    border-radius: $border-radius-xl;
+    box-shadow: $shadow-2xl;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    
+    @include max-width($breakpoint-md) {
+      margin: $spacing-md;
+      padding: $spacing-lg;
+    }
+    
+    @include min-width($breakpoint-md) {
+      margin: $spacing-lg;
+      padding: $spacing-xl;
+    }
+    
+    @include min-width($breakpoint-lg) {
+      margin: $spacing-xl;
+      padding: $spacing-2xl;
+    }
+  }
+}
+
+// BMW Responsive Hero Section
+.bmw-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: $color-text-white;
+  
+  @include max-width($breakpoint-md) {
+    min-height: 60vh;
+    padding: $spacing-2xl $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    min-height: 70vh;
+    padding: $spacing-3xl $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    min-height: 80vh;
+    padding: $spacing-4xl $spacing-xl;
+  }
+  
+  .bmw-hero-content {
+    z-index: 2;
+    position: relative;
+    
+    @include max-width($breakpoint-md) {
+      max-width: 100%;
+    }
+    
+    @include min-width($breakpoint-md) {
+      max-width: 80%;
+    }
+    
+    @include min-width($breakpoint-lg) {
+      max-width: 70%;
+    }
+  }
+  
+  .bmw-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+    z-index: 1;
+  }
+}
+
+// BMW Responsive Footer
+.bmw-footer {
+  background-color: $color-secondary;
+  color: $color-text-white;
+  
+  @include max-width($breakpoint-md) {
+    padding: $spacing-2xl $spacing-md;
+  }
+  
+  @include min-width($breakpoint-md) {
+    padding: $spacing-3xl $spacing-lg;
+  }
+  
+  @include min-width($breakpoint-lg) {
+    padding: $spacing-4xl $spacing-xl;
+  }
+  
+  .bmw-footer-content {
+    @extend .bmw-container;
+    
+    @include max-width($breakpoint-md) {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-xl;
+    }
+    
+    @include min-width($breakpoint-md) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-2xl;
+    }
+    
+    @include min-width($breakpoint-lg) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: $spacing-3xl;
+    }
+  }
 } 

@@ -1,5 +1,8 @@
 @use 'sass:color';
 
+// Import responsive utilities
+@use './responsive-utilities' as *;
+
 // Use the theme-aware variables
 @use './theme-variables' as *;
 
