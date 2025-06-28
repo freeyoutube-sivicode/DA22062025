@@ -58,8 +58,19 @@ const HeroSection: React.FC = () => {
       </video>
 
       <div className={styles.heroContent}>
-        <div className={styles.heroTitle}>Tốc độ và hiện đại</div>
-        <div className={styles.heroSubtitle}>Khám phá thế giới xe sang</div>
+        <div className={styles.heroTitle}>
+          <span className={styles.gradientText}>SỨC MẠNH</span>
+          <span className={styles.gradientText2}> VÀ ĐẲNG CẤP</span>
+        </div>
+        <div className={styles.heroSubtitle}>
+          <span className={styles.subtitleGradient}>
+            Khám phá thế giới xe BMW
+          </span>
+          <span className={styles.subtitleGradient2}>
+            {" "}
+            - Nơi công nghệ hòa trộn với cá tính
+          </span>
+        </div>
 
         <div className={styles.heroSearch}>
           <Input

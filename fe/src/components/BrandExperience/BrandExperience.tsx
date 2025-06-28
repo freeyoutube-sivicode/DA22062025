@@ -1,38 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import styles from "./BrandExperience.module.scss";
 
 const BrandExperience: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+
+  const handleVideoClick = () => {
+    setIsVideoPlaying(!isVideoPlaying);
+  };
+
+  useEffect(() => {
+    setIsVideoPlaying(true);
+  }, []);
 
   return (
     <section className={styles.brandExperience}>
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.videoSection}>
-            <div className={styles.videoContainer}>
+            <div className={styles.videoContainer} onClick={handleVideoClick}>
               <video
                 className={styles.video}
                 poster="/images/brand-video-poster.jpg"
-                controls
+                controls={isVideoPlaying}
                 autoPlay={true}
                 muted={true}
+                loop={true}
+                playsInline={true}
               >
                 <source src="/video/intro_2.mp4" type="video/mp4" />
               </video>
-              <div className={styles.playIcon}>
-                <PlayCircleOutlined />
-              </div>
+              {!isVideoPlaying && (
+                <div className={styles.playIcon}>
+                  <PlayCircleOutlined />
+                </div>
+              )}
             </div>
           </div>
 
           <div className={styles.textSection}>
-            <h2 className={styles.title}>TRẢI NGHIỆM THƯƠNG HIỆU</h2>
+            <h2 className={styles.title}>KHÁM PHÁ SỨC MẠNH BMW</h2>
             <p className={styles.description}>
-              BMW - Thương hiệu xe hơi Đức nổi tiếng với những chiếc xe sang
-              trọng, hiệu suất cao và công nghệ tiên tiến. Với hơn 100 năm lịch
-              sử, BMW đã trở thành biểu tượng của sự đổi mới và chất lượng.
+              Trải nghiệm đẳng cấp Đức với công nghệ tiên tiến và thiết kế xuất
+              sắc. Từ những chiếc sedan sang trọng đến SUV mạnh mẽ, BMW mang đến
+              sự hoàn hảo trong từng chi tiết. Khám phá ngay bộ sưu tập xe hơi
+              đỉnh cao của chúng tôi.
             </p>
 
             <div className={styles.cardsGrid}>
@@ -41,9 +55,9 @@ const BrandExperience: React.FC = () => {
                 onMouseEnter={() => setHoveredCard("innovation")}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <h3 className={styles.cardTitle}>Công nghệ tiên tiến</h3>
+                <h3 className={styles.cardTitle}>Công nghệ tương lai</h3>
                 <p className={styles.cardDescription}>
-                  Tích hợp AI, tự động lái và kết nối thông minh
+                  iDrive 8.0, tự động lái cấp 3, kết nối 5G và trí tuệ nhân tạo
                 </p>
               </div>
               <div
@@ -51,9 +65,10 @@ const BrandExperience: React.FC = () => {
                 onMouseEnter={() => setHoveredCard("quality")}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <h3 className={styles.cardTitle}>Thiết kế đẳng cấp</h3>
+                <h3 className={styles.cardTitle}>Thiết kế kiệt tác</h3>
                 <p className={styles.cardDescription}>
-                  Ngoại thất thể thao, nội thất sang trọng
+                  Ngoại thất thể thao, nội thất da Nappa, ánh sáng ambient 11
+                  màu
                 </p>
               </div>
               <div
@@ -61,9 +76,9 @@ const BrandExperience: React.FC = () => {
                 onMouseEnter={() => setHoveredCard("performance")}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <h3 className={styles.cardTitle}>Hiệu suất vượt trội</h3>
+                <h3 className={styles.cardTitle}>Hiệu suất đỉnh cao</h3>
                 <p className={styles.cardDescription}>
-                  Động cơ mạnh mẽ, xử lý chính xác
+                  Động cơ TwinPower Turbo, xDrive AWD, 0-100km/h chỉ 3.2 giây
                 </p>
               </div>
               <div
@@ -71,17 +86,11 @@ const BrandExperience: React.FC = () => {
                 onMouseEnter={() => setHoveredCard("safety")}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <h3 className={styles.cardTitle}>An toàn tối ưu</h3>
+                <h3 className={styles.cardTitle}>An toàn toàn diện</h3>
                 <p className={styles.cardDescription}>
-                  Hệ thống bảo vệ toàn diện, 5 sao Euro NCAP
+                  Driving Assistant Professional, 5 sao Euro NCAP, 8 túi khí
                 </p>
               </div>
-            </div>
-
-            <div className={styles.buttonContainer}>
-              <Button type="primary" size="large" className={styles.ctaButton}>
-                Tìm hiểu thêm
-              </Button>
             </div>
           </div>
         </div>

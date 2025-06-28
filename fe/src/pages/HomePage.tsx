@@ -13,8 +13,8 @@ const HomePage: React.FC = () => {
       }}
     >
       <HeroSection />
-      <FeaturedModels />
       <BrandExperience />
+      <FeaturedModels />
     </div>
   );
 };

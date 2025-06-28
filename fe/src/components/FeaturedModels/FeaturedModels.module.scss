@@ -7,110 +7,203 @@ $breakpoint-xl: 1200px;
 $breakpoint-xxl: 1400px;
 
 .featuredModels {
-  padding: 80px 0;
-  background: #f8f9fa;
-  
-  // Tablet adjustments
-  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
-    padding: 60px 0;
-  }
-  
-  // Mobile adjustments
-  @media (max-width: $breakpoint-md) {
-    padding: 40px 0;
-  }
-  
-  @media (max-width: $breakpoint-sm) {
-    padding: 30px 0;
+  padding: 4rem 2rem;
+  background-color: #ffffff;
+  min-height: 400px;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
   }
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
-  
-  // Large desktop
-  @media (min-width: $breakpoint-xxl) {
-    max-width: 1400px;
-  }
-  
-  // Tablet adjustments
-  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
-    padding: 0 30px;
-  }
-  
-  // Mobile adjustments
-  @media (max-width: $breakpoint-md) {
-    padding: 0 15px;
-  }
-  
-  @media (max-width: $breakpoint-sm) {
-    padding: 0 10px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
   }
 }
 
 .title {
-  text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 50px;
-  color: #1a1a1a;
-  position: relative;
-  
-  // Large desktop
-  @media (min-width: $breakpoint-xxl) {
-    font-size: 3rem;
-    margin-bottom: 60px;
-  }
-  
-  // Desktop
-  @media (max-width: $breakpoint-xl) and (min-width: $breakpoint-lg) {
-    font-size: 2.3rem;
-    margin-bottom: 45px;
-  }
-  
-  // Tablet
-  @media (max-width: $breakpoint-lg) and (min-width: $breakpoint-md) {
+  margin-bottom: 1rem;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  @media (max-width: 768px) {
     font-size: 2rem;
-    margin-bottom: 40px;
+    letter-spacing: 1px;
   }
-  
-  // Mobile
-  @media (max-width: $breakpoint-md) {
-    font-size: 1.8rem;
-    margin-bottom: 30px;
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
   }
-  
-  @media (max-width: $breakpoint-sm) {
-    font-size: 1.6rem;
-    margin-bottom: 25px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
   }
-  
-  @media (max-width: $breakpoint-xs) {
-    font-size: 1.4rem;
-    margin-bottom: 20px;
+}
+
+.productsGrid {
+  margin-bottom: 3rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
   }
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: #0066B1;
+}
+
+.loadMoreContainer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.loadMoreButton {
+  padding: 0 2rem;
+  height: 50px;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+    background: linear-gradient(135deg, #0369a1 0%, #1e40af 100%);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+    height: 45px;
+    font-size: 1rem;
+  }
+}
+
+.endMessage {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin: 2rem 0;
+
+  p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
     
-    // Mobile adjustments
-    @media (max-width: $breakpoint-md) {
-      bottom: -10px;
-      width: 50px;
-      height: 2px;
+    p {
+      font-size: 1rem;
     }
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
     
-    @media (max-width: $breakpoint-sm) {
-      width: 40px;
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// Loading states
+.loadingContainer {
+  text-align: center;
+  padding: 3rem 2rem;
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
+}
+
+.errorContainer {
+  text-align: center;
+  padding: 3rem 2rem;
+
+  p {
+    color: #dc2626;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
+}
+
+// Responsive grid adjustments
+:global(.ant-col) {
+  @media (max-width: 576px) {
+    margin-bottom: 1rem;
+  }
+}
+
+// Animation for new products
+.productsGrid {
+  .ant-col {
+    animation: fadeInUp 0.6s ease-out;
+    
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.4s; }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Hover effects for product cards
+.productsGrid {
+  .ant-col {
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
     }
   }
 }

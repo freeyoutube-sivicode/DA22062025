@@ -16,7 +16,7 @@ import {
   Tooltip,
   Typography,
 } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme } from "../contexts/ThemeContext";
 
 const { Text, Paragraph } = Typography;
@@ -29,6 +29,11 @@ const ThemeController: React.FC<ThemeControllerProps> = ({ className }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [customColor, setCustomColor] = useState("#059669");
   const { theme, updatePrimaryColor, resetTheme } = useTheme();
+
+  // Sync customColor with current theme when component mounts
+  useEffect(() => {
+    setCustomColor(theme.colors.palette.primary);
+  }, [theme.colors.palette.primary]);
 
   const handleCustomColorChange = (color: any) => {
     const hexColor = typeof color === "string" ? color : color.toHexString();
