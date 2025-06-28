@@ -14,7 +14,7 @@ import ScrollToTop from "./components/ScrollToTop";
 
 // Admin Pages
 import DashboardPage from "./pages/admin/DashboardPage";
-import ProductListPage from "./pages/admin/ProductListPage";
+import AdminProductListPage from "./pages/admin/ProductListPage";
 import ProductFormPage from "./pages/admin/ProductFormPage";
 import OrderListPage from "./pages/admin/OrderListPage";
 import OrderDetailPage from "./pages/admin/OrderDetailPage";
@@ -71,7 +71,7 @@ const App: React.FC = () => {
                     path="/san-pham"
                     element={
                       <MainLayout>
-                        <ProductListPage />
+                        <PublicProductListPage />
                       </MainLayout>
                     }
                   />
@@ -172,7 +172,7 @@ const App: React.FC = () => {
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
-                          <ProductListPage />
+                          <AdminProductListPage />
                         </AdminLayout>
                       </ProtectedRoute>
                     }
