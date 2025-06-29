@@ -17,8 +17,8 @@ const productSchema = new mongoose.Schema({
   },
   Price: {
     type: Number,
-    required: [true, 'Giá sản phẩm là bắt buộc'],
-    min: [0, 'Giá sản phẩm không được âm']
+    required: [true, 'Giá xe là bắt buộc'],
+    min: [0, 'Giá xe không được âm']
   },
   Main_Image: {
     type: String,
@@ -45,15 +45,18 @@ const productSchema = new mongoose.Schema({
     type: Map,
     of: String
   },
+  TestDriveStartDate: {
+    type: Date,
+    required: [true, 'Ngày bắt đầu chạy thử là bắt buộc']
+  },
+  TestDriveEndDate: {
+    type: Date,
+    required: [true, 'Ngày kết thúc chạy thử là bắt buộc']
+  },
   Status: {
     type: String,
-    enum: ['available', 'unavailable'],
-    default: 'available'
-  },
-  Stock: {
-    type: Number,
-    default: 0,
-    min: [0, 'Số lượng tồn kho không được âm']
+    enum: ['active', 'expired'],
+    default: 'active'
   }
 }, {
   timestamps: true

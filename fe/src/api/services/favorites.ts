@@ -30,34 +30,34 @@ export interface FavoritesData {
 
 export const favoritesService = {
   getFavorites: async (): Promise<ApiResponse<FavoritesData>> => {
-    const response = await api.get<ApiResponse<FavoritesData>>('/gio-hang/');
+    const response = await api.get<ApiResponse<FavoritesData>>('/yeu-thich/');
     return response.data;
   },
 
   addToFavorites: async (productId: string): Promise<ApiResponse<FavoritesData>> => {
-    const response = await api.post<ApiResponse<FavoritesData>>('/gio-hang/items', {
+    const response = await api.post<ApiResponse<FavoritesData>>('/yeu-thich/items', {
       productId,
     });
     return response.data;
   },
 
   removeFromFavorites: async (itemId: string): Promise<void> => {
-    await api.delete(`/gio-hang/items/${itemId}`);
+    await api.delete(`/yeu-thich/items/${itemId}`);
   },
 
   clearFavorites: async (): Promise<void> => {
-    await api.delete('/gio-hang/');
+    await api.delete('/yeu-thich/');
   },
 
   checkFavoriteStatus: async (productId: string): Promise<{ isFavorite: boolean }> => {
-    const response = await api.get<ApiResponse<{ isFavorite: boolean }>>(`/gio-hang/check/${productId}`);
+    const response = await api.get<ApiResponse<{ isFavorite: boolean }>>(`/yeu-thich/check/${productId}`);
     return response.data.data;
   },
 
   // Get favorites count only
   getFavoritesCount: async (): Promise<number> => {
     try {
-      const response = await api.get<ApiResponse<FavoritesData>>('/gio-hang/');
+      const response = await api.get<ApiResponse<FavoritesData>>('/yeu-thich/');
       return response.data.success ? response.data.data.items.length : 0;
     } catch (error) {
       console.error('Error getting favorites count:', error);

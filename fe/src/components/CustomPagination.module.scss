@@ -1,0 +1,298 @@
+.customPagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0;
+  background: linear-gradient(135deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--theme-shadow-light);
+  margin: 24px 0;
+
+  .pagination {
+    :global(.ant-pagination) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--theme-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    // Page numbers
+    :global(.ant-pagination-item) {
+      border: 2px solid var(--theme-border-light);
+      background: var(--theme-bg-paper);
+      border-radius: 12px;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--theme-text-primary);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px var(--theme-shadow-light);
+
+      &:hover {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px var(--theme-shadow);
+      }
+
+      &:global(.ant-pagination-item-active) {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 8px 24px var(--theme-shadow);
+        transform: translateY(-2px);
+        font-weight: 700;
+      }
+
+      a {
+        color: inherit;
+        font-weight: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    // Previous/Next buttons
+    :global(.ant-pagination-prev),
+    :global(.ant-pagination-next) {
+      border: 2px solid var(--theme-border-light);
+      background: var(--theme-bg-primary);
+      border-radius: 12px;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px var(--theme-shadow-light);
+
+      &:hover {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px var(--theme-shadow);
+
+        :global(.ant-pagination-item-link) {
+          color: white;
+        }
+      }
+
+      &:global(.ant-pagination-disabled) {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: var(--theme-border-light);
+
+        &:hover {
+          transform: none;
+          box-shadow: 0 2px 8px var(--theme-shadow-light);
+          border-color: var(--theme-border-light);
+          background: var(--theme-border-light);
+
+          :global(.ant-pagination-item-link) {
+            color: var(--theme-text-muted);
+          }
+        }
+      }
+
+      :global(.ant-pagination-item-link) {
+        color: var(--theme-text-primary);
+        font-size: 16px;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+      }
+    }
+
+    // Jump to page input
+    :global(.ant-pagination-options) {
+      display: none !important; // Ẩn hoàn toàn
+    }
+
+    // Total text
+    :global(.ant-pagination-total-text) {
+      color: var(--theme-text-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      margin-right: 16px;
+    }
+
+    // Jump prev/next buttons
+    :global(.ant-pagination-jump-prev),
+    :global(.ant-pagination-jump-next) {
+      border: 2px solid var(--theme-border-light);
+      background: var(--theme-bg-paper);
+      border-radius: 12px;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px var(--theme-shadow-light);
+
+      &:hover {
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px var(--theme-shadow);
+
+        :global(.ant-pagination-item-link) {
+          color: white;
+        }
+      }
+
+      :global(.ant-pagination-item-link) {
+        color: var(--theme-text-primary);
+        font-size: 14px;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        font-weight: 600;
+      }
+
+      // Ẩn text "..." và chỉ hiển thị icon
+      :global(.ant-pagination-item-ellipsis) {
+        display: none !important;
+      }
+
+      // Hiển thị icon dấu 3 chấm
+      :global(.anticon) {
+        font-size: 12px;
+        color: inherit;
+        display: block !important;
+      }
+
+      // Ẩn container nếu có
+      :global(.ant-pagination-item-container) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      // CSS mạnh hơn cho màu text
+      :global(.ant-pagination-item-link) {
+        color: inherit !important;
+        
+        :global(.anticon) {
+          color: inherit !important;
+        }
+        
+        :global(.ant-pagination-item-link-icon) {
+          color: inherit !important;
+        }
+        
+        :global(.ant-pagination-item-ellipsis) {
+          display: none !important;
+        }
+      }
+
+      // CSS global mạnh hơn
+      :global(.ant-pagination-item-link-icon) {
+        color: var(--theme-text-primary) !important;
+      }
+
+      :global(.ant-pagination-item-ellipsis) {
+        display: none !important;
+      }
+
+      // Đảm bảo icon hiển thị đúng màu
+      :global(.anticon) {
+        color: var(--theme-text-primary) !important;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .customPagination {
+    padding: 16px 0;
+    margin: 16px 0;
+
+    .pagination {
+      :global(.ant-pagination) {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      :global(.ant-pagination-item),
+      :global(.ant-pagination-prev),
+      :global(.ant-pagination-next) {
+        min-width: 36px;
+        height: 36px;
+        font-size: 13px;
+      }
+
+      :global(.ant-pagination-options) {
+        margin-left: 8px;
+        margin-top: 8px;
+
+        :global(.ant-pagination-options-quick-jumper) {
+          font-size: 13px;
+
+          input {
+            padding: 4px 8px;
+            font-size: 13px;
+            width: 60px;
+          }
+        }
+      }
+
+      :global(.ant-pagination-total-text) {
+        font-size: 13px;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .customPagination {
+    .pagination {
+      :global(.ant-pagination) {
+        justify-content: center;
+      }
+
+      :global(.ant-pagination-options) {
+        width: 100%;
+        justify-content: center;
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
+// CSS global mạnh hơn cho tất cả pagination
+:global(.ant-pagination) {
+  :global(.ant-pagination-item-link-icon) {
+    color: var(--theme-text-primary) !important;
+  }
+
+  :global(.ant-pagination-item-ellipsis) {
+    display: none !important;
+  }
+
+  :global(.anticon) {
+    color: var(--theme-text-primary) !important;
+  }
+} 

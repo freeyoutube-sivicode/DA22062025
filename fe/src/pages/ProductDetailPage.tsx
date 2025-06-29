@@ -12,14 +12,15 @@ import {
   Button,
   notification,
   Card,
-  message,
+  Row,
+  Col,
+  Table,
+  Tooltip,
 } from "antd";
 import { formatCurrency } from "../utils/format";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import PageBanner from "../components/PageBanner";
 import "./ProductDetailPage.scss";
-import { useDispatch } from "react-redux";
-import { fetchCart } from "../store/slices/cartSlice";
-import { AppDispatch } from "../store";
 
 const { Title, Paragraph } = Typography;
 
@@ -27,25 +28,43 @@ const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [relatedLoading, setRelatedLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [addingToCart, setAddingToCart] = useState(false); // State for add to cart loading
-
-  // Get dispatch function with AppDispatch type
-  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${API_BASE_URL}/san-pham/${id}`);
-        // Assuming API response structure is { data: { ...productData } }
-        setProduct(response.data.data); // Access nested data if needed, adjust based on actual API response
-      } catch (error) {
+        const response = await axios.get(`${API_BASE_URL}/xe/${id}`);
+        // Backend returns data directly, not nested in data.data
+        setProduct(response.data.data || response.data);
+      } catch (error: any) {
         console.error("Error fetching product detail:", error);
-        message.error("Không thể tải chi tiết sản phẩm.");
-        setProduct(null); // Set product to null on error
+
+        // Handle specific error cases
+        if (error.response?.status === 404) {
+          notification.error({
+            message: "Không tìm thấy xe",
+            description: "Xe bạn đang tìm kiếm không tồn tại trong hệ thống.",
+          });
+        } else if (error.response?.status === 500) {
+          notification.error({
+            message: "Lỗi server",
+            description: "Có lỗi xảy ra từ phía server. Vui lòng thử lại sau.",
+          });
+        } else {
+          notification.error({
+            message: "Lỗi kết nối",
+            description:
+              "Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.",
+          });
+        }
+
+        setProduct(null);
+        setError(error.response?.data?.message || "Không thể tải chi tiết xe.");
       } finally {
         setLoading(false);
       }
@@ -56,43 +75,35 @@ const ProductDetailPage: React.FC = () => {
     }
   }, [id]); // Refetch when ID changes
 
-  const handleAddToCart = async () => {
-    try {
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        notification.warning({
-          message: "Vui lòng đăng nhập",
-          description: "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng",
+  // Fetch related products
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      if (!product) return;
+
+      setRelatedLoading(true);
+      try {
+        const categoryId =
+          typeof product.CategoryID === "string"
+            ? product.CategoryID
+            : (product.CategoryID as any)?._id;
+
+        const response = await axios.get(`${API_BASE_URL}/xe`, {
+          params: {
+            limit: 4,
+            exclude: id,
+            category: categoryId,
+          },
         });
-        return;
+        setRelatedProducts(response.data.products || []);
+      } catch (error) {
+        console.error("Error fetching related products:", error);
+      } finally {
+        setRelatedLoading(false);
       }
+    };
 
-      setAddingToCart(true);
-      await axios.post(`${API_BASE_URL}/gio-hang/items`, {
-        productId: product?._id,
-        quantity: 1,
-      });
-
-      notification.success({
-        message: "Thành công",
-        description: "Đã thêm sản phẩm vào giỏ hàng",
-      });
-
-      dispatch(fetchCart());
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-      // Hiển thị thông báo lỗi từ backend nếu có
-      const errorMessage =
-        (error as any).response?.data?.message ||
-        "Không thể thêm sản phẩm vào giỏ hàng";
-      notification.error({
-        message: "Lỗi",
-        description: errorMessage,
-      });
-    } finally {
-      setAddingToCart(false);
-    }
-  };
+    fetchRelatedProducts();
+  }, [product, id]);
 
   const handleRegisterConsultation = () => {
     navigate("/dich-vu"); // Navigate to the services page
@@ -101,7 +112,7 @@ const ProductDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div style={{ textAlign: "center", padding: "50px" }}>
-        <Spin size="large" tip="Đang tải sản phẩm..." />
+        <Spin size="large" tip="Đang tải xe..." />
       </div>
     );
   }
@@ -109,10 +120,18 @@ const ProductDetailPage: React.FC = () => {
   if (!product) {
     return (
       <div style={{ textAlign: "center", padding: "50px" }}>
-        <Title level={3}>Không tìm thấy sản phẩm</Title>
+        <Title level={3}>Không tìm thấy xe</Title>
         <Paragraph>
-          Sản phẩm bạn đang tìm kiếm có thể không tồn tại hoặc đã bị gỡ bỏ.
+          {error ||
+            "Xe bạn đang tìm kiếm có thể không tồn tại hoặc đã bị gỡ bỏ."}
         </Paragraph>
+        <Button
+          type="primary"
+          onClick={() => navigate("/xe")}
+          style={{ marginTop: 16 }}
+        >
+          Quay lại danh sách xe
+        </Button>
       </div>
     );
   }
@@ -136,6 +155,11 @@ const ProductDetailPage: React.FC = () => {
 
   return (
     <div className="product-detail__container">
+      <PageBanner
+        title="Chi tiết xe"
+        subtitle="Khám phá thông tin chi tiết về xe bạn quan tâm"
+      />
+
       <Card className="product-detail__card">
         <div className="product-detail__grid">
           {/* Image Gallery */}
@@ -184,18 +208,15 @@ const ProductDetailPage: React.FC = () => {
 
           {/* Product Info */}
           <div className="product-detail__info">
-            <Title level={2} className="product-detail__info-title">
-              {product.Product_Name}
-            </Title>
-            <Typography.Text strong className="product-detail__info-price">
-              {formatCurrency(product.Price)}
-            </Typography.Text>
-
-            <div className="product-detail__info-section">
-              <Title level={4} className="product-detail__info-section-title">
-                Mô tả
+            <div className="product-detail__info-header">
+              <Title level={2} className="product-detail__info-title">
+                {product.Product_Name}
               </Title>
-              <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
+              <div className="product-detail__info-price-container">
+                <Typography.Text strong className="product-detail__info-price">
+                  {formatCurrency(product.Price)}
+                </Typography.Text>
+              </div>
             </div>
 
             <div className="product-detail__info-section">
@@ -204,61 +225,137 @@ const ProductDetailPage: React.FC = () => {
               </Title>
               {product.Specifications &&
               Object.keys(product.Specifications).length > 0 ? (
-                <Descriptions
-                  bordered
-                  size="small"
-                  column={{
-                    xs: 1,
-                    sm: 1,
-                    md: 2,
-                    lg: 3,
-                    xl: 4,
-                    xxl: 4,
-                  }}
-                >
-                  {Object.entries(product.Specifications).map(
-                    ([key, value]) => (
-                      <Descriptions.Item key={key} label={key}>
-                        {String(value)}
-                      </Descriptions.Item>
-                    )
-                  )}
-                </Descriptions>
+                <div className="product-detail__specifications">
+                  <Table
+                    dataSource={Object.entries(product.Specifications).map(
+                      ([key, value], index) => ({
+                        key: index,
+                        spec: key,
+                        value: String(value),
+                      })
+                    )}
+                    columns={[
+                      {
+                        title: "Thông số",
+                        dataIndex: "spec",
+                        key: "spec",
+                        width: "40%",
+                        render: (text) => (
+                          <div className="product-detail__spec-label">
+                            {text}
+                          </div>
+                        ),
+                      },
+                      {
+                        title: "Giá trị",
+                        dataIndex: "value",
+                        key: "value",
+                        width: "60%",
+                        render: (text) => (
+                          <div className="product-detail__spec-value">
+                            {text}
+                          </div>
+                        ),
+                      },
+                    ]}
+                    pagination={false}
+                    size="small"
+                    className="product-detail__spec-table"
+                  />
+                </div>
               ) : (
-                <Paragraph>Đang cập nhật...</Paragraph>
+                <div className="product-detail__info-section-content">
+                  <Paragraph>Đang cập nhật...</Paragraph>
+                </div>
               )}
             </div>
 
-            <div className="product-detail__info-buttons">
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleAddToCart}
-                loading={addingToCart}
-                block
-              >
-                Thêm vào giỏ hàng
-              </Button>
-              <Button
-                type="primary"
-                size="large"
-                onClick={handleRegisterConsultation}
-                block
-              >
-                Đăng ký tư vấn
-              </Button>
+            <div className="product-detail__info-actions">
+              <div className="product-detail__info-buttons">
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={handleRegisterConsultation}
+                  block
+                  className="product-detail__consultation-btn"
+                >
+                  Đăng ký tư vấn
+                </Button>
+              </div>
             </div>
-            {product.Stock !== undefined && (
-              <Typography.Text
-                type="secondary"
-                className="product-detail__info-stock"
-              >
-                Còn {product.Stock} sản phẩm
-              </Typography.Text>
-            )}
+          </div>
+        </div>
+
+        {/* Description Row */}
+        <div className="product-detail__description-row">
+          <div className="product-detail__description-section">
+            <Title level={4} className="product-detail__description-title">
+              Mô tả
+            </Title>
+            <div className="product-detail__description-content">
+              <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
+            </div>
           </div>
         </div>
       </Card>
+
+      {/* Related Products Section */}
+      <div className="product-detail__related">
+        <Title level={3} className="product-detail__related-main-title">
+          Xe liên quan
+        </Title>
+        <Spin spinning={relatedLoading}>
+          {relatedProducts.length > 0 ? (
+            <Row gutter={[20, 20]}>
+              {relatedProducts.map((relatedProduct) => (
+                <Col xs={24} sm={12} md={6} key={relatedProduct._id}>
+                  <Card
+                    hoverable
+                    className="product-detail__related-card"
+                    cover={
+                      <div className="product-detail__related-image">
+                        <img
+                          alt={relatedProduct.Product_Name}
+                          src={relatedProduct.Main_Image}
+                          onClick={() => navigate(`/xe/${relatedProduct._id}`)}
+                        />
+                      </div>
+                    }
+                    onClick={() => navigate(`/xe/${relatedProduct._id}`)}
+                  >
+                    <Card.Meta
+                      title={
+                        <Tooltip
+                          title={
+                            relatedProduct.Product_Name.length > 20
+                              ? relatedProduct.Product_Name
+                              : null
+                          }
+                          placement="top"
+                          mouseEnterDelay={0.5}
+                        >
+                          <div className="product-detail__related-title">
+                            {relatedProduct.Product_Name}
+                          </div>
+                        </Tooltip>
+                      }
+                      description={
+                        <div className="product-detail__related-price">
+                          {formatCurrency(relatedProduct.Price)}
+                        </div>
+                      }
+                    />
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <div className="product-detail__related-empty">
+              <Paragraph>Không có xe liên quan</Paragraph>
+            </div>
+          )}
+        </Spin>
+      </div>
     </div>
   );
 };

@@ -57,7 +57,9 @@ const createProduct = async (req, res) => {
       Description,
       Price,
       Specifications,
-      Stock,
+      TestDriveStartDate,
+      TestDriveEndDate,
+      Status,
       Main_Image, // Lấy URL ảnh chính từ body
       List_Image // Lấy danh sách URLs ảnh phụ từ body
     } = req.body;
@@ -78,7 +80,9 @@ const createProduct = async (req, res) => {
       Main_Image: Main_Image, // Lưu URL ảnh chính
       List_Image: List_Image, // Lưu danh sách URLs ảnh phụ
       Specifications,
-      Stock
+      TestDriveStartDate,
+      TestDriveEndDate,
+      Status
     });
 
     await product.save();
@@ -100,10 +104,11 @@ const updateProduct = async (req, res) => {
       Description,
       Price,
       Specifications,
-      Stock,
+      TestDriveStartDate,
+      TestDriveEndDate,
+      Status,
       Main_Image, // Lấy URL ảnh chính từ body
-      List_Image, // Lấy danh sách URLs ảnh phụ từ body
-      Status // Thêm trường Status
+      List_Image // Lấy danh sách URLs ảnh phụ từ body
     } = req.body;
 
     const product = await Product.findById(req.params.productId);
@@ -118,10 +123,11 @@ const updateProduct = async (req, res) => {
     product.Description = Description;
     product.Price = Price;
     product.Specifications = Specifications; // Lưu trực tiếp object/json
-    product.Stock = Stock;
+    product.TestDriveStartDate = TestDriveStartDate;
+    product.TestDriveEndDate = TestDriveEndDate;
+    product.Status = Status;
     product.Main_Image = Main_Image; // Lưu URL ảnh chính
     product.List_Image = List_Image; // Lưu danh sách URLs ảnh phụ
-    product.Status = Status; // Cập nhật trường Status
 
     await product.save();
     successResponse(res, product, 'Cập nhật sản phẩm thành công');
@@ -170,9 +176,10 @@ const getAllProducts = async (req, res) => {
       page = 1,
       limit = 10,
       search = '',
-      categoryId,
+      category,
       minPrice,
       maxPrice,
+      status,
       sortBy = 'createdAt',
       sortOrder = 'desc'
     } = req.query;
@@ -185,8 +192,13 @@ const getAllProducts = async (req, res) => {
     }
     
     // Filter by category
-    if (categoryId) {
-      query.CategoryID = categoryId;
+    if (category) {
+      query.CategoryID = { $in: category.split(',') };
+    }
+    
+    // Filter by status
+    if (status) {
+      query.Status = { $in: status.split(',') };
     }
     
     // Filter by price range

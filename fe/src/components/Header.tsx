@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaBars, FaTimes, FaSearch } from 'react-icons/fa';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store';
-import { logout } from '../store/slices/authSlice';
-import { authService } from '../api/services/auth';
-import styles from './Header.module.css'; // Import CSS module
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { FaBars, FaTimes, FaSearch } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import { logout } from "../store/slices/authSlice";
+import { authService } from "../api/services/auth";
+import styles from "./Header.module.css"; // Import CSS module
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
       await authService.logout();
       dispatch(logout());
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error("Logout failed:", error);
     }
   };
 
@@ -38,17 +38,31 @@ const Header: React.FC = () => {
         {/* Logo */}
         <div className={styles.headerLogo}>
           <Link to="/">
-            <img src="/images/bmw-logo.png" alt="BMW Logo" className={styles.headerLogoImage} />
+            <img
+              src="/images/bmw-logo.png"
+              alt="BMW Logo"
+              className={styles.headerLogoImage}
+            />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className={styles.headerNavDesktop}>
-          <Link to="/san-pham" className={styles.headerNavLink}>Sản phẩm</Link>
-          <Link to="/bang-gia" className={styles.headerNavLink}>Bảng giá</Link>
-          <Link to="/dich-vu" className={styles.headerNavLink}>Dịch vụ</Link>
-          <Link to="/dat-hen-lai-thu" className={styles.headerNavLink}>Lái thử</Link>
-          <Link to="/tin-tuc" className={styles.headerNavLink}>Tin tức</Link>
+          <Link to="/xe" className={styles.headerNavLink}>
+            Xe
+          </Link>
+          <Link to="/bang-gia" className={styles.headerNavLink}>
+            Bảng giá
+          </Link>
+          <Link to="/dich-vu" className={styles.headerNavLink}>
+            Dịch vụ
+          </Link>
+          <Link to="/dat-hen-lai-thu" className={styles.headerNavLink}>
+            Lái thử
+          </Link>
+          <Link to="/tin-tuc" className={styles.headerNavLink}>
+            Tin tức
+          </Link>
         </nav>
 
         {/* Actions (Search, Auth/Profile) */}
@@ -74,19 +88,30 @@ const Header: React.FC = () => {
           <div className={styles.headerAuth}>
             {user ? (
               <div className={styles.headerProfile}>
-                <Link to="/profile" className={styles.headerNavLink}>{user.UserName}</Link>
-                <button onClick={handleLogout} className={styles.headerNavLink}>Đăng xuất</button>
+                <Link to="/profile" className={styles.headerNavLink}>
+                  {user.UserName}
+                </Link>
+                <button onClick={handleLogout} className={styles.headerNavLink}>
+                  Đăng xuất
+                </button>
               </div>
             ) : (
               <div className={styles.headerAuthLinks}>
-                <Link to="/login" className={styles.headerNavLink}>Đăng nhập</Link>
-                <Link to="/register" className={styles.headerNavLink}>Đăng ký</Link>
+                <Link to="/login" className={styles.headerNavLink}>
+                  Đăng nhập
+                </Link>
+                <Link to="/register" className={styles.headerNavLink}>
+                  Đăng ký
+                </Link>
               </div>
             )}
           </div>
 
           {/* Mobile Menu Button */}
-          <button onClick={toggleMobileMenu} className={styles.headerMobileMenuButton}>
+          <button
+            onClick={toggleMobileMenu}
+            className={styles.headerMobileMenuButton}
+          >
             {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
@@ -97,27 +122,86 @@ const Header: React.FC = () => {
         <div className={styles.headerMobileMenu}>
           <div className={styles.headerMobileMenuHeader}>
             {/* Logo or Close Button */}
-            <button onClick={toggleMobileMenu} className={styles.headerMobileMenuCloseButton}>
+            <button
+              onClick={toggleMobileMenu}
+              className={styles.headerMobileMenuCloseButton}
+            >
               <FaTimes />
             </button>
           </div>
           <nav className={styles.headerMobileMenuNav}>
-            <Link to="/san-pham" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Sản phẩm</Link>
-            <Link to="/bang-gia" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Bảng giá</Link>
-            <Link to="/dich-vu" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Dịch vụ</Link>
-            <Link to="/dat-hen-lai-thu" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Lái thử</Link>
-            <Link to="/tin-tuc" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Tin tức</Link>
+            <Link
+              to="/xe"
+              className={styles.headerMobileNavLink}
+              onClick={toggleMobileMenu}
+            >
+              Xe
+            </Link>
+            <Link
+              to="/bang-gia"
+              className={styles.headerMobileNavLink}
+              onClick={toggleMobileMenu}
+            >
+              Bảng giá
+            </Link>
+            <Link
+              to="/dich-vu"
+              className={styles.headerMobileNavLink}
+              onClick={toggleMobileMenu}
+            >
+              Dịch vụ
+            </Link>
+            <Link
+              to="/dat-hen-lai-thu"
+              className={styles.headerMobileNavLink}
+              onClick={toggleMobileMenu}
+            >
+              Lái thử
+            </Link>
+            <Link
+              to="/tin-tuc"
+              className={styles.headerMobileNavLink}
+              onClick={toggleMobileMenu}
+            >
+              Tin tức
+            </Link>
 
             {/* Auth/Profile Links for Mobile */}
             {user ? (
               <>
-                <Link to="/profile" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>{user.UserName}</Link>
-                <button onClick={() => { handleLogout(); toggleMobileMenu(); }} className={styles.headerMobileNavLink}>Đăng xuất</button>
+                <Link
+                  to="/profile"
+                  className={styles.headerMobileNavLink}
+                  onClick={toggleMobileMenu}
+                >
+                  {user.UserName}
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    toggleMobileMenu();
+                  }}
+                  className={styles.headerMobileNavLink}
+                >
+                  Đăng xuất
+                </button>
               </>
             ) : (
               <>
-                <Link to="/login" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Đăng nhập</Link>
-                <Link to="/register" className={styles.headerMobileNavLink} onClick={toggleMobileMenu}>Đăng ký</Link>
+                <Link
+                  to="/login"
+                  className={styles.headerMobileNavLink}
+                  onClick={toggleMobileMenu}
+                >
+                  Đăng nhập
+                </Link>
+                <Link
+                  to="/register"
+                  className={styles.headerMobileNavLink}
+                  onClick={toggleMobileMenu}
+                >
+                  Đăng ký
+                </Link>
               </>
             )}
           </nav>
@@ -127,4 +211,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header; 
+export default Header;

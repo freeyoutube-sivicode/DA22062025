@@ -4,6 +4,6 @@ const { getOrderStatistics, getUserStatistics, getProductStatistics } = require(
 
 router.get('/lich-lai-thu', getOrderStatistics);
 router.get('/nguoi-dung', getUserStatistics);
-router.get('/san-pham', getProductStatistics);
+router.get('/xe', getProductStatistics);
 
 module.exports = router; 

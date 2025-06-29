@@ -87,19 +87,19 @@ const Footer: React.FC = () => {
           <div className={styles.footerColumn}>
             <h4 className={styles.footerTitle}>SẢN PHẨM</h4>
             <div className={styles.footerList}>
-              <Link to="/san-pham/sedan" className={styles.footerLink}>
+              <Link to="/xe/sedan" className={styles.footerLink}>
                 Sedan
               </Link>
-              <Link to="/san-pham/suv" className={styles.footerLink}>
+              <Link to="/xe/suv" className={styles.footerLink}>
                 SUV
               </Link>
-              <Link to="/san-pham/coupe" className={styles.footerLink}>
+              <Link to="/xe/coupe" className={styles.footerLink}>
                 Coupe
               </Link>
-              <Link to="/san-pham/gran-coupe" className={styles.footerLink}>
+              <Link to="/xe/gran-coupe" className={styles.footerLink}>
                 Gran Coupe
               </Link>
-              <Link to="/san-pham/gran-turismo" className={styles.footerLink}>
+              <Link to="/xe/gran-turismo" className={styles.footerLink}>
                 Gran Turismo
               </Link>
             </div>

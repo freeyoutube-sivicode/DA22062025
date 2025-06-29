@@ -6,11 +6,6 @@ const orderTestDriveSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'ID người dùng là bắt buộc']
   },
-  CartID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Cart',
-    required: [true, 'ID giỏ hàng là bắt buộc']
-  },
   Order_Date: {
     type: Date,
     required: [true, 'Ngày đặt lịch là bắt buộc']
@@ -44,17 +39,10 @@ const orderTestDriveSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Virtual populate cho người dùng và giỏ hàng
+// Virtual populate cho người dùng
 orderTestDriveSchema.virtual('user', {
   ref: 'User',
   localField: 'UserID',
-  foreignField: '_id',
-  justOne: true
-});
-
-orderTestDriveSchema.virtual('cart', {
-  ref: 'Cart',
-  localField: 'CartID',
   foreignField: '_id',
   justOne: true
 });
@@ -65,4 +53,4 @@ orderTestDriveSchema.set('toObject', { virtuals: true });
 
 const OrderTestDrive = mongoose.model('OrderTestDrive', orderTestDriveSchema);
 
-module.exports = OrderTestDrive; 
+module.exports = OrderTestDrive;

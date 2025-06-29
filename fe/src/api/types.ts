@@ -36,8 +36,9 @@ export interface Product {
   Main_Image: string;
   List_Image: string[];
   Specifications: Record<string, string>;
-  Status: 'available' | 'unavailable';
-  Stock: number;
+  TestDriveStartDate: string;
+  TestDriveEndDate: string;
+  Status: 'active' | 'expired';
   createdAt: string;
   updatedAt: string;
 }

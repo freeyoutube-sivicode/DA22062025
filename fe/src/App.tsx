@@ -29,8 +29,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import PublicProductListPage from "./pages/ProductListPage";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
+import FavoritesPage from "./pages/FavoritesPage";
 import ProfilePage from "./pages/ProfilePage";
 import PriceListPage from "./pages/PriceListPage";
 import ServicePage from "./pages/ServicePage";
@@ -68,7 +67,7 @@ const App: React.FC = () => {
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/register" element={<RegisterPage />} />
                   <Route
-                    path="/san-pham"
+                    path="/xe"
                     element={
                       <MainLayout>
                         <PublicProductListPage />
@@ -76,7 +75,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/san-pham/:id"
+                    path="/xe/:id"
                     element={
                       <MainLayout>
                         <ProductDetailPage />
@@ -126,21 +125,11 @@ const App: React.FC = () => {
 
                   {/* Protected Routes */}
                   <Route
-                    path="/cart"
+                    path="/yeu-thich"
                     element={
                       <ProtectedRoute>
                         <MainLayout>
-                          <CartPage />
-                        </MainLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/checkout"
-                    element={
-                      <ProtectedRoute>
-                        <MainLayout>
-                          <CheckoutPage />
+                          <FavoritesPage />
                         </MainLayout>
                       </ProtectedRoute>
                     }

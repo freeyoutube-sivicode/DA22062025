@@ -187,7 +187,7 @@ const Header: React.FC = () => {
   };
 
   const logoStyle: React.CSSProperties = {
-    height: isMobile ? "32px" : isTablet ? "36px" : "40px",
+    height: "50px",
     width: "auto",
     flexShrink: 0,
     display: "block",
@@ -456,7 +456,7 @@ const Header: React.FC = () => {
         <div style={containerStyle}>
           <div style={rowStyle}>
             <Link to="/" onClick={closeMobileMenu}>
-              <img src="./images/logo.png" alt="Logo" style={logoStyle} />
+              <img src="/images/logo.png" alt="Logo" style={logoStyle} />
             </Link>
 
             <nav style={navStyle}>
@@ -471,14 +471,14 @@ const Header: React.FC = () => {
                 Trang chủ
               </Link>
               <Link
-                to="/san-pham"
+                to="/xe"
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
                 onMouseLeave={handleNavLinkLeave}
                 data-theme="nav-link"
               >
-                Sản phẩm
+                Xe thử
               </Link>
               <Link
                 to="/dich-vu"
@@ -524,7 +524,7 @@ const Header: React.FC = () => {
 
             {/* Favorites Link */}
             <Link
-              to="/cart"
+              to="/yeu-thich"
               style={favoritesLinkStyle}
               onClick={closeMobileMenu}
               onMouseEnter={handleFavoritesHover}
@@ -574,7 +574,7 @@ const Header: React.FC = () => {
             Trang chủ
           </Link>
           <Link
-            to="/san-pham"
+            to="/xe"
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -629,7 +629,7 @@ const Header: React.FC = () => {
             Đăng ký lái thử
           </Link>
           <Link
-            to="/cart"
+            to="/yeu-thich"
             style={{
               ...mobileMenuLinkStyle,
               display: "flex",

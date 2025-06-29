@@ -1,36 +1,24 @@
-const Cart = require('../models/Cart');
-const CartItem = require('../models/CartItem');
 const OrderTestDrive = require('../models/OrderTestDrive');
 const { successResponse, errorResponse, HTTP_STATUS } = require('../utils/responseHandler');
 
-// Đặt lịch lái thử từ giỏ hàng
-const bookTestDriveFromCart = async (req, res) => {
+// Đặt lịch lái thử
+const bookTestDrive = async (req, res) => {
   try {
     const { userId } = req.params;
-    const { Test_Drive_Date, Address, Notes } = req.body;
-    // Lấy giỏ hàng active của user
-    const cart = await Cart.findOne({ UserID: userId, Status: 'active' });
-    if (!cart) {
-      return errorResponse(res, 'Không tìm thấy giỏ hàng', HTTP_STATUS.NOT_FOUND);
-    }
-    const cartItems = await CartItem.find({ CartID: cart._id });
-    if (cartItems.length === 0) {
-      return errorResponse(res, 'Giỏ hàng trống', HTTP_STATUS.BAD_REQUEST);
-    }
+    const { Test_Drive_Date, Address, Notes, CarModel } = req.body;
+    
     // Tạo lịch lái thử
     const order = new OrderTestDrive({
       UserID: userId,
-      CartID: cart._id,
       Order_Date: new Date(),
       Test_Drive_Date,
       Address,
       Notes,
-      Total_Amount: cart.Total_Amount
+      CarModel,
+      Total_Amount: 0 // Lái thử miễn phí
     });
     await order.save();
-    // Cập nhật trạng thái giỏ hàng
-    cart.Status = 'completed';
-    await cart.save();
+    
     successResponse(res, order, 'Đặt lịch lái thử thành công', HTTP_STATUS.CREATED);
   } catch (error) {
     errorResponse(res, 'Lỗi đặt lịch lái thử', HTTP_STATUS.INTERNAL_SERVER_ERROR, error);
@@ -55,6 +43,6 @@ const updateOrderStatus = async (req, res) => {
 };
 
 module.exports = {
-  bookTestDriveFromCart,
+  bookTestDrive,
   updateOrderStatus
 }; 

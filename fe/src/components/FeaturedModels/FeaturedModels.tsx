@@ -22,7 +22,7 @@ const FeaturedModels: React.FC = () => {
     loadingState(true);
 
     try {
-      const response = await axios.get(`${API_BASE_URL}/san-pham`, {
+      const response = await axios.get(`${API_BASE_URL}/xe`, {
         params: {
           page: pageNum,
           limit: limit,

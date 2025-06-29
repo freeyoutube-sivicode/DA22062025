@@ -47,50 +47,13 @@ const getUserStatistics = async (req, res) => {
 const getProductStatistics = async (req, res) => {
   try {
     const totalProducts = await Product.countDocuments();
-    // Sản phẩm được đặt lịch lái thử nhiều nhất
-    const mostBooked = await OrderTestDrive.aggregate([
-      { $lookup: {
-          from: 'carts',
-          localField: 'CartID',
-          foreignField: '_id',
-          as: 'cart'
-        }
-      },
-      { $unwind: '$cart' },
-      { $lookup: {
-          from: 'cartitems',
-          localField: 'cart._id',
-          foreignField: 'CartID',
-          as: 'items'
-        }
-      },
-      { $unwind: '$items' },
-      { $group: {
-          _id: '$items.ProductID',
-          count: { $sum: '$items.Quantity' }
-        }
-      },
-      { $sort: { count: -1 } },
-      { $limit: 1 },
-      { $lookup: {
-          from: 'products',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'product'
-        }
-      },
-      { $unwind: '$product' },
-      { $project: {
-          _id: 0,
-          ProductID: '$_id',
-          Product_Name: '$product.Product_Name',
-          count: 1
-        }
-      }
-    ]);
+    const availableProducts = await Product.countDocuments({ Status: 'available' });
+    const outOfStockProducts = await Product.countDocuments({ Stock: 0 });
+    
     successResponse(res, {
       totalProducts,
-      mostBooked: mostBooked[0] || null
+      availableProducts,
+      outOfStockProducts
     });
   } catch (error) {
     errorResponse(res, 'Lỗi thống kê sản phẩm', HTTP_STATUS.INTERNAL_SERVER_ERROR, error);

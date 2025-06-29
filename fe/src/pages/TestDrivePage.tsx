@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
-import { FaCar, FaUserTie, FaRoute, FaEdit, FaPhone, FaComments } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { message } from 'antd';
-import { API_BASE_URL } from '../api/config';
+import React, { useState } from "react";
+import {
+  FaCar,
+  FaUserTie,
+  FaRoute,
+  FaEdit,
+  FaPhone,
+  FaComments,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { message } from "antd";
+import { API_BASE_URL } from "../api/config";
 
 const TestDrivePage = () => {
   const [formData, setFormData] = useState({
-    FullName: '',
-    Email: '',
-    Phone: '',
-    Address: '', // Thay City thành Address
-    CarModel: '',
-    TestDriveDate: '', // Thay PreferredDate thành TestDriveDate
-    TestDriveTime: '', // Thay PreferredTime thành TestDriveTime
-    Notes: '',
+    FullName: "",
+    Email: "",
+    Phone: "",
+    Address: "", // Thay City thành Address
+    CarModel: "",
+    TestDriveDate: "", // Thay PreferredDate thành TestDriveDate
+    TestDriveTime: "", // Thay PreferredTime thành TestDriveTime
+    Notes: "",
     privacyPolicy: false,
   });
 
@@ -24,7 +31,7 @@ const TestDrivePage = () => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? e.target.checked : value,
+      [name]: type === "checkbox" ? e.target.checked : value,
     }));
   };
 
@@ -39,21 +46,23 @@ const TestDrivePage = () => {
       !formData.TestDriveTime ||
       !formData.privacyPolicy
     ) {
-      message.error('Vui lòng điền đầy đủ thông tin bắt buộc và đồng ý với chính sách bảo mật.');
+      message.error(
+        "Vui lòng điền đầy đủ thông tin bắt buộc và đồng ý với chính sách bảo mật."
+      );
       return false;
     }
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.Email)) {
-      message.error('Vui lòng nhập địa chỉ email hợp lệ.');
+      message.error("Vui lòng nhập địa chỉ email hợp lệ.");
       return false;
     }
 
     // Validate phone number format (Vietnamese phone numbers)
     const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
     if (!phoneRegex.test(formData.Phone)) {
-      message.error('Vui lòng nhập số điện thoại hợp lệ.');
+      message.error("Vui lòng nhập số điện thoại hợp lệ.");
       return false;
     }
 
@@ -61,9 +70,9 @@ const TestDrivePage = () => {
     const selectedDate = new Date(formData.TestDriveDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     if (selectedDate < today) {
-      message.error('Ngày lái thử không được trong quá khứ.');
+      message.error("Ngày lái thử không được trong quá khứ.");
       return false;
     }
 
@@ -86,42 +95,44 @@ const TestDrivePage = () => {
         FullName: formData.FullName,
         Email: formData.Email,
         Phone: formData.Phone,
-        
+
         // Thông tin đặt lịch
         Test_Drive_Date: testDriveDateTime.toISOString(),
         CarModel: formData.CarModel,
         Address: formData.Address,
-        Notes: formData.Notes || '',
-        
+        Notes: formData.Notes || "",
+
         // Thông tin hệ thống
         Order_Date: new Date().toISOString(),
-        Status: 'pending', // Trạng thái mặc định khi tạo mới
+        Status: "pending", // Trạng thái mặc định khi tạo mới
         Total_Amount: 0, // Lái thử miễn phí
-        
+
         // Các trường bắt buộc từ backend schema
-        UserID: localStorage.getItem('userId') || '000000000000000000000000', // Lấy UserID từ localStorage
-        CartID: '000000000000000000000000', // ObjectId mặc định
+        UserID: localStorage.getItem("userId") || "000000000000000000000000", // Lấy UserID từ localStorage
       };
 
-      const response = await axios.post(`${API_BASE_URL}/lich-lai-thu`, dataToSend);
-      message.success('Đăng ký lái thử thành công!');
-      console.log('Test drive request submitted:', response.data);
-      
+      const response = await axios.post(
+        `${API_BASE_URL}/lich-lai-thu`,
+        dataToSend
+      );
+      message.success("Đăng ký lái thử thành công!");
+      console.log("Test drive request submitted:", response.data);
+
       // Reset form after successful submission
       setFormData({
-        FullName: '',
-        Email: '',
-        Phone: '',
-        Address: '',
-        CarModel: '',
-        TestDriveDate: '',
-        TestDriveTime: '',
-        Notes: '',
+        FullName: "",
+        Email: "",
+        Phone: "",
+        Address: "",
+        CarModel: "",
+        TestDriveDate: "",
+        TestDriveTime: "",
+        Notes: "",
         privacyPolicy: false,
       });
     } catch (error) {
-      console.error('Error submitting test drive request:', error);
-      message.error('Đã có lỗi xảy ra khi đăng ký lái thử. Vui lòng thử lại.');
+      console.error("Error submitting test drive request:", error);
+      message.error("Đã có lỗi xảy ra khi đăng ký lái thử. Vui lòng thử lại.");
     } finally {
       setSubmitting(false);
     }
@@ -142,12 +153,18 @@ const TestDrivePage = () => {
           <div className="test-drive-section__row">
             <div className="test-drive-section__col">
               <div className="test-drive-info">
-                <h2 className="test-drive-info__heading">TRẢI NGHIỆM CẢM GIÁC LÁI BMW</h2>
+                <h2 className="test-drive-info__heading">
+                  TRẢI NGHIỆM CẢM GIÁC LÁI BMW
+                </h2>
                 <p className="test-drive-info__description">
-                  Đăng ký lái thử xe BMW ngay hôm nay để trải nghiệm cảm giác lái đỉnh cao cùng công nghệ tiên tiến và thiết kế sang trọng của BMW.
+                  Đăng ký lái thử xe BMW ngay hôm nay để trải nghiệm cảm giác
+                  lái đỉnh cao cùng công nghệ tiên tiến và thiết kế sang trọng
+                  của BMW.
                 </p>
                 <p className="test-drive-info__description">
-                  Đội ngũ tư vấn viên chuyên nghiệp sẽ hướng dẫn bạn chi tiết về các tính năng và ưu điểm của mẫu xe bạn quan tâm, đồng thời giải đáp mọi thắc mắc.
+                  Đội ngũ tư vấn viên chuyên nghiệp sẽ hướng dẫn bạn chi tiết về
+                  các tính năng và ưu điểm của mẫu xe bạn quan tâm, đồng thời
+                  giải đáp mọi thắc mắc.
                 </p>
 
                 <div className="test-drive-info__benefits">
@@ -156,8 +173,13 @@ const TestDrivePage = () => {
                       <FaCar />
                     </div>
                     <div className="test-drive-info__benefit-content">
-                      <h3 className="test-drive-info__benefit-title">Trải nghiệm thực tế</h3>
-                      <p className="test-drive-info__benefit-description">Cảm nhận trực tiếp hiệu suất và công nghệ của BMW trong điều kiện thực tế trên đường.</p>
+                      <h3 className="test-drive-info__benefit-title">
+                        Trải nghiệm thực tế
+                      </h3>
+                      <p className="test-drive-info__benefit-description">
+                        Cảm nhận trực tiếp hiệu suất và công nghệ của BMW trong
+                        điều kiện thực tế trên đường.
+                      </p>
                     </div>
                   </div>
 
@@ -166,8 +188,13 @@ const TestDrivePage = () => {
                       <FaUserTie />
                     </div>
                     <div className="test-drive-info__benefit-content">
-                      <h3 className="test-drive-info__benefit-title">Tư vấn chuyên nghiệp</h3>
-                      <p className="test-drive-info__benefit-description">Đội ngũ chuyên gia BMW sẵn sàng cung cấp thông tin chi tiết và hỗ trợ bạn lựa chọn xe phù hợp.</p>
+                      <h3 className="test-drive-info__benefit-title">
+                        Tư vấn chuyên nghiệp
+                      </h3>
+                      <p className="test-drive-info__benefit-description">
+                        Đội ngũ chuyên gia BMW sẵn sàng cung cấp thông tin chi
+                        tiết và hỗ trợ bạn lựa chọn xe phù hợp.
+                      </p>
                     </div>
                   </div>
 
@@ -176,8 +203,13 @@ const TestDrivePage = () => {
                       <FaRoute />
                     </div>
                     <div className="test-drive-info__benefit-content">
-                      <h3 className="test-drive-info__benefit-title">Lộ trình linh hoạt</h3>
-                      <p className="test-drive-info__benefit-description">Tùy chỉnh lộ trình lái thử để trải nghiệm xe trong các điều kiện đường xá khác nhau.</p>
+                      <h3 className="test-drive-info__benefit-title">
+                        Lộ trình linh hoạt
+                      </h3>
+                      <p className="test-drive-info__benefit-description">
+                        Tùy chỉnh lộ trình lái thử để trải nghiệm xe trong các
+                        điều kiện đường xá khác nhau.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -189,7 +221,12 @@ const TestDrivePage = () => {
                 <h3 className="test-drive-form__title">ĐĂNG KÝ LÁI THỬ</h3>
                 <form className="test-drive-form__form" onSubmit={handleSubmit}>
                   <div className="test-drive-form__group">
-                    <label htmlFor="FullName" className="test-drive-form__label">Họ và tên *</label>
+                    <label
+                      htmlFor="FullName"
+                      className="test-drive-form__label"
+                    >
+                      Họ và tên *
+                    </label>
                     <input
                       type="text"
                       className="test-drive-form__input"
@@ -202,7 +239,9 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="Email" className="test-drive-form__label">Email *</label>
+                    <label htmlFor="Email" className="test-drive-form__label">
+                      Email *
+                    </label>
                     <input
                       type="email"
                       className="test-drive-form__input"
@@ -215,7 +254,9 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="Phone" className="test-drive-form__label">Số điện thoại *</label>
+                    <label htmlFor="Phone" className="test-drive-form__label">
+                      Số điện thoại *
+                    </label>
                     <input
                       type="tel"
                       className="test-drive-form__input"
@@ -228,7 +269,9 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="Address" className="test-drive-form__label">Địa chỉ *</label>
+                    <label htmlFor="Address" className="test-drive-form__label">
+                      Địa chỉ *
+                    </label>
                     <input
                       type="text"
                       className="test-drive-form__input"
@@ -242,7 +285,12 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="CarModel" className="test-drive-form__label">Mẫu xe quan tâm *</label>
+                    <label
+                      htmlFor="CarModel"
+                      className="test-drive-form__label"
+                    >
+                      Mẫu xe quan tâm *
+                    </label>
                     <select
                       className="test-drive-form__select"
                       id="CarModel"
@@ -251,7 +299,9 @@ const TestDrivePage = () => {
                       onChange={handleInputChange}
                       required
                     >
-                      <option value="" disabled>Chọn mẫu xe</option>
+                      <option value="" disabled>
+                        Chọn mẫu xe
+                      </option>
                       <option value="BMW 3 Series">BMW 3 Series</option>
                       <option value="BMW 5 Series">BMW 5 Series</option>
                       <option value="BMW 7 Series">BMW 7 Series</option>
@@ -265,7 +315,12 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="TestDriveDate" className="test-drive-form__label">Ngày lái thử mong muốn *</label>
+                    <label
+                      htmlFor="TestDriveDate"
+                      className="test-drive-form__label"
+                    >
+                      Ngày lái thử mong muốn *
+                    </label>
                     <input
                       type="date"
                       className="test-drive-form__input"
@@ -274,12 +329,17 @@ const TestDrivePage = () => {
                       value={formData.TestDriveDate}
                       onChange={handleInputChange}
                       required
-                      min={new Date().toISOString().split('T')[0]} // Chỉ cho phép chọn từ ngày hiện tại trở đi
+                      min={new Date().toISOString().split("T")[0]} // Chỉ cho phép chọn từ ngày hiện tại trở đi
                     />
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="TestDriveTime" className="test-drive-form__label">Thời gian lái thử mong muốn *</label>
+                    <label
+                      htmlFor="TestDriveTime"
+                      className="test-drive-form__label"
+                    >
+                      Thời gian lái thử mong muốn *
+                    </label>
                     <select
                       className="test-drive-form__select"
                       id="TestDriveTime"
@@ -288,7 +348,9 @@ const TestDrivePage = () => {
                       onChange={handleInputChange}
                       required
                     >
-                      <option value="" disabled>Chọn thời gian</option>
+                      <option value="" disabled>
+                        Chọn thời gian
+                      </option>
                       <option value="09:00">Sáng (9:00)</option>
                       <option value="11:00">Sáng (11:00)</option>
                       <option value="13:00">Chiều (13:00)</option>
@@ -298,7 +360,9 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-form__group">
-                    <label htmlFor="Notes" className="test-drive-form__label">Ghi chú</label>
+                    <label htmlFor="Notes" className="test-drive-form__label">
+                      Ghi chú
+                    </label>
                     <textarea
                       className="test-drive-form__textarea"
                       id="Notes"
@@ -319,8 +383,18 @@ const TestDrivePage = () => {
                       onChange={handleInputChange}
                       required
                     />
-                    <label className="test-drive-form__check-label" htmlFor="privacyPolicy">
-                      Tôi đồng ý với <Link to="/privacy" className="test-drive-form__privacy-link">chính sách bảo mật</Link> của BMW Vietnam
+                    <label
+                      className="test-drive-form__check-label"
+                      htmlFor="privacyPolicy"
+                    >
+                      Tôi đồng ý với{" "}
+                      <Link
+                        to="/privacy"
+                        className="test-drive-form__privacy-link"
+                      >
+                        chính sách bảo mật
+                      </Link>{" "}
+                      của BMW Vietnam
                     </label>
                   </div>
 
@@ -329,7 +403,7 @@ const TestDrivePage = () => {
                     className="test-drive-form__btn-submit"
                     disabled={submitting}
                   >
-                    {submitting ? 'Đang gửi...' : 'Đăng ký lái thử'}
+                    {submitting ? "Đang gửi..." : "Đăng ký lái thử"}
                   </button>
                 </form>
               </div>
@@ -350,7 +424,9 @@ const TestDrivePage = () => {
                 <FaEdit />
               </div>
               <h3 className="test-drive-process__step-title">Đăng ký</h3>
-              <p className="test-drive-process__step-description">Điền thông tin vào form đăng ký lái thử trên website.</p>
+              <p className="test-drive-process__step-description">
+                Điền thông tin vào form đăng ký lái thử trên website.
+              </p>
             </div>
 
             <div className="test-drive-process__step">
@@ -359,7 +435,9 @@ const TestDrivePage = () => {
                 <FaPhone />
               </div>
               <h3 className="test-drive-process__step-title">Xác nhận</h3>
-              <p className="test-drive-process__step-description">Nhân viên BMW sẽ liên hệ để xác nhận lịch lái thử.</p>
+              <p className="test-drive-process__step-description">
+                Nhân viên BMW sẽ liên hệ để xác nhận lịch lái thử.
+              </p>
             </div>
 
             <div className="test-drive-process__step">
@@ -368,7 +446,9 @@ const TestDrivePage = () => {
                 <FaCar />
               </div>
               <h3 className="test-drive-process__step-title">Lái thử</h3>
-              <p className="test-drive-process__step-description">Đến showroom theo lịch hẹn và trải nghiệm lái thử xe.</p>
+              <p className="test-drive-process__step-description">
+                Đến showroom theo lịch hẹn và trải nghiệm lái thử xe.
+              </p>
             </div>
 
             <div className="test-drive-process__step">
@@ -377,7 +457,9 @@ const TestDrivePage = () => {
                 <FaComments />
               </div>
               <h3 className="test-drive-process__step-title">Tư vấn</h3>
-              <p className="test-drive-process__step-description">Nhận tư vấn chi tiết về xe và các chương trình ưu đãi.</p>
+              <p className="test-drive-process__step-description">
+                Nhận tư vấn chi tiết về xe và các chương trình ưu đãi.
+              </p>
             </div>
           </div>
         </div>

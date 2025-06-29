@@ -7,7 +7,7 @@
 
 /**
  * @swagger
- * /api/san-pham:
+ * /api/xe:
  *   get:
  *     summary: Get all products
  *     tags: [Products]
@@ -73,7 +73,7 @@
 
 /**
  * @swagger
- * /api/san-pham/category/{categoryId}:
+ * /api/xe/category/{categoryId}:
  *   get:
  *     summary: Get products by category
  *     tags: [Products]
@@ -121,7 +121,7 @@
 
 /**
  * @swagger
- * /api/san-pham/{productId}:
+ * /api/xe/{productId}:
  *   get:
  *     summary: Get product by ID
  *     tags: [Products]
@@ -155,7 +155,7 @@
 
 /**
  * @swagger
- * /api/san-pham:
+ * /api/xe:
  *   post:
  *     summary: Create new product (Admin only)
  *     tags: [Products]
@@ -235,7 +235,7 @@
 
 /**
  * @swagger
- * /api/san-pham/{productId}:
+ * /api/xe/{productId}:
  *   put:
  *     summary: Update product (Admin only)
  *     tags: [Products]

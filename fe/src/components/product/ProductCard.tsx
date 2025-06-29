@@ -25,7 +25,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }, []);
 
   const handleViewDetail = () => {
-    navigate(`/san-pham/${product._id}`);
+    navigate(`/xe/${product._id}`);
   };
 
   const handleRegisterTestDrive = () => {
@@ -203,7 +203,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       onMouseLeave={handleMouseLeave}
     >
       <div style={imageContainerStyle}>
-        <Link to={`/san-pham/${product._id}`}>
+        <Link to={`/xe/${product._id}`}>
           <img
             src={product.Main_Image}
             alt={product.Product_Name}
@@ -215,7 +215,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       <div style={infoStyle}>
         <Link
-          to={`/san-pham/${product._id}`}
+          to={`/xe/${product._id}`}
           style={titleStyle}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = "#0066B1";
@@ -246,7 +246,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         <div style={actionsStyle}>
           <Link
-            to={`/san-pham/${product._id}`}
+            to={`/xe/${product._id}`}
             style={detailButtonStyle}
             onClick={handleViewDetail}
             onMouseEnter={handleDetailHover}

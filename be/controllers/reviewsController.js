@@ -3,7 +3,7 @@ const Product = require('../models/Product');
 const { successResponse, errorResponse, HTTP_STATUS } = require('../utils/responseHandler');
 
 // @desc    Get all reviews for a product
-// @route   GET /api/danh-gia/san-pham/:productId
+// @route   GET /api/danh-gia/xe/:productId
 // @access  Public
 const getProductReviews = async (req, res) => {
   try {

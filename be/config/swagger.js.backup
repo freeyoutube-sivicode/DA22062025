@@ -121,13 +121,30 @@ const options = {
               type: 'string',
               description: 'User ID'
             },
+            products: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  productId: {
+                    type: 'string'
+                  },
+                  quantity: {
+                    type: 'number'
+                  },
+                  price: {
+                    type: 'number'
+                  }
+                }
+              }
+            },
             totalAmount: {
               type: 'number',
               description: 'Total order amount'
             },
             status: {
               type: 'string',
-              enum: ['pending', 'confirmed', 'completed', 'cancelled'],
+              enum: ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'],
               description: 'Order status'
             },
             createdAt: {

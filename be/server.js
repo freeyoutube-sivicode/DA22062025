@@ -42,13 +42,7 @@ const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/users'); // User management routes
 const roleRoutes = require('./routes/roles');
 const roleUserRoutes = require('./routes/roleUsers');
-// Sửa: Import router từ file cart.js chứa logic thêm/xóa/sửa item
-const cartItemRoutes = require('./routes/cart'); // Router for /api/gio-hang/items, etc.
-// Router cho các thao tác trên cart object (nếu cần)
-const cartRoutes = require('./routes/carts'); // Router for /api/gio-hang/:userId
-
-const testDriveRoutes = require('./routes/orders'); // Test Drive Orders
-const generalOrderRoutes = require('./routes/generalOrders'); // General Orders
+const favoritesRoutes = require('./routes/favorites'); // Favorites routes
 const servicesApis = require('./routes/services'); // Services API
 const newsEventsApis = require('./routes/newsEvents'); // News & Events API
 const statisticsRoutes = require('./routes/statistics');
@@ -65,19 +59,11 @@ app.use('/api/nguoi-dung', roleUserRoutes); // Example mount for roleUserRoutes
 // Mount category routes
 app.use('/api/danh-muc', categoryRoutes);
 
-app.use('/api/san-pham', productRoutes);
+app.use('/api/xe', productRoutes);
 
-// Mount router chứa logic thêm/xóa/sửa item tại /api/gio-hang
-app.use('/api/gio-hang', (req, res, next) => {
-  console.log('Request hitting /api/gio-hang router');
-  console.log('Method:', req.method, 'Path:', req.path);
-  next();
-}, cartItemRoutes);
-// Mount router cho cart object (nếu cần các route như /api/gio-hang/:userId) - Đảm bảo không trùng lặp endpoint
-// app.use('/api/gio-hang', cartRoutes); // Chỉ mount nếu cần các route trong carts.js VÀ đảm bảo không trùng item routes
+// Mount favorites routes
+app.use('/api/yeu-thich', favoritesRoutes);
 
-app.use('/api/lich-lai-thu', testDriveRoutes);
-app.use('/api/don-hang', generalOrderRoutes);
 app.use('/api/dich-vu', servicesApis);
 app.use('/api/tin-tuc-su-kien', newsEventsApis);
 app.use('/api/thong-ke', statisticsRoutes);

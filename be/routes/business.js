@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { bookTestDriveFromCart, updateOrderStatus } = require('../controllers/businessController');
+const { bookTestDrive, updateOrderStatus } = require('../controllers/businessController');
 
-router.post('/nguoi-dung/:userId/gio-hang/dat-lich', bookTestDriveFromCart);
+router.post('/nguoi-dung/:userId/dat-lich', bookTestDrive);
 router.put('/lich-lai-thu/:orderId/trang-thai', updateOrderStatus);
 
-module.exports = router; 
+module.exports = router;

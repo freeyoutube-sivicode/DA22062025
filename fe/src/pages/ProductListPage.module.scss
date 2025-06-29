@@ -1,12 +1,36 @@
-// CSS Variables for theme colors - Updated to use dynamic theme system
+// CSS Variables for theme colors
 :root {
-  // These will be overridden by ThemeContext dynamically
   --primary-color: var(--theme-primary);
   --primary-dark: var(--theme-primary-dark);
   --primary-light: var(--theme-primary-light);
   --primary-gradient: var(--theme-bg-gradient);
   --primary-gradient-hover: linear-gradient(135deg, var(--theme-primary-dark) 0%, var(--theme-secondary-dark) 100%);
-  --primary-light-bg: var(--theme-bg-gradient);
+  
+  // Text colors
+  --text-primary: #262626;
+  --text-secondary: #595959;
+  --text-muted: #8c8c8c;
+  --text-white: #ffffff;
+  
+  // Background colors
+  --bg-paper: rgba(255, 255, 255, 0.9);
+  --bg-primary: rgba(255, 255, 255, 0.7);
+  --bg-light: rgba(255, 255, 255, 0.5);
+  
+  // Border colors
+  --border-light: rgba(0, 0, 0, 0.06);
+  --border-medium: rgba(0, 0, 0, 0.15);
+  
+  // Shadow colors
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  
+  // Status colors
+  --success: #52c41a;
+  --warning: #faad14;
+  --error: #ff4d4f;
+  --info: #1890ff;
 }
 
 .productListPage {
@@ -27,6 +51,9 @@
     backdrop-filter: blur(15px);
     border: 1.5px solid var(--theme-border-light);
     height: fit-content;
+    position: sticky;
+    top: 70px;
+    z-index: 20;
 
     .filterSection {
       .filterItem {
@@ -131,7 +158,6 @@
         .priceSlider {
           margin: 10px 0;
 
-          // Override Ant Design Slider styles
           .ant-slider {
             .ant-slider-rail {
               background-color: var(--theme-border-light) !important;
@@ -159,43 +185,6 @@
 
             .ant-slider-mark-text {
               color: var(--theme-text-secondary) !important;
-            }
-          }
-
-          .sliderTrack {
-            height: 5px;
-            background: var(--theme-border-light);
-            border-radius: 3px;
-            position: relative;
-            margin: 10px 0;
-
-            .sliderFill {
-              height: 100%;
-              background: var(--primary-gradient);
-              border-radius: 3px;
-              position: relative;
-            }
-
-            .sliderHandle {
-              position: absolute;
-              top: 50%;
-              width: 18px;
-              height: 18px;
-              background: var(--theme-bg-primary);
-              border: 3px solid var(--primary-color);
-              border-radius: 50%;
-              transform: translate(-50%, -50%);
-              cursor: pointer;
-              box-shadow: 0 3px 10px var(--primary-light);
-              transition: all 0.3s ease;
-
-              &:hover {
-                box-shadow: 0 5px 15px var(--primary-light);
-              }
-
-              &:focus {
-                box-shadow: 0 0 0 1px var(--primary-light);
-              }
             }
           }
         }
@@ -395,11 +384,12 @@
 
     &:hover {
       box-shadow: 0 20px 50px var(--theme-shadow-dark);
+      transform: translateY(-4px);
     }
 
     .productImage {
       position: relative;
-      height: 240px;
+      height: 220px;
       overflow: hidden;
 
       img {
@@ -415,14 +405,14 @@
 
       .productActions {
         position: absolute;
-        top: 16px;
-        right: 16px;
+        top: 12px;
+        right: 12px;
         opacity: 0;
         transition: all 0.3s ease;
 
         .ant-btn {
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           border: none;
           background: var(--theme-bg-paper);
@@ -443,14 +433,14 @@
 
       .outOfStock {
         position: absolute;
-        top: 16px;
-        left: 16px;
+        top: 12px;
+        left: 12px;
       }
 
       .lowStock {
         position: absolute;
-        top: 16px;
-        left: 16px;
+        top: 12px;
+        left: 12px;
       }
 
       &:hover .productActions {
@@ -462,7 +452,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
 
       .ant-typography {
         margin-bottom: 0;
@@ -475,16 +465,17 @@
 
       .anticon {
         color: var(--theme-error);
-        font-size: 1.2rem;
+        font-size: 1.1rem;
       }
     }
 
     .productMeta {
       .productPrice {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
 
         .ant-typography {
           margin-bottom: 0;
+          font-size: 18px;
         }
       }
 
@@ -493,12 +484,12 @@
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
 
         .ant-typography {
           margin-bottom: 0;
           color: var(--theme-text-secondary);
-          font-size: 0.9rem;
+          font-size: 0.85rem;
         }
       }
     }
@@ -506,10 +497,10 @@
     .ant-card-actions {
       background: transparent;
       border-top: 1px solid var(--theme-border-light);
-      padding: 16px;
+      padding: 12px;
 
       .ant-btn {
-        height: 44px;
+        height: 40px;
         border-radius: 12px;
         font-weight: 600;
         background: var(--primary-gradient);
@@ -540,43 +531,277 @@
     .ant-pagination {
       .ant-pagination-item {
         border-radius: 12px;
-        border: none;
+        border: 2px solid var(--theme-border-light);
         background: var(--theme-bg-paper);
         backdrop-filter: blur(10px);
         box-shadow: 0 4px 12px var(--theme-shadow);
         transition: all 0.3s ease;
+        margin: 0 4px;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: #262626;
+
+        svg {
+          color: #262626 !important;
+          fill: #262626 !important;
+        }
+
+        text {
+          fill: #262626 !important;
+        }
 
         &:hover {
-          background: var(--theme-bg-primary);
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: white;
           box-shadow: 0 6px 16px var(--theme-shadow-dark);
+          transform: translateY(-2px);
+
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+
+          text {
+            fill: white !important;
+          }
         }
 
         &.ant-pagination-item-active {
-          background: var(--primary-gradient);
-          color: var(--theme-text-white);
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: white;
           box-shadow: 0 6px 16px var(--theme-shadow-dark);
+          transform: translateY(-2px);
+          font-weight: 700;
+
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+
+          text {
+            fill: white !important;
+          }
+        }
+
+        a {
+          color: inherit;
+          font-weight: inherit;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
         }
       }
 
       .ant-pagination-prev,
       .ant-pagination-next {
         border-radius: 12px;
-        border: none;
+        border: 2px solid var(--theme-border-light);
         background: var(--theme-bg-paper);
         backdrop-filter: blur(10px);
         box-shadow: 0 4px 12px var(--theme-shadow);
         transition: all 0.3s ease;
+        margin: 0 4px;
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #262626;
+
+        svg {
+          color: #262626 !important;
+          fill: #262626 !important;
+        }
+
+        text {
+          fill: #262626 !important;
+        }
 
         &:hover {
-          background: var(--theme-bg-primary);
+          background: var(--primary-color);
+          border-color: var(--primary-color);
+          color: white;
           box-shadow: 0 6px 16px var(--theme-shadow-dark);
+          transform: translateY(-2px);
+
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+
+          text {
+            fill: white !important;
+          }
+        }
+
+        &:disabled {
+          background: var(--theme-border-light);
+          color: #8c8c8c;
+          box-shadow: none;
+          cursor: not-allowed;
+          transform: none;
+
+          svg {
+            color: #8c8c8c !important;
+            fill: #8c8c8c !important;
+          }
+
+          text {
+            fill: #8c8c8c !important;
+          }
+
+          &:hover {
+            background: var(--theme-border-light);
+            color: #8c8c8c;
+            box-shadow: none;
+            transform: none;
+
+            svg {
+              color: #8c8c8c !important;
+              fill: #8c8c8c !important;
+            }
+
+            text {
+              fill: #8c8c8c !important;
+            }
+          }
+        }
+
+        .ant-pagination-item-link {
+          color: inherit;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          border: none;
+          background: transparent;
+          font-weight: 600;
+        }
+      }
+
+      .ant-pagination-options {
+        display: none !important;
+      }
+
+      .ant-pagination-total-text {
+        color: var(--theme-text-secondary);
+        font-weight: 500;
+        margin-right: 16px;
+        font-size: 0.9rem;
+      }
+
+      .ant-pagination-item-container {
+        color: #262626 !important;
+        
+        .ant-pagination-item-link {
+          color: #262626 !important;
+        }
+        
+        svg {
+          color: #262626 !important;
+          fill: #262626 !important;
+        }
+        
+        text {
+          fill: #262626 !important;
+        }
+        
+        &:hover {
+          color: white !important;
+          
+          .ant-pagination-item-link {
+            color: white !important;
+          }
+          
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+          
+          text {
+            fill: white !important;
+          }
+        }
+        
+        &.ant-pagination-item-active {
+          color: white !important;
+          
+          .ant-pagination-item-link {
+            color: white !important;
+          }
+          
+          svg {
+            color: white !important;
+            fill: white !important;
+          }
+          
+          text {
+            fill: white !important;
+          }
         }
       }
     }
   }
 }
 
+:global {
+  .ant-pagination-jump-next,
+  .ant-pagination-jump-next-custom-icon,
+  .ant-pagination-jump-prev,
+  .ant-pagination-jump-prev-custom-icon,
+  .ant-pagination-item-ellipsis {
+    display: none !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+}
+
 // Responsive design
+@media (max-width: 1200px) {
+  .productListPage {
+    .productCard {
+      .productImage {
+        height: 180px;
+      }
+
+      .productTitle {
+        .ant-typography {
+          font-size: 0.95rem;
+        }
+      }
+
+      .productMeta {
+        .productPrice {
+          .ant-typography {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .productListPage {
     .container {
@@ -585,16 +810,24 @@
 
     .filterSidebar {
       padding: 24px;
-      display: none !important; // Hide sidebar on mobile
+      display: none !important;
     }
 
     .resultsSummary {
       padding: 20px 24px;
+      position: static;
+      z-index: auto;
     }
 
     .productCard {
       .productImage {
         height: 200px;
+      }
+
+      .productTitle {
+        .ant-typography {
+          font-size: 1rem;
+        }
       }
     }
   }
@@ -608,11 +841,13 @@
 
     .filterSidebar {
       padding: 20px;
-      display: none !important; // Hide sidebar on mobile
+      display: none !important;
     }
 
     .resultsSummary {
       padding: 16px 20px;
+      position: static;
+      z-index: auto;
     }
 
     .productCard {
@@ -622,7 +857,21 @@
 
       .productTitle {
         .ant-typography {
-          font-size: 1rem;
+          font-size: 0.95rem;
+        }
+      }
+
+      .productMeta {
+        .productPrice {
+          .ant-typography {
+            font-size: 14px;
+          }
+        }
+
+        .productSpecs {
+          .ant-typography {
+            font-size: 0.8rem;
+          }
         }
       }
     }
