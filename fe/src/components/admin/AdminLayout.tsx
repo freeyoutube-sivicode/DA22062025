@@ -111,8 +111,16 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         onCollapse={setCollapsed}
         className={styles.adminSidebar}
         trigger={null}
+        width={280}
+        collapsedWidth={80}
       >
-        <div className={styles.adminLogo}></div> {/* Replace with your logo */}
+        <div
+          className={styles.adminLogo}
+          style={{ alignItems: "center", gap: 18 }}
+        >
+          <img src="/images/logo.png" alt="Logo" className={styles.logoImg} />
+          {!collapsed && <span className={styles.logoText}>SiVi CAR</span>}
+        </div>
         <Menu
           mode="inline"
           selectedKeys={[getSelectedKey()]}
@@ -184,7 +192,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 >
                   <Space>
                     <UserOutlined />
-                    {user.Username} <DownOutlined />
+                    {user.UserName} <DownOutlined />
                   </Space>
                 </a>
               </Dropdown>
