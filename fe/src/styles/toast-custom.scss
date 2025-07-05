@@ -6,11 +6,14 @@
 }
 
 .Toastify__toast {
+  position: relative;
   border-radius: 8px !important;
   font-size: 1.05rem;
   font-family: 'Roboto', Arial, sans-serif;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   padding: 12px 18px !important;
+  padding-right: 48px !important;
+  padding-left: 18px !important;
 }
 
 .Toastify__toast--error {
@@ -38,6 +41,13 @@
 }
 
 .Toastify__close-button {
+  position: absolute !important;
+  top: 12px;
+  right: 12px;
+  left: auto;
+  transform: none;
+  margin-left: 0 !important;
+  z-index: 2;
   background: transparent !important;
   border: none !important;
   border-radius: 50% !important;
@@ -51,7 +61,6 @@
   opacity: 1 !important;
   margin-right: 4px;
   margin-top: 4px;
-  margin-left: 12px;
   transition: background 0.2s, color 0.2s;
 
   svg {
@@ -69,4 +78,21 @@
 .Toastify__progress-bar {
   height: 4px;
   border-radius: 0 0 8px 8px;
+}
+
+.Toastify__toast--success .Toastify__close-button,
+.Toastify__toast--success .Toastify__close-button svg {
+  color: #43a047 !important;
+  fill: #43a047 !important;
+}
+.Toastify__toast--success .Toastify__close-button:hover,
+.Toastify__toast--success .Toastify__close-button:hover svg {
+  color: #388e3c !important;
+  fill: #388e3c !important;
+  background: #e6f4ea !important;
+}
+
+.Toastify__toast--success .Toastify__close-button,
+.Toastify__toast--error .Toastify__close-button {
+  margin-left: 0 !important;
 } 

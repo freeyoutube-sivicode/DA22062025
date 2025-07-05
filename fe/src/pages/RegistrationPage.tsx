@@ -1,28 +1,30 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const RegistrationPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
     agreeToTerms: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
+      [name]:
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle registration logic here
-    console.log('Registration Data:', formData);
   };
 
   return (
@@ -33,10 +35,12 @@ const RegistrationPage: React.FC = () => {
 
           <form className="registration-page__form" onSubmit={handleSubmit}>
             <div className="registration-page__form-group">
-              <label htmlFor="fullName" className="registration-page__label">Họ và tên *</label>
+              <label htmlFor="fullName" className="registration-page__label">
+                Họ và tên *
+              </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                   <i className="fas fa-user"></i>
+                  <i className="fas fa-user"></i>
                 </span>
                 <input
                   type="text"
@@ -51,10 +55,12 @@ const RegistrationPage: React.FC = () => {
             </div>
 
             <div className="registration-page__form-group">
-              <label htmlFor="email" className="registration-page__label">Email *</label>
+              <label htmlFor="email" className="registration-page__label">
+                Email *
+              </label>
               <div className="registration-page__input-group">
-                 <span className="registration-page__input-group-text">
-                   <i className="fas fa-envelope"></i>
+                <span className="registration-page__input-group-text">
+                  <i className="fas fa-envelope"></i>
                 </span>
                 <input
                   type="email"
@@ -69,10 +75,12 @@ const RegistrationPage: React.FC = () => {
             </div>
 
             <div className="registration-page__form-group">
-              <label htmlFor="phone" className="registration-page__label">Số điện thoại *</label>
-               <div className="registration-page__input-group">
-                 <span className="registration-page__input-group-text">
-                   <i className="fas fa-phone"></i>
+              <label htmlFor="phone" className="registration-page__label">
+                Số điện thoại *
+              </label>
+              <div className="registration-page__input-group">
+                <span className="registration-page__input-group-text">
+                  <i className="fas fa-phone"></i>
                 </span>
                 <input
                   type="tel"
@@ -87,10 +95,12 @@ const RegistrationPage: React.FC = () => {
             </div>
 
             <div className="registration-page__form-group">
-              <label htmlFor="password" className="registration-page__label">Mật khẩu *</label>
+              <label htmlFor="password" className="registration-page__label">
+                Mật khẩu *
+              </label>
               <div className="registration-page__input-group">
-                 <span className="registration-page__input-group-text">
-                   <i className="fas fa-lock"></i>
+                <span className="registration-page__input-group-text">
+                  <i className="fas fa-lock"></i>
                 </span>
                 <input
                   type="password"
@@ -105,10 +115,15 @@ const RegistrationPage: React.FC = () => {
             </div>
 
             <div className="registration-page__form-group">
-              <label htmlFor="confirmPassword" className="registration-page__label">Xác nhận mật khẩu *</label>
+              <label
+                htmlFor="confirmPassword"
+                className="registration-page__label"
+              >
+                Xác nhận mật khẩu *
+              </label>
               <div className="registration-page__input-group">
-                 <span className="registration-page__input-group-text">
-                   <i className="fas fa-lock"></i>
+                <span className="registration-page__input-group-text">
+                  <i className="fas fa-lock"></i>
                 </span>
                 <input
                   type="password"
@@ -132,27 +147,34 @@ const RegistrationPage: React.FC = () => {
                 onChange={handleInputChange}
                 required
               />
-              <label htmlFor="agreeToTerms" className="registration-page__check-label">
-                Tôi đồng ý với <Link to="/terms" className="registration-page__terms-link">điều khoản và điều kiện</Link>
+              <label
+                htmlFor="agreeToTerms"
+                className="registration-page__check-label"
+              >
+                Tôi đồng ý với{" "}
+                <Link to="/terms" className="registration-page__terms-link">
+                  điều khoản và điều kiện
+                </Link>
               </label>
             </div>
 
             <div className="registration-page__actions">
-              <button type="submit" className="registration-page__btn-submit">Đăng ký</button>
+              <button type="submit" className="registration-page__btn-submit">
+                Đăng ký
+              </button>
             </div>
           </form>
 
-           <p className="registration-page__login-text">
-              Đã có tài khoản?{' '}
-              <Link to="/login" className="registration-page__login-link">
-                Đăng nhập ngay
-              </Link>
-            </p>
-
+          <p className="registration-page__login-text">
+            Đã có tài khoản?{" "}
+            <Link to="/login" className="registration-page__login-link">
+              Đăng nhập ngay
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default RegistrationPage; 
+export default RegistrationPage;

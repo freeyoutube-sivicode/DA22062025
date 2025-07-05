@@ -8,15 +8,28 @@ const { successResponse, errorResponse, HTTP_STATUS } = require('../utils/respon
 // @access  Public
 const getAllNewsEvents = async (req, res) => {
   try {
-    // Add pagination, filtering, and searching later if needed
-    // Filter by status for public access (only published)
-    const query = {};
-    // if (req.user && req.user.role !== 'admin') { // Example: only show published to non-admins
-    //   query.Status = 'published';
-    // }
+    // Pagination
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const skip = (page - 1) * limit;
 
-    const newsEvents = await NewsEvent.find(query).sort({ PublishDate: -1, createdAt: -1 });
-    successResponse(res, newsEvents);
+    const query = {};
+    const total = await NewsEvent.countDocuments(query);
+    const newsEvents = await NewsEvent.find(query)
+      .sort({ PublishDate: -1, createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    successResponse(res, {
+      data: newsEvents,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
   } catch (error) {
     console.error('Error fetching news and events:', error);
     errorResponse(res, 'Lỗi khi lấy danh sách tin tức/sự kiện', HTTP_STATUS.INTERNAL_SERVER_ERROR, error.message);

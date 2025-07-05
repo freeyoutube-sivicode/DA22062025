@@ -1,4 +1,4 @@
-  const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
@@ -288,6 +288,118 @@ const sampleNewsEvents = [
     Content: 'BMW Việt Nam triển khai chương trình bảo hành mở rộng lên đến 5 năm cho tất cả các mẫu xe BMW mới, đảm bảo sự yên tâm cho khách hàng.',
     PublishDate: new Date('2024-01-10'),
     ImageUrl: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW tổ chức giải đua xe thể thao tại Hà Nội',
+    Content: 'Sự kiện đua xe thể thao BMW lần đầu tiên được tổ chức tại Hà Nội, quy tụ nhiều tay đua nổi tiếng và các mẫu xe hiệu suất cao.',
+    PublishDate: new Date('2024-04-05'),
+    ImageUrl: 'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW hợp tác cùng VinFast phát triển xe điện',
+    Content: 'BMW và VinFast ký kết hợp tác chiến lược phát triển các dòng xe điện thông minh tại thị trường Việt Nam.',
+    PublishDate: new Date('2024-04-12'),
+    ImageUrl: 'https://images.unsplash.com/photo-1461632830798-3adb3034e4c8?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW ra mắt công nghệ tự lái thế hệ mới',
+    Content: 'BMW giới thiệu công nghệ tự lái cấp độ 3, giúp xe vận hành an toàn và thông minh hơn trên mọi cung đường.',
+    PublishDate: new Date('2024-05-01'),
+    ImageUrl: 'https://images.unsplash.com/photo-1511918984145-48de785d4c4e?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW nhận giải thưởng thiết kế quốc tế',
+    Content: 'BMW được vinh danh tại giải thưởng Red Dot Award 2024 với thiết kế đột phá của dòng xe BMW 7 Series.',
+    PublishDate: new Date('2024-05-10'),
+    ImageUrl: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW triển khai dịch vụ bảo dưỡng lưu động',
+    Content: 'Khách hàng BMW có thể đặt lịch bảo dưỡng tận nơi với dịch vụ lưu động mới, tiện lợi và nhanh chóng.',
+    PublishDate: new Date('2024-05-15'),
+    ImageUrl: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW tổ chức hội thảo công nghệ xanh',
+    Content: 'Hội thảo về công nghệ xanh và phát triển bền vững trong ngành ô tô do BMW tổ chức tại TP.HCM.',
+    PublishDate: new Date('2024-06-01'),
+    ImageUrl: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW ra mắt showroom mới tại Đà Nẵng',
+    Content: 'Showroom BMW mới với không gian hiện đại, trưng bày đầy đủ các dòng xe mới nhất vừa khai trương tại Đà Nẵng.',
+    PublishDate: new Date('2024-06-10'),
+    ImageUrl: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW tài trợ giải golf doanh nhân 2024',
+    Content: 'BMW là nhà tài trợ chính cho giải golf doanh nhân toàn quốc, thúc đẩy phong trào thể thao và kết nối doanh nghiệp.',
+    PublishDate: new Date('2024-06-15'),
+    ImageUrl: 'https://images.unsplash.com/photo-1468421870903-4df1664ac249?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW công bố chương trình lái thử xe toàn quốc',
+    Content: 'Khách hàng có thể đăng ký lái thử các mẫu xe BMW mới nhất tại hơn 20 đại lý trên toàn quốc.',
+    PublishDate: new Date('2024-07-01'),
+    ImageUrl: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW ra mắt ứng dụng chăm sóc khách hàng',
+    Content: 'Ứng dụng BMW Care giúp khách hàng quản lý lịch bảo dưỡng, đặt lịch hẹn và nhận ưu đãi trực tiếp trên điện thoại.',
+    PublishDate: new Date('2024-07-10'),
+    ImageUrl: 'https://images.unsplash.com/photo-1468436139062-f60a71c5c892?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW đồng hành cùng chiến dịch bảo vệ môi trường',
+    Content: 'BMW phát động chiến dịch trồng 10.000 cây xanh tại các thành phố lớn nhằm bảo vệ môi trường sống.',
+    PublishDate: new Date('2024-07-20'),
+    ImageUrl: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW giới thiệu dịch vụ tài chính linh hoạt',
+    Content: 'Khách hàng BMW có thể lựa chọn nhiều gói tài chính linh hoạt, lãi suất ưu đãi khi mua xe mới.',
+    PublishDate: new Date('2024-08-01'),
+    ImageUrl: 'https://images.unsplash.com/photo-1465447142348-e9952c393450?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW tổ chức ngày hội gia đình 2024',
+    Content: 'Ngày hội gia đình BMW với nhiều hoạt động vui chơi, giải trí và lái thử xe dành cho khách hàng và người thân.',
+    PublishDate: new Date('2024-08-10'),
+    ImageUrl: 'https://images.unsplash.com/photo-1466027018945-1834b6cc8c8a?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW khai trương trung tâm dịch vụ mới tại Cần Thơ',
+    Content: 'Trung tâm dịch vụ BMW tại Cần Thơ cung cấp đầy đủ các dịch vụ bảo dưỡng, sửa chữa và phụ tùng chính hãng.',
+    PublishDate: new Date('2024-08-20'),
+    ImageUrl: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW ra mắt phiên bản giới hạn BMW X5',
+    Content: 'BMW X5 phiên bản giới hạn với màu sơn độc quyền và trang bị cao cấp vừa được giới thiệu tại Việt Nam.',
+    PublishDate: new Date('2024-09-01'),
+    ImageUrl: 'https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?w=800&h=600&fit=crop',
+    Status: 'published'
+  },
+  {
+    Title: 'BMW tổ chức workshop chăm sóc xe miễn phí',
+    Content: 'Khách hàng BMW được tham gia workshop chăm sóc xe miễn phí với các chuyên gia kỹ thuật hàng đầu.',
+    PublishDate: new Date('2024-09-10'),
+    ImageUrl: 'https://images.unsplash.com/photo-1465447142348-e9952c393450?w=800&h=600&fit=crop',
     Status: 'published'
   }
 ];

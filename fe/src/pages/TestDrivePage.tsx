@@ -120,7 +120,6 @@ const TestDrivePage = () => {
         dataToSend
       );
       message.success("Đăng ký lái thử thành công!");
-      console.log("Test drive request submitted:", response.data);
 
       // Reset form after successful submission
       setFormData({
@@ -135,7 +134,6 @@ const TestDrivePage = () => {
         privacyPolicy: false,
       });
     } catch (error) {
-      console.error("Error submitting test drive request:", error);
       message.error("Đã có lỗi xảy ra khi đăng ký lái thử. Vui lòng thử lại.");
     } finally {
       setSubmitting(false);

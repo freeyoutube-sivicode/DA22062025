@@ -15,12 +15,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { isAuthenticated, isAdmin, loading, user } = useAuth();
   const location = useLocation();
 
-  // console.log("ProtectedRoute Check:");
-  // console.log("  loading:", loading);
-  // console.log("  isAuthenticated:", isAuthenticated);
-  // console.log("  isAdmin:", isAdmin);
-  // console.log("  user Role:", user?.Role);
-
   if (loading) {
     // Show loading spinner while checking authentication status
     return <LoadingSpinner />;

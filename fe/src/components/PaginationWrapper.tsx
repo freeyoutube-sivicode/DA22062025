@@ -33,7 +33,7 @@ const PaginationWrapper: React.FC<PaginationWrapperProps> = ({
         .replace("{end}", range[1].toString())
         .replace("{total}", total.toString());
     }
-    return `${range[0]}-${range[1]} của ${total} sản phẩm`;
+    return `${range[0]}-${range[1]} của ${total} mục`;
   };
 
   return (

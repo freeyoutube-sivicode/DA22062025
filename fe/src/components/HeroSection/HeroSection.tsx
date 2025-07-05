@@ -9,8 +9,7 @@ const HeroSection: React.FC = () => {
   useEffect(() => {
     // Ensure video plays on mobile devices
     if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log("Video autoplay failed:", error);
+      videoRef.current.play().catch(() => {
         // Fallback to poster image if video fails to load
         if (videoRef.current) {
           videoRef.current.style.display = "none";

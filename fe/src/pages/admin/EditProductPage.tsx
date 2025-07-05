@@ -94,7 +94,6 @@ const AdminEditProductPage: React.FC = () => {
 
   const handleRemoveExistingImage = (imageUrl: string) => {
     // Logic to remove an existing image - requires backend support
-    console.log("Remove existing image clicked:", imageUrl);
     // You would typically send a request to the backend to remove the image
     // And update the existingImages state upon success
     setExistingImages((prev) => prev.filter((img) => img !== imageUrl));

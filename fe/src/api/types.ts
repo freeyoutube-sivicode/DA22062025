@@ -41,6 +41,7 @@ export interface Product {
   Status: 'active' | 'expired';
   createdAt: string;
   updatedAt: string;
+  Stock?: number;
 }
 
 export interface Category {

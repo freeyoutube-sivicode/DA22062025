@@ -1,25 +1,27 @@
 .customPagination {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 24px 0;
-  background: linear-gradient(135deg, var(--theme-bg-primary) 0%, var(--theme-bg-secondary) 100%);
+  background: transparent;
   border-radius: 16px;
-  box-shadow: 0 8px 32px var(--theme-shadow-light);
+  box-shadow: none;
   margin: 24px 0;
 
   .pagination {
-    :global(.ant-pagination) {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--theme-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    :global(.ant-pagination-total-text) {
+      text-align: center;
+      width: 100%;
+      margin-bottom: 8px;
     }
 
-    // Page numbers
     :global(.ant-pagination-item) {
-      border: 2px solid var(--theme-border-light);
-      background: var(--theme-bg-paper);
+      border: 1px solid var(--theme-border-light);
+      background: #fff;
       border-radius: 12px;
       min-width: 40px;
       height: 40px;
@@ -30,23 +32,23 @@
       font-size: 14px;
       color: var(--theme-text-primary);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px var(--theme-shadow-light);
+      box-shadow: none;
 
       &:hover {
-        border-color: var(--primary-color);
-        background: var(--primary-color);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px var(--theme-shadow);
+        border-color: var(--theme-primary, #059669);
+        color: var(--theme-primary, #059669);
+        background: #fff;
+        transform: none;
+        box-shadow: none;
       }
 
       &:global(.ant-pagination-item-active) {
-        border-color: var(--primary-color);
-        background: var(--primary-color);
-        color: white;
-        box-shadow: 0 8px 24px var(--theme-shadow);
-        transform: translateY(-2px);
+        border-color: var(--theme-primary, #059669);
+        color: var(--theme-primary, #059669);
+        background: #fff;
         font-weight: 700;
+        box-shadow: none;
+        transform: none;
       }
 
       a {
@@ -63,8 +65,8 @@
     // Previous/Next buttons
     :global(.ant-pagination-prev),
     :global(.ant-pagination-next) {
-      border: 2px solid var(--theme-border-light);
-      background: var(--theme-bg-primary);
+      border: 1px solid var(--theme-border-light);
+      background: #fff;
       border-radius: 12px;
       min-width: 40px;
       height: 40px;
@@ -72,29 +74,31 @@
       align-items: center;
       justify-content: center;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px var(--theme-shadow-light);
+      box-shadow: none;
 
       &:hover {
-        border-color: var(--primary-color);
-        background: var(--primary-color);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px var(--theme-shadow);
+        border-color: var(--theme-primary, #059669);
+        color: var(--theme-primary, #059669);
+        background: #fff;
+        transform: none;
+        box-shadow: none;
 
         :global(.ant-pagination-item-link) {
-          color: white;
+          color: var(--theme-primary, #059669);
         }
       }
 
       &:global(.ant-pagination-disabled) {
         opacity: 0.5;
         cursor: not-allowed;
-        background: var(--theme-border-light);
+        background: #f5f5f5;
+        border-color: var(--theme-border-light);
 
         &:hover {
           transform: none;
-          box-shadow: 0 2px 8px var(--theme-shadow-light);
+          box-shadow: none;
           border-color: var(--theme-border-light);
-          background: var(--theme-border-light);
+          background: #f5f5f5;
 
           :global(.ant-pagination-item-link) {
             color: var(--theme-text-muted);
@@ -118,22 +122,14 @@
 
     // Jump to page input
     :global(.ant-pagination-options) {
-      display: none !important; // Ẩn hoàn toàn
-    }
-
-    // Total text
-    :global(.ant-pagination-total-text) {
-      color: var(--theme-text-secondary);
-      font-size: 14px;
-      font-weight: 500;
-      margin-right: 16px;
+      display: none !important;
     }
 
     // Jump prev/next buttons
     :global(.ant-pagination-jump-prev),
     :global(.ant-pagination-jump-next) {
-      border: 2px solid var(--theme-border-light);
-      background: var(--theme-bg-paper);
+      border: 1px solid var(--theme-border-light);
+      background: #fff;
       border-radius: 12px;
       min-width: 40px;
       height: 40px;
@@ -141,16 +137,17 @@
       align-items: center;
       justify-content: center;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px var(--theme-shadow-light);
+      box-shadow: none;
 
       &:hover {
-        border-color: var(--primary-color);
-        background: var(--primary-color);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px var(--theme-shadow);
+        border-color: var(--theme-primary, #059669);
+        color: var(--theme-primary, #059669);
+        background: #fff;
+        transform: none;
+        box-shadow: none;
 
         :global(.ant-pagination-item-link) {
-          color: white;
+          color: var(--theme-primary, #059669);
         }
       }
 
@@ -167,60 +164,16 @@
         background: transparent;
         font-weight: 600;
       }
-
-      // Ẩn text "..." và chỉ hiển thị icon
-      :global(.ant-pagination-item-ellipsis) {
-        display: none !important;
-      }
-
-      // Hiển thị icon dấu 3 chấm
-      :global(.anticon) {
-        font-size: 12px;
-        color: inherit;
-        display: block !important;
-      }
-
-      // Ẩn container nếu có
-      :global(.ant-pagination-item-container) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-      }
-
-      // CSS mạnh hơn cho màu text
-      :global(.ant-pagination-item-link) {
-        color: inherit !important;
-        
-        :global(.anticon) {
-          color: inherit !important;
-        }
-        
-        :global(.ant-pagination-item-link-icon) {
-          color: inherit !important;
-        }
-        
-        :global(.ant-pagination-item-ellipsis) {
-          display: none !important;
-        }
-      }
-
-      // CSS global mạnh hơn
-      :global(.ant-pagination-item-link-icon) {
-        color: var(--theme-text-primary) !important;
-      }
-
-      :global(.ant-pagination-item-ellipsis) {
-        display: none !important;
-      }
-
-      // Đảm bảo icon hiển thị đúng màu
-      :global(.anticon) {
-        color: var(--theme-text-primary) !important;
-      }
     }
   }
+}
+
+:global(.customPagination .pagination .ant-pagination) {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
 }
 
 // Responsive design

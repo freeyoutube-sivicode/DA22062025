@@ -4,9 +4,15 @@ import { toast } from "react-toastify";
 
 interface User {
   _id: string;
-  Username: string;
+  UserName: string;
   Email: string;
+  Phone: string;
+  FullName: string;
+  Address: string;
   Role: string;
+  Status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface AuthContextType {
@@ -19,6 +25,7 @@ interface AuthContextType {
     password: string
   ) => Promise<void>;
   logout: () => void;
+  updateUser: (userData: Partial<User>) => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
 }
@@ -37,9 +44,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const token = localStorage.getItem("token");
         const userId = localStorage.getItem("userId");
+
         if (token && userId) {
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          const response = await axios.get(`/api/nguoi-dung/${userId}`);
+          const response = await axios.get(`/api/users/${userId}`);
           setUser(response.data.data);
         } else {
           localStorage.removeItem("token");
@@ -62,11 +70,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post("/api/nguoi-dung/login", {
+      const response = await axios.post("/api/users/login", {
         UserName: email,
         Password: password,
       });
       const { token, user } = response.data.data;
+
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user._id);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -118,12 +127,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(null);
   };
 
+  const updateUser = (userData: Partial<User>) => {
+    setUser((prevUser) => {
+      if (!prevUser) return null;
+      return { ...prevUser, ...userData } as User;
+    });
+  };
+
   const value = {
     user,
     loading,
     login,
     register,
     logout,
+    updateUser,
     isAuthenticated: !!user,
     isAdmin: user?.Role === "admin",
   };
