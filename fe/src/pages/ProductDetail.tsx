@@ -14,6 +14,7 @@ import {
   Descriptions,
   Card,
 } from "antd";
+import { ROUTERS } from "../utils/constant";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -74,7 +75,7 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleRegisterConsultation = () => {
-    navigate("/dich-vu");
+    navigate(ROUTERS.USER.SERVICE);
   };
 
   // If no valid images are found after filtering, display a fallback or message

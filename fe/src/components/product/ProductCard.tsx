@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Product } from "../../api/types";
 import { formatCurrency } from "../../utils/format";
-import { FaTachometerAlt, FaGasPump, FaCog, FaHeart } from "react-icons/fa";
+import { FaTachometerAlt, FaGasPump, FaCog } from "react-icons/fa";
 import { ROUTERS } from "../../utils/constant";
+import { useFavorites } from "../../contexts/FavoritesContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { notification, Button, Space, Tooltip } from "antd";
+import { HeartOutlined, EyeOutlined } from "@ant-design/icons";
 
 interface ProductCardProps {
   product: Product;
@@ -11,8 +15,11 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const [isHovered, setIsHovered] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
 
   // Responsive breakpoints
   const isMobile = windowWidth <= 768;
@@ -31,6 +38,53 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleRegisterTestDrive = () => {
     navigate("/dat-hen-lai-thu");
+  };
+
+  const isFavorite = favorites.some((fav) => fav.ProductID._id === product._id);
+
+  const handleToggleFavorite = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!user) {
+      notification.warning({
+        message: "Vui lòng đăng nhập",
+        description:
+          "Bạn cần đăng nhập để thêm sản phẩm vào danh sách yêu thích",
+      });
+      return;
+    }
+
+    setIsFavoriteLoading(true);
+    try {
+      if (isFavorite) {
+        const favoriteItem = favorites.find(
+          (fav) => fav.ProductID._id === product._id
+        );
+        if (favoriteItem) {
+          await removeFromFavorites(favoriteItem._id);
+          notification.success({
+            message: "Đã xóa khỏi yêu thích",
+            description: "Sản phẩm đã được xóa khỏi danh sách yêu thích",
+          });
+        }
+      } else {
+        await addToFavorites(product._id);
+        notification.success({
+          message: "Đã thêm vào yêu thích",
+          description: "Sản phẩm đã được thêm vào danh sách yêu thích",
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: "Lỗi",
+        description: isFavorite
+          ? "Không thể xóa sản phẩm khỏi danh sách yêu thích"
+          : "Không thể thêm sản phẩm vào danh sách yêu thích",
+      });
+    } finally {
+      setIsFavoriteLoading(false);
+    }
   };
 
   const unavailable = product.Status === "expired";
@@ -165,6 +219,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     opacity: unavailable ? 0.6 : 1,
   };
 
+  const productActionsStyle: React.CSSProperties = {
+    position: "absolute",
+    top: isMobile ? "8px" : "12px",
+    right: isMobile ? "8px" : "12px",
+    zIndex: 3,
+  };
+
   const handleMouseEnter = () => {
     if (!isMobile) {
       setIsHovered(true);
@@ -212,21 +273,79 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
           {unavailable && <div style={tagStyle}>Hết hàng</div>}
         </Link>
+        <div style={productActionsStyle}>
+          <Space>
+            <Tooltip title="Xem chi tiết">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<EyeOutlined />}
+                size="small"
+                onClick={() => navigate(`/xe/${product._id}`)}
+                style={{
+                  backgroundColor: "#1890ff",
+                  borderColor: "#1890ff",
+                  boxShadow: "0 2px 4px rgba(24, 144, 255, 0.3)",
+                }}
+              />
+            </Tooltip>
+            <Tooltip
+              title={isFavorite ? "Xóa khỏi yêu thích" : "Thêm vào yêu thích"}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<HeartOutlined />}
+                size="small"
+                loading={isFavoriteLoading}
+                onClick={handleToggleFavorite}
+                style={{
+                  backgroundColor: isFavorite ? "#ff4d4f" : "#52c41a",
+                  borderColor: isFavorite ? "#ff4d4f" : "#52c41a",
+                  boxShadow: isFavorite
+                    ? "0 2px 4px rgba(255, 77, 79, 0.3)"
+                    : "0 2px 4px rgba(82, 196, 26, 0.3)",
+                }}
+              />
+            </Tooltip>
+          </Space>
+        </div>
       </div>
 
       <div style={infoStyle}>
-        <Link
-          to={`/xe/${product._id}`}
-          style={titleStyle}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = "#0066B1";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = "#1a1a1a";
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: isMobile ? "8px" : "12px",
           }}
         >
-          {product.Product_Name}
-        </Link>
+          <Link
+            to={`/xe/${product._id}`}
+            style={{
+              ...titleStyle,
+              marginBottom: 0,
+              flex: 1,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = "#0066B1";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = "#1a1a1a";
+            }}
+          >
+            {product.Product_Name}
+          </Link>
+          <HeartOutlined
+            style={{
+              color: isFavorite ? "#ff4d4f" : "#d9d9d9",
+              fontSize: isMobile ? "16px" : "18px",
+              marginLeft: "8px",
+              transition: "color 0.3s ease",
+            }}
+          />
+        </div>
 
         <div style={specsStyle}>
           <span style={specStyle}>

@@ -3,6 +3,7 @@ import { getAllNewsEvents, NewsEvent } from "../api/services/newsEvents";
 import PageBanner from "../components/PageBanner";
 import { usePagination } from "../hooks/usePagination";
 import PaginationWrapper from "../components/PaginationWrapper";
+import { useNavigate } from "react-router-dom";
 
 const NewsPage: React.FC = () => {
   const [newsEvents, setNewsEvents] = useState<NewsEvent[]>([]);
@@ -15,6 +16,8 @@ const NewsPage: React.FC = () => {
     initialPageSize: 10,
     initialTotal: 0,
   });
+
+  const navigate = useNavigate();
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -125,7 +128,14 @@ const NewsPage: React.FC = () => {
                   <p className="news-item__summary">
                     {truncateContent(newsEvent.Content)}
                   </p>
-                  <button className="news-item__btn-more">Xem chi tiết</button>
+                  <button
+                    className="news-item__btn-more"
+                    onClick={() =>
+                      navigate(`/tin-tuc-su-kien/${newsEvent._id}`)
+                    }
+                  >
+                    Xem chi tiết
+                  </button>
                 </div>
               </div>
             ))

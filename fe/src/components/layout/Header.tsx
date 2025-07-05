@@ -64,7 +64,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate(ROUTERS.USER.LOGIN);
     setIsMobileMenuOpen(false);
   };
 
@@ -403,7 +403,7 @@ const Header: React.FC = () => {
               {user ? (
                 <>
                   <Link
-                    to="/profile"
+                    to={ROUTERS.USER.PROFILE}
                     style={authLinkStyle}
                     onMouseEnter={handleAuthLinkHover}
                     onMouseLeave={handleAuthLinkLeave}
@@ -412,7 +412,7 @@ const Header: React.FC = () => {
                   </Link>
                   {user.Role === "admin" && (
                     <Link
-                      to="/admin"
+                      to={ROUTERS.ADMIN.DASHBOARD}
                       style={authLinkStyle}
                       onMouseEnter={handleAuthLinkHover}
                       onMouseLeave={handleAuthLinkLeave}
@@ -432,7 +432,7 @@ const Header: React.FC = () => {
               ) : (
                 <>
                   <Link
-                    to="/login"
+                    to={ROUTERS.USER.LOGIN}
                     style={authLinkStyle}
                     onMouseEnter={handleAuthLinkHover}
                     onMouseLeave={handleAuthLinkLeave}
@@ -440,7 +440,7 @@ const Header: React.FC = () => {
                     Đăng nhập
                   </Link>
                   <Link
-                    to="/register"
+                    to={ROUTERS.USER.REGISTER}
                     style={authLinkStyle}
                     onMouseEnter={handleAuthLinkHover}
                     onMouseLeave={handleAuthLinkLeave}

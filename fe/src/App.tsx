@@ -39,6 +39,7 @@ import ServicePage from "./pages/ServicePage";
 import TestDrivePage from "./pages/TestDrivePage";
 import NewsPage from "./pages/NewsPage";
 import PriceListDetailPage from "./pages/PriceListDetailPage";
+import NewsDetailPage from "./pages/NewsDetailPage";
 import "./styles/main.scss";
 import { ROUTERS } from "./utils/constant";
 
@@ -105,6 +106,14 @@ const App: React.FC = () => {
                     element={
                       <MainLayout>
                         <NewsPage />
+                      </MainLayout>
+                    }
+                  />
+                  <Route
+                    path="/tin-tuc-su-kien/:id"
+                    element={
+                      <MainLayout>
+                        <NewsDetailPage />
                       </MainLayout>
                     }
                   />

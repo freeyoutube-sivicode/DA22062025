@@ -1,6 +1,6 @@
 .favoritesPage {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--theme-bg-primary);
   padding-bottom: 60px;
 }
 
@@ -70,13 +70,14 @@
   position: absolute;
   top: 12px;
   right: 12px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 2;
-}
-
-.productImage:hover .productActions {
   opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  
+  :global(.ant-btn) {
+    z-index: 11;
+    position: relative;
+  }
 }
 
 .productTitle {
@@ -105,6 +106,11 @@
   display: flex;
   justify-content: center;
   margin-top: 8px;
+  
+  :global(.ant-btn) {
+    z-index: 1;
+    position: relative;
+  }
 }
 
 // Responsive
@@ -134,8 +140,13 @@
   }
 
   .productActions {
-    opacity: 1;
     top: 8px;
     right: 8px;
+    z-index: 10;
+    
+    :global(.ant-btn) {
+      z-index: 11;
+      position: relative;
+    }
   }
 } 

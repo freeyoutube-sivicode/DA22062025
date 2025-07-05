@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import PageBanner from "../components/PageBanner";
 import useScrollToTop from "../hooks/useScrollToTop";
 import styles from "./FavoritesPage.module.scss";
+import { ROUTERS } from "../utils/constant";
 
 const { Title, Text } = Typography;
 
@@ -62,7 +63,12 @@ const FavoritesPage: React.FC = () => {
   };
 
   const handleViewProduct = (productId: string) => {
-    navigate(`/xe/${productId}`);
+    navigate(ROUTERS.USER.CARS + "/" + productId);
+  };
+
+  // Helper function để kiểm tra sản phẩm có trong favorites không
+  const isProductFavorite = (productId: string) => {
+    return favorites.some((fav) => fav.ProductID._id === productId);
   };
 
   if (!user) {
@@ -82,7 +88,7 @@ const FavoritesPage: React.FC = () => {
                 <br />
                 <Button
                   type="primary"
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate(ROUTERS.USER.LOGIN)}
                   style={{ marginTop: 16 }}
                 >
                   Đăng nhập
@@ -141,17 +147,30 @@ const FavoritesPage: React.FC = () => {
                                   onClick={() =>
                                     handleViewProduct(item.ProductID._id)
                                   }
+                                  style={{
+                                    backgroundColor: "#1890ff",
+                                    borderColor: "#1890ff",
+                                    boxShadow:
+                                      "0 2px 4px rgba(24, 144, 255, 0.3)",
+                                  }}
                                 />
                               </Tooltip>
                               <Tooltip title="Xóa khỏi yêu thích">
                                 <Button
-                                  type="default"
+                                  type="primary"
                                   shape="circle"
                                   icon={<DeleteOutlined />}
                                   size="small"
                                   loading={removingId === item._id}
                                   onClick={() => handleRemoveFavorite(item._id)}
                                   danger
+                                  style={{
+                                    backgroundColor: "#ff4d4f",
+                                    borderColor: "#ff4d4f",
+                                    boxShadow:
+                                      "0 2px 4px rgba(255, 77, 79, 0.3)",
+                                    marginLeft: 8,
+                                  }}
                                 />
                               </Tooltip>
                             </Space>
@@ -162,9 +181,16 @@ const FavoritesPage: React.FC = () => {
                       <Card.Meta
                         title={
                           <div className={styles.productTitle}>
-                            <Text strong>{item.ProductID.Product_Name}</Text>
+                            <Text strong style={{ margin: 0 }}>
+                              {item.ProductID.Product_Name}
+                            </Text>
                             <HeartOutlined
-                              style={{ color: "#ff4d4f", marginLeft: 8 }}
+                              style={{
+                                color: isProductFavorite(item.ProductID._id)
+                                  ? "#ff4d4f"
+                                  : "#d9d9d9",
+                                marginLeft: 8,
+                              }}
                             />
                           </div>
                         }
@@ -185,14 +211,18 @@ const FavoritesPage: React.FC = () => {
                             <div className={styles.productActions}>
                               <Button
                                 type="primary"
+                                shape="circle"
                                 size="small"
-                                onClick={() =>
-                                  handleViewProduct(item.ProductID._id)
-                                }
-                                icon={<EyeOutlined />}
-                              >
-                                Xem chi tiết
-                              </Button>
+                                danger
+                                loading={removingId === item._id}
+                                onClick={() => handleRemoveFavorite(item._id)}
+                                icon={<DeleteOutlined />}
+                                style={{
+                                  backgroundColor: "#ff4d4f",
+                                  borderColor: "#ff4d4f",
+                                  boxShadow: "0 2px 4px rgba(255, 77, 79, 0.3)",
+                                }}
+                              />
                             </div>
                           </div>
                         }
@@ -212,7 +242,7 @@ const FavoritesPage: React.FC = () => {
                   <br />
                   <Button
                     type="primary"
-                    onClick={() => navigate("/xe")}
+                    onClick={() => navigate(ROUTERS.USER.CARS)}
                     style={{ marginTop: 16 }}
                   >
                     Khám phá sản phẩm

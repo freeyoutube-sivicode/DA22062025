@@ -155,7 +155,8 @@ const LoginPage: React.FC = () => {
           </div>
         </form>
         <p className={styles["login__register-text"]}>
-          Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+          Chưa có tài khoản?{" "}
+          <Link to={ROUTERS.USER.REGISTER}>Đăng ký ngay</Link>
         </p>
       </div>
     </div>

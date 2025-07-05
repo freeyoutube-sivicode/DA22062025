@@ -29,7 +29,7 @@ const PageBanner: React.FC<PageBannerProps> = ({
     >
       <div className={styles.container}>
         <div className={styles.content}>
-          <Title level={1} className={styles.title}>
+          <Title level={1} className={styles.title} style={{ margin: 0 }}>
             {title}
           </Title>
           {subtitle && <Text className={styles.subtitle}>{subtitle}</Text>}

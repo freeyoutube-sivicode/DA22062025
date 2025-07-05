@@ -9,6 +9,7 @@ import {
   Table,
   Tooltip,
   Typography,
+  Space,
 } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ import useScrollToTop from "../hooks/useScrollToTop";
 import { ROUTERS } from "../utils/constant";
 import { formatCurrency } from "../utils/format";
 import "./ProductDetailPage.scss";
+import { HeartOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -40,6 +42,7 @@ const ProductDetailPage: React.FC = () => {
   const [relatedLoading, setRelatedLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -113,6 +116,54 @@ const ProductDetailPage: React.FC = () => {
 
     fetchRelatedProducts();
   }, [product, id]);
+
+  const isFavorite = product
+    ? favorites.some((fav) => fav.ProductID._id === product._id)
+    : false;
+
+  const handleToggleFavorite = async () => {
+    if (!product) return;
+
+    if (!user) {
+      notification.warning({
+        message: "Vui lòng đăng nhập",
+        description:
+          "Bạn cần đăng nhập để thêm sản phẩm vào danh sách yêu thích",
+      });
+      return;
+    }
+
+    setIsFavoriteLoading(true);
+    try {
+      if (isFavorite) {
+        const favoriteItem = favorites.find(
+          (fav) => fav.ProductID._id === product._id
+        );
+        if (favoriteItem) {
+          await removeFromFavorites(favoriteItem._id);
+          notification.success({
+            message: "Đã xóa khỏi yêu thích",
+            description: "Sản phẩm đã được xóa khỏi danh sách yêu thích",
+          });
+        }
+      } else {
+        await addToFavorites(product._id);
+        notification.success({
+          message: "Đã thêm vào yêu thích",
+          description: "Sản phẩm đã được thêm vào danh sách yêu thích",
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: "Lỗi",
+        description: isFavorite
+          ? "Không thể xóa sản phẩm khỏi danh sách yêu thích"
+          : "Không thể thêm sản phẩm vào danh sách yêu thích",
+      });
+    } finally {
+      setIsFavoriteLoading(false);
+    }
+  };
 
   const handleRegisterConsultation = () => {
     navigate(ROUTERS.USER.SERVICE); // Navigate to the services page
@@ -218,9 +269,51 @@ const ProductDetailPage: React.FC = () => {
           {/* Product Info */}
           <div className="product-detail__info">
             <div className="product-detail__info-header">
-              <Title level={2} className="product-detail__info-title">
-                {product.Product_Name}
-              </Title>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  justifyContent: "space-between",
+                  marginBottom: "16px",
+                  gap: "16px",
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <Title
+                    level={2}
+                    className="product-detail__info-title"
+                    style={{ margin: 0 }}
+                  >
+                    {product.Product_Name}
+                  </Title>
+                </div>
+                <Tooltip
+                  title={
+                    isFavorite ? "Xóa khỏi yêu thích" : "Thêm vào yêu thích"
+                  }
+                >
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon={
+                      <HeartOutlined
+                        style={{ color: isFavorite ? "#ff4d4f" : "#d9d9d9" }}
+                      />
+                    }
+                    size="large"
+                    loading={isFavoriteLoading}
+                    onClick={handleToggleFavorite}
+                    style={{
+                      backgroundColor: isFavorite ? "#fff0f0" : "#f6ffed",
+                      borderColor: isFavorite ? "#ff4d4f" : "#52c41a",
+                      boxShadow: isFavorite
+                        ? "0 2px 4px rgba(255, 77, 79, 0.3)"
+                        : "0 2px 4px rgba(82, 196, 26, 0.3)",
+                      flexShrink: 0,
+                    }}
+                  />
+                </Tooltip>
+              </div>
               <div className="product-detail__info-price-container">
                 <Typography.Text strong className="product-detail__info-price">
                   {formatCurrency(product.Price)}
@@ -229,9 +322,6 @@ const ProductDetailPage: React.FC = () => {
             </div>
 
             <div className="product-detail__info-section">
-              <Title level={4} className="product-detail__info-section-title">
-                Thông số kỹ thuật
-              </Title>
               {product.Specifications &&
               Object.keys(product.Specifications).length > 0 ? (
                 <div className="product-detail__specifications">
@@ -298,9 +388,6 @@ const ProductDetailPage: React.FC = () => {
         {/* Description Row */}
         <div className="product-detail__description-row">
           <div className="product-detail__description-section">
-            <Title level={4} className="product-detail__description-title">
-              Mô tả
-            </Title>
             <div className="product-detail__description-content">
               <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
             </div>
@@ -310,9 +397,6 @@ const ProductDetailPage: React.FC = () => {
 
       {/* Related Products Section */}
       <div className="product-detail__related">
-        <Title level={3} className="product-detail__related-main-title">
-          Xe liên quan
-        </Title>
         <Spin spinning={relatedLoading}>
           {relatedProducts.length > 0 ? (
             <Row gutter={[20, 20]}>
@@ -322,7 +406,10 @@ const ProductDetailPage: React.FC = () => {
                     hoverable
                     className="product-detail__related-card"
                     cover={
-                      <div className="product-detail__related-image">
+                      <div
+                        className="product-detail__related-image"
+                        style={{ position: "relative" }}
+                      >
                         <img
                           alt={relatedProduct.Product_Name}
                           src={relatedProduct.Main_Image}
@@ -332,6 +419,71 @@ const ProductDetailPage: React.FC = () => {
                             )
                           }
                         />
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "8px",
+                            right: "8px",
+                            zIndex: 3,
+                          }}
+                        >
+                          <Tooltip
+                            title={
+                              favorites.some(
+                                (fav) =>
+                                  fav.ProductID._id === relatedProduct._id
+                              )
+                                ? "Xóa khỏi yêu thích"
+                                : "Thêm vào yêu thích"
+                            }
+                          >
+                            <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<HeartOutlined />}
+                              size="small"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                // Handle favorite toggle for related product
+                                const isRelatedFavorite = favorites.some(
+                                  (fav) =>
+                                    fav.ProductID._id === relatedProduct._id
+                                );
+                                if (isRelatedFavorite) {
+                                  const favoriteItem = favorites.find(
+                                    (fav) =>
+                                      fav.ProductID._id === relatedProduct._id
+                                  );
+                                  if (favoriteItem) {
+                                    removeFromFavorites(favoriteItem._id);
+                                  }
+                                } else {
+                                  addToFavorites(relatedProduct._id);
+                                }
+                              }}
+                              style={{
+                                backgroundColor: favorites.some(
+                                  (fav) =>
+                                    fav.ProductID._id === relatedProduct._id
+                                )
+                                  ? "#ff4d4f"
+                                  : "#52c41a",
+                                borderColor: favorites.some(
+                                  (fav) =>
+                                    fav.ProductID._id === relatedProduct._id
+                                )
+                                  ? "#ff4d4f"
+                                  : "#52c41a",
+                                boxShadow: favorites.some(
+                                  (fav) =>
+                                    fav.ProductID._id === relatedProduct._id
+                                )
+                                  ? "0 2px 4px rgba(255, 77, 79, 0.3)"
+                                  : "0 2px 4px rgba(82, 196, 26, 0.3)",
+                              }}
+                            />
+                          </Tooltip>
+                        </div>
                       </div>
                     }
                     onClick={() =>

@@ -241,22 +241,29 @@ header:not([class*="header__"]),
   background-color: #ffffff !important; /* White background */
 }
 
-// Simple scrollbar styling (không thay đổi theo theme để tránh lòe loẹt)
+// Hide scrollbar globally
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  display: none;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-  
-  &:hover {
-    background: #a8a8a8;
-  }
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+// Firefox scrollbar hiding
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 // Ensure theme transitions are smooth

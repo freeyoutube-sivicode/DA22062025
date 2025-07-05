@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import LoadingSpinner from "./LoadingSpinner";
+import { ROUTERS } from "../utils/constant";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -22,7 +23,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (!isAuthenticated) {
     // Redirect to login page, saving the current location so the user can be redirected back after login
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return (
+      <Navigate to={ROUTERS.USER.LOGIN} state={{ from: location }} replace />
+    );
   }
 
   if (requireAdmin && !isAdmin) {

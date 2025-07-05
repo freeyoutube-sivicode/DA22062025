@@ -6,6 +6,7 @@ import { authService } from "../api/services/auth";
 import { toast } from "react-toastify";
 import styles from "./RegisterPage.module.scss";
 import { RegisterData } from "../api/types";
+import { ROUTERS } from "../utils/constant";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -309,7 +310,7 @@ const RegisterPage: React.FC = () => {
         </form>
         <p className={styles["register__login-text"]}>
           Đã có tài khoản?{" "}
-          <Link to="/login" className={styles.register__login_link}>
+          <Link to={ROUTERS.USER.LOGIN} className={styles.register__login_link}>
             Đăng nhập ngay
           </Link>
         </p>

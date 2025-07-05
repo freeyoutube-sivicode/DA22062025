@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { productService } from '../../api/services/product';
-import { formatCurrency } from '../../utils/format';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { Product } from '../../api/types';
-import { Typography, Spin, Image as AntdImage, Button, Space, Descriptions, Card } from 'antd';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { productService } from "../../api/services/product";
+import { formatCurrency } from "../../utils/format";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Product } from "../../api/types";
+import {
+  Typography,
+  Spin,
+  Image as AntdImage,
+  Button,
+  Space,
+  Descriptions,
+  Card,
+} from "antd";
+import { ROUTERS } from "../../utils/constant";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -25,7 +34,7 @@ const ProductDetail: React.FC = () => {
           setProduct(productData);
         }
       } catch (err) {
-        setError('Failed to fetch product');
+        setError("Failed to fetch product");
       } finally {
         setLoading(false);
       }
@@ -34,11 +43,20 @@ const ProductDetail: React.FC = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <Spin tip="Đang tải..." size="large" style={{ display: 'block', margin: '50px auto' }} />;
+  if (loading)
+    return (
+      <Spin
+        tip="Đang tải..."
+        size="large"
+        style={{ display: "block", margin: "50px auto" }}
+      />
+    );
   if (error) return <Paragraph type="danger">Lỗi: {error}</Paragraph>;
   if (!product) return <Paragraph>Không tìm thấy sản phẩm.</Paragraph>;
 
-  const allImages = product.List_Image ? [product.Main_Image, ...product.List_Image] : [product.Main_Image];
+  const allImages = product.List_Image
+    ? [product.Main_Image, ...product.List_Image]
+    : [product.Main_Image];
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prev) =>
@@ -53,12 +71,12 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleRegisterConsultation = () => {
-    navigate('/dich-vu');
+    navigate(ROUTERS.USER.SERVICE);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Card style={{ boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+      <Card style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Gallery */}
           <div className="relative">
@@ -92,7 +110,7 @@ const ProductDetail: React.FC = () => {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 ${currentImageIndex === index ? 'border-primary-600' : 'border-transparent'}`}
+                    className={`w-20 h-20 rounded-md overflow-hidden flex-shrink-0 border-2 ${currentImageIndex === index ? "border-primary-600" : "border-transparent"}`}
                   >
                     <img
                       src={image}
@@ -107,29 +125,46 @@ const ProductDetail: React.FC = () => {
 
           {/* Product Info */}
           <div className="flex flex-col">
-            <Title level={2} className="!mt-0 mb-2">{product.Product_Name}</Title>
-            <Text strong className="text-2xl text-primary-600 mb-4">{formatCurrency(product.Price)}</Text>
+            <Title level={2} className="!mt-0 mb-2">
+              {product.Product_Name}
+            </Title>
+            <Text strong className="text-2xl text-primary-600 mb-4">
+              {formatCurrency(product.Price)}
+            </Text>
 
             <div className="mt-8">
-              <Title level={4} className="mb-2">Mô tả</Title>
-              <Paragraph>{product.Description || 'Đang cập nhật...'}</Paragraph>
+              <Title level={4} className="mb-2">
+                Mô tả
+              </Title>
+              <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
             </div>
 
             <div className="mt-8">
-              <Title level={4} className="mb-2">Thông số kỹ thuật</Title>
-              {product.Specifications && Object.keys(product.Specifications).length > 0 ? (
-                 <Descriptions bordered size="small" column={{
+              <Title level={4} className="mb-2">
+                Thông số kỹ thuật
+              </Title>
+              {product.Specifications &&
+              Object.keys(product.Specifications).length > 0 ? (
+                <Descriptions
+                  bordered
+                  size="small"
+                  column={{
                     xs: 1,
                     sm: 1,
                     md: 2,
                     lg: 3,
                     xl: 4,
                     xxl: 4,
-                  }}>
-                   {Object.entries(product.Specifications).map(([key, value]) => (
-                     <Descriptions.Item key={key} label={key}>{String(value)}</Descriptions.Item>
-                   ))}
-                 </Descriptions>
+                  }}
+                >
+                  {Object.entries(product.Specifications).map(
+                    ([key, value]) => (
+                      <Descriptions.Item key={key} label={key}>
+                        {String(value)}
+                      </Descriptions.Item>
+                    )
+                  )}
+                </Descriptions>
               ) : (
                 <Paragraph>Đang cập nhật...</Paragraph>
               )}
@@ -145,7 +180,9 @@ const ProductDetail: React.FC = () => {
                 Đăng ký tư vấn
               </Button>
               {product.Stock !== undefined && (
-                 <Text type="secondary" className="mt-2 block text-right">Còn {product.Stock} sản phẩm</Text>
+                <Text type="secondary" className="mt-2 block text-right">
+                  Còn {product.Stock} sản phẩm
+                </Text>
               )}
             </div>
           </div>
@@ -155,4 +192,4 @@ const ProductDetail: React.FC = () => {
   );
 };
 
-export default ProductDetail; 
+export default ProductDetail;

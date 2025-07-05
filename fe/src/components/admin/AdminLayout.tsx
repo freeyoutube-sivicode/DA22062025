@@ -16,6 +16,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import ThemeController from "../ThemeController";
 import styles from "./AdminLayout.module.css"; // Import CSS module
+import { ROUTERS } from "../../utils/constant";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,7 +29,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate(ROUTERS.USER.LOGIN);
   };
 
   const userMenuItems = [
@@ -68,7 +69,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     {
       key: "dashboard",
       icon: <DashboardOutlined />,
-      label: <Link to="/admin">Dashboard</Link>,
+      label: <Link to={ROUTERS.ADMIN.DASHBOARD}>Dashboard</Link>,
     },
     {
       key: "products",

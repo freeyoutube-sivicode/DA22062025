@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { ROUTERS } from "../utils/constant";
 
 const RegistrationPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -167,7 +168,10 @@ const RegistrationPage: React.FC = () => {
 
           <p className="registration-page__login-text">
             Đã có tài khoản?{" "}
-            <Link to="/login" className="registration-page__login-link">
+            <Link
+              to={ROUTERS.USER.LOGIN}
+              className="registration-page__login-link"
+            >
               Đăng nhập ngay
             </Link>
           </p>
