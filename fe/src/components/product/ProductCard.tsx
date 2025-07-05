@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Product } from "../../api/types";
 import { formatCurrency } from "../../utils/format";
 import { FaTachometerAlt, FaGasPump, FaCog, FaHeart } from "react-icons/fa";
+import { ROUTERS } from "../../utils/constant";
 
 interface ProductCardProps {
   product: Product;
@@ -25,14 +26,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   }, []);
 
   const handleViewDetail = () => {
-    navigate(`/xe/${product._id}`);
+    navigate(`${ROUTERS.USER.CARS}/${product._id}`);
   };
 
   const handleRegisterTestDrive = () => {
     navigate("/dat-hen-lai-thu");
   };
 
-  const unavailable = product.Status === "unavailable";
+  const unavailable = product.Status === "expired";
 
   // Responsive CSS-in-JS Styles
   const cardStyle: React.CSSProperties = {

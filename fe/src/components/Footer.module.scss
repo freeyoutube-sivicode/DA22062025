@@ -261,12 +261,12 @@ $breakpoint-xxl: 1400px;
   
   &:hover {
     background: #0066B1;
-    transform: translateY(-2px);
+
     box-shadow: 0 5px 15px rgba(0, 102, 177, 0.3);
     
     // Reduce hover effect on mobile
     @media (max-width: $breakpoint-md) {
-      transform: translateY(-1px);
+
       box-shadow: 0 3px 10px rgba(0, 102, 177, 0.2);
     }
   }

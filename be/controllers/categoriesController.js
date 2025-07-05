@@ -114,6 +114,7 @@ const getAllCategories = async (req, res) => {
       Category.countDocuments(query)
     ]);
 
+    // Trả về format nhất quán với frontend expectation
     res.json({
       categories,
       pagination: {

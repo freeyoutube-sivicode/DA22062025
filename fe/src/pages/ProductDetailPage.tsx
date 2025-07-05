@@ -1,32 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API_BASE_URL } from "../api/config";
-import { Product } from "../api/types"; // Import Product type
 import {
-  Typography,
-  Spin,
   Image as AntdImage,
-  Descriptions,
-  Space,
   Button,
-  notification,
   Card,
-  Row,
   Col,
+  notification,
+  Row,
+  Spin,
   Table,
   Tooltip,
+  Typography,
 } from "antd";
-import { formatCurrency } from "../utils/format";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
+import { API_BASE_URL } from "../api/config";
+import { Product } from "../api/types"; // Import Product type
 import PageBanner from "../components/PageBanner";
+import { useAuth } from "../contexts/AuthContext";
+import { useFavorites } from "../contexts/FavoritesContext";
+import useScrollToTop from "../hooks/useScrollToTop";
+import { ROUTERS } from "../utils/constant";
+import { formatCurrency } from "../utils/format";
 import "./ProductDetailPage.scss";
 
 const { Title, Paragraph } = Typography;
 
 const ProductDetailPage: React.FC = () => {
+  // Use scroll to top hook
+  useScrollToTop();
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const [product, setProduct] = useState<Product | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +45,9 @@ const ProductDetailPage: React.FC = () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${API_BASE_URL}/xe/${id}`);
+        const response = await axios.get(
+          `${API_BASE_URL}${ROUTERS.USER.CARS}/${id}`
+        );
         // Backend returns data directly, not nested in data.data
         setProduct(response.data.data || response.data);
       } catch (error: any) {
@@ -106,7 +115,7 @@ const ProductDetailPage: React.FC = () => {
   }, [product, id]);
 
   const handleRegisterConsultation = () => {
-    navigate("/dich-vu"); // Navigate to the services page
+    navigate(ROUTERS.USER.SERVICE); // Navigate to the services page
   };
 
   if (loading) {
@@ -127,7 +136,7 @@ const ProductDetailPage: React.FC = () => {
         </Paragraph>
         <Button
           type="primary"
-          onClick={() => navigate("/xe")}
+          onClick={() => navigate(ROUTERS.USER.CARS)}
           style={{ marginTop: 16 }}
         >
           Quay lại danh sách xe
@@ -317,11 +326,17 @@ const ProductDetailPage: React.FC = () => {
                         <img
                           alt={relatedProduct.Product_Name}
                           src={relatedProduct.Main_Image}
-                          onClick={() => navigate(`/xe/${relatedProduct._id}`)}
+                          onClick={() =>
+                            navigate(
+                              `${ROUTERS.USER.CARS}/${relatedProduct._id}`
+                            )
+                          }
                         />
                       </div>
                     }
-                    onClick={() => navigate(`/xe/${relatedProduct._id}`)}
+                    onClick={() =>
+                      navigate(`${ROUTERS.USER.CARS}/${relatedProduct._id}`)
+                    }
                   >
                     <Card.Meta
                       title={

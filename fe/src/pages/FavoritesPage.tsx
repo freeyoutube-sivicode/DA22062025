@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Row,
@@ -21,14 +21,18 @@ import { useAuth } from "../contexts/AuthContext";
 import { useFavorites } from "../contexts/FavoritesContext";
 import { useNavigate } from "react-router-dom";
 import PageBanner from "../components/PageBanner";
+import useScrollToTop from "../hooks/useScrollToTop";
 import styles from "./FavoritesPage.module.scss";
 
 const { Title, Text } = Typography;
 
 const FavoritesPage: React.FC = () => {
+  // Use scroll to top hook
+  useScrollToTop();
+
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { favorites, removeFromFavorites, loading } = useFavorites();
-  const navigate = useNavigate();
   const [removingId, setRemovingId] = useState<string | null>(null);
 
   const handleRemoveFavorite = async (itemId: string) => {

@@ -31,7 +31,7 @@ export interface Product {
 // Category Types
 export interface Category {
   _id: string;
-  Name: string;
+  Category_Name: string;
   Description?: string;
   createdAt: string;
   updatedAt: string;

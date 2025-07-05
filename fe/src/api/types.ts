@@ -45,7 +45,7 @@ export interface Product {
 
 export interface Category {
   _id: string;
-  Name: string;
+  Category_Name: string;
   Description: string;
   Status: 'active' | 'inactive';
   createdAt: string;

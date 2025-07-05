@@ -37,6 +37,7 @@ import TestDrivePage from "./pages/TestDrivePage";
 import NewsPage from "./pages/NewsPage";
 import PriceListDetailPage from "./pages/PriceListDetailPage";
 import "./styles/main.scss";
+import { ROUTERS } from "./utils/constant";
 
 const App: React.FC = () => {
   return (
@@ -64,10 +65,13 @@ const App: React.FC = () => {
                       </MainLayout>
                     }
                   />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path={ROUTERS.USER.LOGIN} element={<LoginPage />} />
                   <Route
-                    path="/xe"
+                    path={ROUTERS.USER.REGISTER}
+                    element={<RegisterPage />}
+                  />
+                  <Route
+                    path={ROUTERS.USER.CARS}
                     element={
                       <MainLayout>
                         <PublicProductListPage />
@@ -75,7 +79,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/xe/:id"
+                    path={ROUTERS.USER.CARS_DETAIL}
                     element={
                       <MainLayout>
                         <ProductDetailPage />
@@ -83,7 +87,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/tin-tuc"
+                    path={ROUTERS.USER.NEWS}
                     element={
                       <MainLayout>
                         <NewsPage />
@@ -91,7 +95,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/dich-vu"
+                    path={ROUTERS.USER.SERVICE}
                     element={
                       <MainLayout>
                         <ServicePage />
@@ -99,7 +103,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/lai-thu"
+                    path={ROUTERS.USER.TEST_DRIVE}
                     element={
                       <MainLayout>
                         <TestDrivePage />
@@ -107,7 +111,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/bang-gia"
+                    path={ROUTERS.USER.PRICE_LIST}
                     element={
                       <MainLayout>
                         <PriceListPage />
@@ -115,7 +119,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/bang-gia/:id"
+                    path={ROUTERS.USER.PRICE_LIST_DETAIL}
                     element={
                       <MainLayout>
                         <PriceListDetailPage />
@@ -125,7 +129,7 @@ const App: React.FC = () => {
 
                   {/* Protected Routes */}
                   <Route
-                    path="/yeu-thich"
+                    path={ROUTERS.USER.FAVORITES}
                     element={
                       <ProtectedRoute>
                         <MainLayout>
@@ -135,7 +139,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/profile"
+                    path={ROUTERS.USER.PROFILE}
                     element={
                       <ProtectedRoute>
                         <MainLayout>
@@ -147,7 +151,7 @@ const App: React.FC = () => {
 
                   {/* Admin Routes */}
                   <Route
-                    path="/admin"
+                    path={ROUTERS.ADMIN.DASHBOARD}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -157,7 +161,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/products"
+                    path={ROUTERS.ADMIN.PRODUCTS}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -167,7 +171,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/products/add"
+                    path={ROUTERS.ADMIN.PRODUCTS_ADD}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -177,7 +181,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/products/edit/:id"
+                    path={ROUTERS.ADMIN.PRODUCTS_EDIT}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -187,7 +191,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/orders"
+                    path={ROUTERS.ADMIN.ORDERS}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -197,7 +201,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/orders/:id"
+                    path={ROUTERS.ADMIN.ORDERS_DETAIL}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -207,7 +211,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/users"
+                    path={ROUTERS.ADMIN.USERS}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -217,7 +221,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/categories"
+                    path={ROUTERS.ADMIN.CATEGORIES}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -227,7 +231,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/services"
+                    path={ROUTERS.ADMIN.SERVICES}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
@@ -237,7 +241,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/admin/test-drive-bookings"
+                    path={ROUTERS.ADMIN.TEST_DRIVE_BOOKINGS}
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>

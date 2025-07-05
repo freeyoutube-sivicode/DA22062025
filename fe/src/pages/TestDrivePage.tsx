@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import { message } from "antd";
+import axios from "axios";
+import { useState } from "react";
 import {
   FaCar,
-  FaUserTie,
-  FaRoute,
+  FaComments,
   FaEdit,
   FaPhone,
-  FaComments,
+  FaRoute,
+  FaUserTie,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { message } from "antd";
 import { API_BASE_URL } from "../api/config";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 const TestDrivePage = () => {
+  // Use scroll to top hook
+  useScrollToTop();
+
   const [formData, setFormData] = useState({
     FullName: "",
     Email: "",
@@ -167,8 +171,18 @@ const TestDrivePage = () => {
                   giải đáp mọi thắc mắc.
                 </p>
 
+                <div className="test-drive-info__benefits-header">
+                  <h3 className="test-drive-info__benefits-title">
+                    3 Ưu Điểm Nổi Bật
+                  </h3>
+                  <p className="test-drive-info__benefits-subtitle">
+                    Những lợi ích bạn sẽ nhận được khi lái thử BMW
+                  </p>
+                </div>
+
                 <div className="test-drive-info__benefits">
                   <div className="test-drive-info__benefit-item">
+                    <div className="test-drive-info__benefit-number">1</div>
                     <div className="test-drive-info__benefit-icon">
                       <FaCar />
                     </div>
@@ -184,6 +198,7 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-info__benefit-item">
+                    <div className="test-drive-info__benefit-number">2</div>
                     <div className="test-drive-info__benefit-icon">
                       <FaUserTie />
                     </div>
@@ -199,6 +214,7 @@ const TestDrivePage = () => {
                   </div>
 
                   <div className="test-drive-info__benefit-item">
+                    <div className="test-drive-info__benefit-number">3</div>
                     <div className="test-drive-info__benefit-icon">
                       <FaRoute />
                     </div>
@@ -415,50 +431,59 @@ const TestDrivePage = () => {
       {/* Test Drive Process */}
       <section className="test-drive-process">
         <div className="test-drive-process__container">
-          <h2 className="test-drive-process__title">QUY TRÌNH LÁI THỬ</h2>
+          <div className="test-drive-process__header">
+            <h2 className="test-drive-process__title">Quy trình lái thử BMW</h2>
+            <p className="test-drive-process__subtitle">
+              4 bước đơn giản để trải nghiệm xe BMW của bạn
+            </p>
+          </div>
 
-          <div className="test-drive-process__steps">
-            <div className="test-drive-process__step">
-              <div className="test-drive-process__step-number">1</div>
-              <div className="test-drive-process__step-icon">
+          <div className="test-drive-process__grid">
+            <div className="test-drive-process__card">
+              <div className="test-drive-process__card-number">1</div>
+              <div className="test-drive-process__card-icon">
                 <FaEdit />
               </div>
-              <h3 className="test-drive-process__step-title">Đăng ký</h3>
-              <p className="test-drive-process__step-description">
-                Điền thông tin vào form đăng ký lái thử trên website.
+              <h3 className="test-drive-process__card-title">Đăng ký online</h3>
+              <p className="test-drive-process__card-description">
+                Điền thông tin cá nhân và chọn mẫu xe BMW bạn muốn trải nghiệm
               </p>
             </div>
 
-            <div className="test-drive-process__step">
-              <div className="test-drive-process__step-number">2</div>
-              <div className="test-drive-process__step-icon">
+            <div className="test-drive-process__card">
+              <div className="test-drive-process__card-number">2</div>
+              <div className="test-drive-process__card-icon">
                 <FaPhone />
               </div>
-              <h3 className="test-drive-process__step-title">Xác nhận</h3>
-              <p className="test-drive-process__step-description">
-                Nhân viên BMW sẽ liên hệ để xác nhận lịch lái thử.
+              <h3 className="test-drive-process__card-title">
+                Xác nhận lịch hẹn
+              </h3>
+              <p className="test-drive-process__card-description">
+                Nhân viên BMW sẽ liên hệ xác nhận và sắp xếp lịch phù hợp
               </p>
             </div>
 
-            <div className="test-drive-process__step">
-              <div className="test-drive-process__step-number">3</div>
-              <div className="test-drive-process__step-icon">
+            <div className="test-drive-process__card">
+              <div className="test-drive-process__card-number">3</div>
+              <div className="test-drive-process__card-icon">
                 <FaCar />
               </div>
-              <h3 className="test-drive-process__step-title">Lái thử</h3>
-              <p className="test-drive-process__step-description">
-                Đến showroom theo lịch hẹn và trải nghiệm lái thử xe.
+              <h3 className="test-drive-process__card-title">
+                Trải nghiệm lái thử
+              </h3>
+              <p className="test-drive-process__card-description">
+                Đến showroom và trải nghiệm cảm giác lái BMW thực tế
               </p>
             </div>
 
-            <div className="test-drive-process__step">
-              <div className="test-drive-process__step-number">4</div>
-              <div className="test-drive-process__step-icon">
+            <div className="test-drive-process__card">
+              <div className="test-drive-process__card-number">4</div>
+              <div className="test-drive-process__card-icon">
                 <FaComments />
               </div>
-              <h3 className="test-drive-process__step-title">Tư vấn</h3>
-              <p className="test-drive-process__step-description">
-                Nhận tư vấn chi tiết về xe và các chương trình ưu đãi.
+              <h3 className="test-drive-process__card-title">Tư vấn mua xe</h3>
+              <p className="test-drive-process__card-description">
+                Nhận tư vấn về xe và các chương trình ưu đãi từ BMW
               </p>
             </div>
           </div>

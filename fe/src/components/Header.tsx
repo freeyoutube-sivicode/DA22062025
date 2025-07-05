@@ -6,6 +6,7 @@ import { RootState } from "../store";
 import { logout } from "../store/slices/authSlice";
 import { authService } from "../api/services/auth";
 import styles from "./Header.module.css"; // Import CSS module
+import { ROUTERS } from "../utils/constant";
 
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -48,19 +49,19 @@ const Header: React.FC = () => {
 
         {/* Desktop Navigation */}
         <nav className={styles.headerNavDesktop}>
-          <Link to="/xe" className={styles.headerNavLink}>
+          <Link to={ROUTERS.USER.CARS} className={styles.headerNavLink}>
             Xe
           </Link>
-          <Link to="/bang-gia" className={styles.headerNavLink}>
+          <Link to={ROUTERS.USER.PRICE_LIST} className={styles.headerNavLink}>
             Bảng giá
           </Link>
-          <Link to="/dich-vu" className={styles.headerNavLink}>
+          <Link to={ROUTERS.USER.SERVICE} className={styles.headerNavLink}>
             Dịch vụ
           </Link>
-          <Link to="/dat-hen-lai-thu" className={styles.headerNavLink}>
+          <Link to={ROUTERS.USER.TEST_DRIVE} className={styles.headerNavLink}>
             Lái thử
           </Link>
-          <Link to="/tin-tuc" className={styles.headerNavLink}>
+          <Link to={ROUTERS.USER.NEWS} className={styles.headerNavLink}>
             Tin tức
           </Link>
         </nav>
@@ -88,7 +89,10 @@ const Header: React.FC = () => {
           <div className={styles.headerAuth}>
             {user ? (
               <div className={styles.headerProfile}>
-                <Link to="/profile" className={styles.headerNavLink}>
+                <Link
+                  to={ROUTERS.USER.PROFILE}
+                  className={styles.headerNavLink}
+                >
                   {user.UserName}
                 </Link>
                 <button onClick={handleLogout} className={styles.headerNavLink}>
@@ -97,10 +101,13 @@ const Header: React.FC = () => {
               </div>
             ) : (
               <div className={styles.headerAuthLinks}>
-                <Link to="/login" className={styles.headerNavLink}>
+                <Link to={ROUTERS.USER.LOGIN} className={styles.headerNavLink}>
                   Đăng nhập
                 </Link>
-                <Link to="/register" className={styles.headerNavLink}>
+                <Link
+                  to={ROUTERS.USER.REGISTER}
+                  className={styles.headerNavLink}
+                >
                   Đăng ký
                 </Link>
               </div>
@@ -131,35 +138,35 @@ const Header: React.FC = () => {
           </div>
           <nav className={styles.headerMobileMenuNav}>
             <Link
-              to="/xe"
+              to={ROUTERS.USER.CARS}
               className={styles.headerMobileNavLink}
               onClick={toggleMobileMenu}
             >
               Xe
             </Link>
             <Link
-              to="/bang-gia"
+              to={ROUTERS.USER.PRICE_LIST}
               className={styles.headerMobileNavLink}
               onClick={toggleMobileMenu}
             >
               Bảng giá
             </Link>
             <Link
-              to="/dich-vu"
+              to={ROUTERS.USER.SERVICE}
               className={styles.headerMobileNavLink}
               onClick={toggleMobileMenu}
             >
               Dịch vụ
             </Link>
             <Link
-              to="/dat-hen-lai-thu"
+              to={ROUTERS.USER.TEST_DRIVE}
               className={styles.headerMobileNavLink}
               onClick={toggleMobileMenu}
             >
               Lái thử
             </Link>
             <Link
-              to="/tin-tuc"
+              to={ROUTERS.USER.NEWS}
               className={styles.headerMobileNavLink}
               onClick={toggleMobileMenu}
             >
@@ -170,7 +177,7 @@ const Header: React.FC = () => {
             {user ? (
               <>
                 <Link
-                  to="/profile"
+                  to={ROUTERS.USER.PROFILE}
                   className={styles.headerMobileNavLink}
                   onClick={toggleMobileMenu}
                 >
@@ -189,14 +196,14 @@ const Header: React.FC = () => {
             ) : (
               <>
                 <Link
-                  to="/login"
+                  to={ROUTERS.USER.LOGIN}
                   className={styles.headerMobileNavLink}
                   onClick={toggleMobileMenu}
                 >
                   Đăng nhập
                 </Link>
                 <Link
-                  to="/register"
+                  to={ROUTERS.USER.REGISTER}
                   className={styles.headerMobileNavLink}
                   onClick={toggleMobileMenu}
                 >

@@ -86,6 +86,7 @@
   letter-spacing: 2px;
   position: relative;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 
   &::after {
     content: '';
@@ -117,6 +118,7 @@
   letter-spacing: 1px;
   position: relative;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 
   &::after {
     content: '';
@@ -143,7 +145,7 @@
 .footerLink {
   color: #ffffff;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   padding: 0.5rem 0;
   opacity: 0.95;
   font-size: 14px;
@@ -158,26 +160,9 @@
   &:hover {
     color: #ffffff;
     opacity: 1;
-    transform: translateX(4px);
     background-color: rgba(255, 255, 255, 0.15);
     padding-left: 0.75rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 2px;
-    background-color: #ffffff;
-    transition: width 0.3s ease;
-  }
-
-  &:hover::before {
-    width: 4px;
   }
 }
 
@@ -185,12 +170,12 @@
   color: #ffffff;
   font-size: 0.9rem;
   flex-shrink: 0;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .footerLink:hover .linkIcon {
-  transform: scale(1.2);
+  color: #ffffff;
 }
 
 .footerContactSection {
@@ -224,15 +209,13 @@
   font-size: 14px;
   padding: 1rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
   background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-color: #ffffff;
   }
 }
@@ -244,12 +227,12 @@
   flex-shrink: 0;
   width: 1.5rem;
   text-align: center;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .footerContactItem:hover .footerIcon {
-  transform: scale(1.2);
+  color: #ffffff;
 }
 
 .contactLabel {
@@ -305,8 +288,8 @@
   }
 
   &:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+
+    
     background: rgba(255, 255, 255, 0.25);
     border-color: #ffffff;
 
@@ -389,35 +372,7 @@
   }
 }
 
-// Animation for footer appearance
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.bmwFooterContainer {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.footer {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-// Staggered animation for footer columns
-.footerColumn {
-  animation: fadeInUp 0.8s ease-out;
-  
-  &:nth-child(1) { animation-delay: 0.1s; }
-  &:nth-child(2) { animation-delay: 0.2s; }
-  &:nth-child(3) { animation-delay: 0.3s; }
-  &:nth-child(4) { animation-delay: 0.4s; }
-}
+// Removed scroll animations - cleaner footer without animation effects
 
 // Responsive adjustments
 @media (max-width: $breakpoint-sm) {

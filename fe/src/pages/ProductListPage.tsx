@@ -12,11 +12,8 @@ import {
   Col,
   Drawer,
   Empty,
-  Input,
   notification,
-  Progress,
   Row,
-  Select,
   Skeleton,
   Slider,
   Space,
@@ -27,18 +24,18 @@ import {
 } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api/config";
 import { Product } from "../api/types";
 import PageBanner from "../components/PageBanner";
 import { PaginationWrapper, usePagination } from "../components/pagination";
 import { useAuth } from "../contexts/AuthContext";
 import { useFavorites } from "../contexts/FavoritesContext";
+import useScrollToTop from "../hooks/useScrollToTop";
+import { ROUTERS } from "../utils/constant";
 import styles from "./ProductListPage.module.scss";
-import { Link, useNavigate } from "react-router-dom";
 
-const { Title, Text } = Typography;
-const { Option } = Select;
-const { Search } = Input;
+const { Text } = Typography;
 
 interface Category {
   _id: string;
@@ -73,6 +70,8 @@ const ProductListPage: React.FC = () => {
   const { user } = useAuth();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const navigate = useNavigate();
+  const location = useLocation();
+  const scrollToTop = useScrollToTop();
 
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -506,7 +505,7 @@ const ProductListPage: React.FC = () => {
                   {products.map((product) => (
                     <Col xs={24} sm={12} md={8} key={product._id}>
                       <Link
-                        to={`/xe/${product._id}`}
+                        to={`${ROUTERS.USER.CARS}/${product._id}`}
                         style={{ textDecoration: "none" }}
                       >
                         <Card
@@ -529,7 +528,9 @@ const ProductListPage: React.FC = () => {
                                       size="small"
                                       onClick={(e) => {
                                         e.preventDefault();
-                                        navigate(`/xe/${product._id}`);
+                                        navigate(
+                                          `${ROUTERS.USER.CARS}/${product._id}`
+                                        );
                                       }}
                                     />
                                   </Tooltip>

@@ -47,6 +47,8 @@ $breakpoint-xl: 1200px;
 html {
   box-sizing: border-box;
   font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 *, *:before, *:after {
@@ -57,6 +59,9 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
   margin: 0;
   padding: 0;
   font-weight: normal;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  position: relative;
 }
 
 ol, ul {
@@ -1156,35 +1161,144 @@ body {
       line-height: 1.6;
     }
 
+    &__benefits-header {
+      margin-top: $spacing-xl;
+      margin-bottom: $spacing-xl;
+      text-align: center;
+    }
+
+    &__benefits-title {
+      font-size: $font-size-xlarge;
+      font-weight: 700;
+      color: $color-text;
+      margin-bottom: $spacing-sm;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-large;
+      }
+    }
+
+    &__benefits-subtitle {
+      font-size: $font-size-base;
+      color: $color-text-light;
+      margin: 0;
+      font-weight: 400;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-small;
+      }
+    }
+
     &__benefits {
       margin-top: $spacing-lg;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-lg;
 
-      .benefit-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: $spacing-md;
+      @media (max-width: $breakpoint-md) {
         gap: $spacing-md;
+      }
+    }
 
-        &__icon {
-          font-size: $font-size-xlarge;
-          color: $color-primary;
-          flex-shrink: 0;
-        }
+    &__benefit-item {
+      background: white;
+      border-radius: 16px;
+      padding: $spacing-xl;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-md;
+      transition: $transition-base;
 
+      @media (max-width: $breakpoint-md) {
+        padding: $spacing-lg;
+      }
 
-        &__title {
-          font-size: $font-size-large;
-          font-weight: 700;
-          margin-bottom: $spacing-xs;
-          color: $color-text;
-        }
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+    }
 
-        &__description {
-          font-size: $font-size-base;
-          color: $color-text-light;
-          line-height: 1.5;
-          margin-bottom: 0;
-        }
+    &__benefit-number {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+      z-index: 1;
+      border: 2px solid white;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+      }
+
+      @media (max-width: $breakpoint-md) {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        top: 12px;
+        right: 12px;
+      }
+    }
+
+    &__benefit-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(13, 58, 118, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-primary;
+      font-size: 32px;
+      flex-shrink: 0;
+      margin-top: 10px;
+
+      @media (max-width: $breakpoint-md) {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+      }
+    }
+
+    &__benefit-content {
+      flex: 1;
+      margin-top: 10px;
+    }
+
+    &__benefit-title {
+      font-size: $font-size-large;
+      font-weight: 700;
+      margin-bottom: $spacing-sm;
+      color: $color-text;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-base;
+      }
+    }
+
+    &__benefit-description {
+      font-size: $font-size-base;
+      color: $color-text-light;
+      line-height: 1.6;
+      margin: 0;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-small;
       }
     }
   }
@@ -1277,7 +1391,7 @@ body {
 
   .test-drive-process {
     padding: $spacing-xxl 0;
-    background-color: $color-background-light;
+    background: #ffffff;
 
     &__container {
       max-width: 1200px;
@@ -1285,51 +1399,137 @@ body {
       padding: 0 $spacing-md;
     }
 
-    &__title {
+    &__header {
       text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-xl;
-      color: $color-text;
+      margin-bottom: $spacing-xxl;
     }
 
-    &__steps {
+    &__title {
+      font-size: $font-size-xxlarge;
+      font-weight: 700;
+      margin-bottom: $spacing-md;
+      color: $color-text;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-xlarge;
+      }
+    }
+
+    &__subtitle {
+      font-size: $font-size-large;
+      color: $color-text-light;
+      font-weight: 400;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-base;
+      }
+    }
+
+    &__grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: $spacing-lg;
+      
+      @media (max-width: $breakpoint-lg) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      @media (max-width: $breakpoint-md) {
+        grid-template-columns: 1fr;
+        gap: $spacing-lg;
+      }
+    }
+
+    &__card {
+      background: white;
+      border-radius: 16px;
+      padding: $spacing-xl;
       text-align: center;
+      position: relative;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      
+      @media (max-width: $breakpoint-md) {
+        padding: $spacing-lg;
+      }
+    }
 
-      .test-drive-process__step {
-        padding: $spacing-md;
-        background-color: $color-background;
-        border-radius: $border-radius;
-        box-shadow: $shadow;
+    &__card-number {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(13, 58, 118, 0.3);
+    }
 
-        &__number {
-          font-size: $font-size-xxlarge;
-          font-weight: 700;
-          color: $color-primary;
-          margin-bottom: $spacing-sm;
-        }
+    &__card-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(13, 58, 118, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto $spacing-md;
+      color: $color-primary;
+      font-size: 32px;
+      
+      @media (max-width: $breakpoint-md) {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+      }
+    }
 
-        &__icon {
-          font-size: $font-size-xlarge;
-          color: $color-primary;
-          margin-bottom: $spacing-sm;
-        }
+    &__card-title {
+      font-size: $font-size-large;
+      font-weight: 700;
+      margin-bottom: $spacing-md;
+      color: $color-text;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-base;
+      }
+    }
 
-        &__title {
-          font-size: $font-size-large;
-          font-weight: 700;
-          margin-bottom: $spacing-sm;
-          color: $color-text;
-        }
+    &__card-description {
+      font-size: $font-size-base;
+      color: $color-text-light;
+      line-height: 1.6;
+      margin: 0;
+      
+      @media (max-width: $breakpoint-md) {
+        font-size: $font-size-small;
+      }
+    }
 
-        &__desc {
-          font-size: $font-size-base;
-          color: $color-text-light;
-          line-height: 1.5;
-        }
+    @media (max-width: $breakpoint-md) {
+      padding: $spacing-xl 0;
+      
+      &__header {
+        margin-bottom: $spacing-xl;
+      }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      padding: $spacing-lg 0;
+      
+      &__container {
+        padding: 0 $spacing-sm;
+      }
+      
+      &__header {
+        margin-bottom: $spacing-lg;
       }
     }
   }
@@ -1355,1220 +1555,11 @@ body {
       font-size: $font-size-xxlarge;
       font-weight: 700;
       margin-bottom: $spacing-sm;
-    }
+    } 
 
     &__subtitle {
       font-size: $font-size-large;
       font-weight: 300;
-    }
-  }
-
-  .product-list-section {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-  }
-
-  .product-categories-tabs {
-    display: flex;
-    justify-content: center;
-    gap: $spacing-md;
-    margin-bottom: $spacing-lg;
-    border-bottom: 1px solid $color-border;
-
-    &__tab {
-      padding: $spacing-sm $spacing-md;
-      font-size: $font-size-base;
-      font-weight: 500;
-      color: $color-text;
-      transition: $transition-base;
-      position: relative;
-
-      &:hover {
-        color: $color-primary;
-      }
-
-      &--active {
-        color: $color-primary;
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -1px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background-color: $color-primary;
-        }
-      }
-    }
-  }
-
-  .product-filter-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: $spacing-xl;
-
-    @media (max-width: $breakpoint-md) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: $spacing-md;
-    }
-
-    &__sort-by {
-      display: flex;
-      align-items: center;
-      gap: $spacing-sm;
-    }
-
-    &__select {
-      padding: $spacing-xs $spacing-sm;
-      border: 1px solid $color-border;
-      border-radius: $border-radius-sm;
-      font-size: $font-size-base;
-    }
-
-    &__view {
-      display: flex;
-      align-items: center;
-      gap: $spacing-sm;
-
-      span {
-        font-size: $font-size-base;
-        color: $color-text-light;
-      }
-    }
-
-    &__view-btn {
-      width: 30px;
-      height: 30px;
-      border: 1px solid $color-border;
-      border-radius: $border-radius-sm;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $color-text;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: $color-primary;
-        color: $color-background;
-        border-color: $color-primary;
-      }
-
-      &--active {
-        background-color: $color-primary;
-        color: $color-background;
-        border-color: $color-primary;
-      }
-    }
-  }
-
-  .product-items {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); // Default 3 columns on large screens
-    gap: $spacing-xl; // Using larger spacing consistent with homepage
-
-    @media (max-width: $breakpoint-lg) {
-      grid-template-columns: repeat(2, 1fr); // 2 columns on medium screens
-      gap: $spacing-lg; // Adjust gap for medium screens
-    }
-
-    @media (max-width: $breakpoint-md) {
-      grid-template-columns: 1fr; // 1 column on small screens
-      gap: $spacing-md; // Adjust gap for small screens
-    }
-
-    &--list-view {
-      grid-template-columns: 1fr;
-      gap: $spacing-md; // Adjust gap for list view
-
-      .product-card {
-        flex-direction: row;
-
-        &__image {
-          flex-basis: 200px;
-          flex-shrink: 0;
-        }
-
-        &__info {
-          flex-grow: 1;
-        }
-
-        &__specs {
-          flex-direction: column;
-          align-items: flex-start;
-
-          .product-card__spec {
-            margin-right: 0;
-            margin-bottom: $spacing-xs;
-          }
-        }
-
-        &__actions {
-          flex-direction: row;
-          gap: $spacing-md;
-        }
-      }
-    }
-  }
-
-  .product-card {
-    background-color: $color-background;
-    border-radius: $border-radius;
-    overflow: hidden;
-    box-shadow: $shadow;
-    transition: $transition-base;
-    display: flex;
-    flex-direction: column;
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: $shadow-lg;
-    }
-
-    &__image {
-      position: relative;
-      width: 100%;
-      height: 200px; // Adjusted height
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    &__tags {
-      position: absolute;
-      top: $spacing-sm;
-      right: $spacing-sm;
-      display: flex;
-      gap: $spacing-xs;
-    }
-
-    &__tag {
-      background-color: $color-primary; // Default tag color
-      color: $color-background;
-      padding: $spacing-xs $spacing-sm;
-      border-radius: $border-radius-sm;
-      font-size: $font-size-small;
-      font-weight: 500;
-
-      // Example colors based on your previous data/image
-      &--mới { background-color: #3498db; } // Blue
-      &--luxury { background-color: #a77737; } // Gold/Brown
-      &--bán-chạy { background-color: #f39c12; } // Orange
-      &--performance { background-color: #e74c3c; } // Red
-      &--electric { background-color: #2ecc71; } // Green
-    }
-
-    &__info {
-      padding: $spacing-md; // Padding inside the info section
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    &__title {
-      font-size: $font-size-large; // Adjusted font size
-      font-weight: 700; // Bold font weight
-      margin-bottom: $spacing-sm; // Space below title
-      color: $color-text;
-    }
-
-    &__specs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: $spacing-sm; // Space between specs
-      margin-bottom: $spacing-md; // Space below specs
-      font-size: $font-size-base; // Adjusted font size for specs
-      color: $color-text-light; // Lighter color for specs
-      align-items: center; // Vertically align items
-
-      .product-card__spec {
-         display: flex;
-         align-items: center;
-         gap: $spacing-xs; // Space between icon and text
-
-          i {
-            color: $color-primary; // Icon color
-            font-size: $font-size-small; // Icon size
-          }
-      }
-    }
-
-    &__price {
-      font-size: $font-size-large; // Adjusted font size
-      font-weight: 600; // Semi-bold font weight
-      color: $color-primary; // Primary color for price
-      margin-top: auto; // Push price to the bottom
-    }
-
-    &__actions {
-      display: flex;
-      gap: $spacing-md; // Space between buttons
-      margin-top: $spacing-md; // Space above buttons
-      
-      a {
-        display: inline-block;
-        padding: $spacing-sm $spacing-md; // Padding for buttons
-        border-radius: $border-radius-sm; // Border radius for buttons
-        font-size: $font-size-base; // Font size for buttons
-        transition: $transition-base; // Transition for hover effects
-        text-align: center;
-        flex-grow: 1; // Allow buttons to grow to fill space
-
-        &.product-card__btn-detail {
-          background-color: $color-secondary; // Dark background for detail button
-          color: $color-background; // White text color
-          border: 1px solid $color-secondary; // Border matching background
-
-          &:hover {
-            background-color: var(--theme-secondary-light, #{$static-secondary-light});
-            border-color: var(--theme-secondary-light, #{$static-secondary-light});
-          }
-        }
-
-        &.product-card__btn-test-drive {
-          background-color: $color-background; // White background for test drive button
-          color: $color-text; // Dark text color
-          border: 1px solid $color-border; // Border color
-
-          &:hover {
-             border-color: $color-text;
-             color: $color-text;
-          }
-        }
-      }
-    }
-  }
-
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: $spacing-sm;
-    margin-top: $spacing-xl;
-
-    &__btn,
-    &__link {
-      padding: $spacing-sm $spacing-md;
-      border: 1px solid $color-border;
-      border-radius: $border-radius-sm;
-      color: $color-text;
-      transition: $transition-base;
-
-      &:hover:not(:disabled) {
-        background-color: $color-primary;
-        color: $color-background;
-        border-color: $color-primary;
-      }
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-    }
-
-    &__link--active {
-      background-color: $color-primary;
-      color: $color-background;
-      border-color: $color-primary;
-    }
-  }
-
-  .featured-product-section {
-    background-color: $color-background-light;
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__row {
-      display: flex;
-      align-items: center;
-      gap: $spacing-xl;
-
-      @media (max-width: $breakpoint-lg) {
-        flex-direction: column;
-      }
-    }
-
-    &__col {
-      flex: 1;
-    }
-
-    &__content {
-      @media (max-width: $breakpoint-lg) {
-        text-align: center;
-      }
-    }
-
-    &__label {
-      display: inline-block;
-      background-color: $color-accent;
-      color: $color-text;
-      padding: $spacing-xs $spacing-sm;
-      border-radius: $border-radius-sm;
-      font-size: $font-size-small;
-      font-weight: 500;
-      margin-bottom: $spacing-sm;
-    }
-
-    &__title {
-      font-size: $font-size-xxlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-md;
-      color: $color-text;
-
-      @media (max-width: $breakpoint-sm) {
-        font-size: $font-size-xlarge;
-      }
-    }
-
-    &__description {
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-xl;
-      line-height: 1.6;
-    }
-
-    &__specs {
-      display: flex;
-      gap: $spacing-lg;
-      margin-bottom: $spacing-xl;
-
-      @media (max-width: $breakpoint-sm) {
-        justify-content: center;
-        gap: $spacing-md;
-      }
-    }
-
-    &__spec-item {
-      text-align: center;
-    }
-
-    &__spec-value {
-      display: block;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      color: $color-primary;
-    }
-
-    &__spec-label {
-      display: block;
-      font-size: $font-size-small;
-      color: $color-text-light;
-    }
-
-    &__actions {
-      display: flex;
-      gap: $spacing-md;
-
-      @media (max-width: $breakpoint-lg) {
-        justify-content: center;
-      }
-
-      @media (max-width: $breakpoint-sm) {
-        flex-direction: column;
-        gap: $spacing-sm;
-      }
-
-      a {
-        display: inline-block;
-        padding: $spacing-md $spacing-xl;
-        border: 1px solid $color-primary;
-        border-radius: $border-radius;
-        font-size: $font-size-base;
-        font-weight: 500;
-        transition: $transition-base;
-        text-align: center;
-
-        &.featured-product-section__btn-detail {
-          background-color: $color-primary;
-          color: $color-background;
-
-          &:hover {
-            background-color: var(--theme-primary-dark, #{$static-primary-darker});
-            border-color: var(--theme-primary-dark, #{$static-primary-darker});
-          }
-        }
-
-        &.featured-product-section__btn-test {
-          background-color: $color-background;
-          color: $color-primary;
-
-          &:hover {
-            background-color: $color-primary;
-            color: $color-background;
-          }
-        }
-      }
-    }
-
-    &__image {
-      img {
-        width: 100%;
-        height: auto;
-      }
-    }
-  }
-
-  .compare-products-section {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-sm;
-      color: $color-text;
-    }
-
-    &__subtitle {
-      text-align: center;
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-xl;
-    }
-
-    &__compare-container {
-      background-color: $color-background-light;
-      padding: $spacing-xl;
-      border-radius: $border-radius;
-    }
-
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: $spacing-lg;
-      margin-bottom: $spacing-lg;
-
-      @media (max-width: $breakpoint-md) {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    &__select-group {
-      display: flex;
-      flex-direction: column;
-
-      label {
-        font-size: $font-size-base;
-        font-weight: 500;
-        margin-bottom: $spacing-xs;
-        color: $color-text;
-      }
-
-      select {
-        padding: $spacing-sm;
-        border: 1px solid $color-border;
-        border-radius: $border-radius-sm;
-        font-size: $font-size-base;
-      }
-    }
-
-    &__actions {
-      text-align: center;
-    }
-
-    &__btn-compare {
-      display: inline-block;
-      padding: $spacing-md $spacing-xl;
-      background-color: $color-primary;
-      color: $color-background;
-      font-size: $font-size-large;
-      font-weight: 500;
-      border-radius: $border-radius;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: var(--theme-primary-dark, #{$static-primary-darker});
-      }
-    }
-  }
-
-  .test-drive-cta-section {
-    background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
-    padding: $spacing-xxl 0;
-    color: $color-background;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__row {
-      display: flex;
-      align-items: center;
-      gap: $spacing-xl;
-
-      @media (max-width: $breakpoint-lg) {
-        flex-direction: column-reverse;
-      }
-    }
-
-    &__col {
-      flex: 1;
-
-      @media (max-width: $breakpoint-lg) {
-        text-align: center;
-      }
-    }
-
-    &__content {
-      @media (max-width: $breakpoint-lg) {
-        margin-bottom: $spacing-xl;
-      }
-    }
-
-    &__title {
-      font-size: $font-size-xxlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-md;
-
-      @media (max-width: $breakpoint-sm) {
-        font-size: $font-size-xlarge;
-      }
-    }
-
-    &__description {
-      font-size: $font-size-base;
-      margin-bottom: $spacing-xl;
-      line-height: 1.6;
-    }
-
-    &__btn-cta {
-      display: inline-block;
-      padding: $spacing-md $spacing-xl;
-      background-color: $color-background;
-      color: $color-primary;
-      font-size: $font-size-large;
-      font-weight: 500;
-      border-radius: $border-radius;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: var(--theme-bg-light, #f9f9f9);
-      }
-    }
-
-    &__image {
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: $border-radius;
-      }
-    }
-  }
-}
-
-// SERVICE PAGE
-.service-page {
-  .service-overview {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__row {
-      display: flex;
-      gap: $spacing-xl;
-      align-items: center;
-
-      @media (max-width: $breakpoint-lg) {
-        flex-direction: column;
-      }
-    }
-
-    &__col {
-      flex: 1;
-    }
-
-    &__heading {
-      font-size: $font-size-xxlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-md;
-      color: $color-text;
-
-      @media (max-width: $breakpoint-sm) {
-        font-size: $font-size-xlarge;
-      }
-    }
-
-    &__description {
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-lg;
-      line-height: 1.6;
-    }
-
-    &__highlights {
-      display: flex;
-      flex-wrap: wrap;
-      gap: $spacing-md;
-
-      .service-overview__highlight-item {
-        display: flex;
-        align-items: center;
-        gap: $spacing-sm;
-        font-size: $font-size-base;
-        color: $color-text;
-
-        svg {
-          color: $color-primary;
-          font-size: $font-size-large;
-        }
-      }
-    }
-
-    &__image {
-      width: 100%;
-      height: auto;
-      border-radius: $border-radius;
-    }
-  }
-
-  .service-categories {
-    padding: $spacing-xxl 0;
-    background-color: $color-background-light;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-xl;
-      color: $color-text;
-    }
-
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: $spacing-lg;
-    }
-  }
-
-  .service-card {
-    background-color: $color-background;
-    border-radius: $border-radius;
-    padding: $spacing-xl;
-    box-shadow: $shadow;
-    transition: $transition-base;
-    position: relative;
-
-    &.featured {
-      border: 2px solid $color-primary;
-
-      .service-card__badge {
-        position: absolute;
-        top: $spacing-md;
-        right: $spacing-md;
-        background-color: $color-primary;
-        color: $color-background;
-        padding: $spacing-xs $spacing-sm;
-        border-radius: $border-radius-sm;
-        font-size: $font-size-small;
-        font-weight: 500;
-      }
-    }
-
-    &__icon {
-      font-size: $font-size-xxlarge;
-      color: $color-primary;
-      margin-bottom: $spacing-md;
-    }
-
-    &__title {
-      font-size: $font-size-large;
-      font-weight: 700;
-      margin-bottom: $spacing-sm;
-      color: $color-text;
-    }
-
-    &__description {
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-md;
-      line-height: 1.6;
-    }
-
-    &__features {
-      list-style: none;
-      padding: 0;
-      margin-bottom: $spacing-xl;
-
-      li {
-        font-size: $font-size-base;
-        color: $color-text;
-        margin-bottom: $spacing-sm;
-        position: relative;
-        padding-left: $spacing-lg;
-
-        &::before {
-          content: '\f058'; /* Font Awesome check-circle icon */
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          position: absolute;
-          left: 0;
-          color: $color-primary;
-        }
-
-        &--unavailable {
-          color: $color-text-light;
-          text-decoration: line-through;
-
-          &::before {
-            content: '\f00d'; /* Font Awesome times icon */
-            color: $color-border;
-          }
-        }
-      }
-    }
-
-    &__btn {
-      display: block;
-      width: 100%;
-      padding: $spacing-md 0;
-      background-color: $color-primary;
-      color: $color-background;
-      font-size: $font-size-base;
-      font-weight: 500;
-      border-radius: $border-radius;
-      text-align: center;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: var(--theme-primary-dark, #{$static-primary-darker});
-      }
-    }
-  }
-
-  .service-process {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-xl;
-      color: $color-text;
-    }
-
-    &__steps {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: $spacing-lg;
-    }
-
-    &__step {
-      display: flex;
-      gap: $spacing-md;
-      align-items: center;
-
-      &__number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: $color-primary;
-        flex-shrink: 0;
-      }
-
-      &__title {
-        font-size: $font-size-large;
-        font-weight: 700;
-        margin-bottom: $spacing-xs;
-        color: $color-text;
-      }
-
-      &__description {
-        font-size: $font-size-base;
-        color: $color-text-light;
-        line-height: 1.5;
-      }
-    }
-  }
-
-  .service-packages {
-    padding: $spacing-xxl 0;
-    background-color: $color-background-light;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-xl;
-      color: $color-text;
-    }
-
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: $spacing-lg;
-    }
-  }
-
-  .package-card {
-    background-color: $color-background;
-    border-radius: $border-radius;
-    box-shadow: $shadow;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: $transition-base;
-    position: relative;
-
-    &.featured {
-      border: 2px solid $color-primary;
-
-      .package-card__badge {
-        position: absolute;
-        top: $spacing-md;
-        right: $spacing-md;
-        background-color: $color-primary;
-        color: $color-background;
-        padding: $spacing-xs $spacing-sm;
-        border-radius: $border-radius-sm;
-        font-size: $font-size-small;
-        font-weight: 500;
-      }
-    }
-
-    &__header {
-      background-color: $color-background-light;
-      padding: $spacing-md;
-      text-align: center;
-    }
-
-    &__title {
-      font-size: $font-size-large;
-      font-weight: 700;
-      margin-bottom: $spacing-xs;
-      color: $color-text;
-    }
-
-    &__price {
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      color: $color-primary;
-    }
-
-    &__body {
-      padding: $spacing-md;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    &__features {
-      list-style: none;
-      padding: 0;
-      margin-bottom: $spacing-xl;
-      flex-grow: 1;
-
-      li {
-        font-size: $font-size-base;
-        color: $color-text;
-        margin-bottom: $spacing-sm;
-        display: flex;
-        align-items: center;
-        gap: $spacing-sm;
-
-        svg, i {
-          color: $color-primary;
-        }
-
-        &--unavailable {
-          color: $color-text-light;
-          text-decoration: line-through;
-
-          svg, i {
-            color: $color-border;
-          }
-        }
-      }
-    }
-
-    &__btn {
-      display: block;
-      width: 100%;
-      padding: $spacing-md 0;
-      background-color: $color-primary;
-      color: $color-background;
-      font-size: $font-size-base;
-      font-weight: 500;
-      border-radius: $border-radius;
-      text-align: center;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: var(--theme-primary-dark, #{$static-primary-darker});
-      }
-    }
-  }
-
-  .service-locations {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-xl;
-      color: $color-text;
-    }
-
-    &__row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: $spacing-lg;
-    }
-  }
-
-  .location-card {
-    background-color: $color-background;
-    border-radius: $border-radius;
-    box-shadow: $shadow;
-    overflow: hidden;
-    transition: $transition-base;
-
-    &__image {
-      width: 100%;
-      height: 200px;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    &__info {
-      padding: $spacing-md;
-    }
-
-    &__name {
-      font-size: $font-size-large;
-      font-weight: 700;
-      margin-bottom: $spacing-sm;
-      color: $color-text;
-    }
-
-    &__address,
-    &__phone,
-    &__hours {
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-xs;
-      display: flex;
-      align-items: center;
-      gap: $spacing-sm;
-
-      svg {
-        color: $color-primary;
-      }
-    }
-
-    &__btn {
-      display: inline-block;
-      margin-top: $spacing-md;
-      padding: $spacing-sm $spacing-md;
-      border: 1px solid $color-primary;
-      border-radius: $border-radius-sm;
-      color: $color-primary;
-      font-size: $font-size-base;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: $color-primary;
-        color: $color-background;
-      }
-    }
-  }
-
-  // SERVICE BOOKING FORM SECTION
-  .booking-form-section {
-    padding: $spacing-xxl 0;
-    background-color: $color-background-light;
-
-    &__container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-  }
-
-  .booking-form {
-    background-color: $color-background;
-    padding: $spacing-xl;
-    border-radius: $border-radius;
-    box-shadow: $shadow;
-
-    &__title {
-      text-align: center;
-      font-size: $font-size-xlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-sm;
-      color: $color-text;
-    }
-
-    &__subtitle {
-      text-align: center;
-      font-size: $font-size-base;
-      color: $color-text-light;
-      margin-bottom: $spacing-xl;
-    }
-
-    &__form {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: $spacing-md;
-
-      @media (max-width: $breakpoint-md) {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    &__row {
-      display: contents; /* Allows children to be placed directly in the grid */
-    }
-
-    &__col {
-      display: flex;
-      flex-direction: column;
-    }
-
-    &__full-width {
-      grid-column: 1 / -1;
-    }
-
-    &__label {
-      display: block;
-      font-size: $font-size-base;
-      font-weight: 500;
-      margin-bottom: $spacing-xs;
-      color: $color-text;
-    }
-
-    &__input,
-    &__select,
-    &__textarea {
-      width: 100%;
-      padding: $spacing-sm;
-      border: 1px solid $color-border;
-      border-radius: $border-radius-sm;
-      font-size: $font-size-base;
-      color: $color-text;
-
-      &:focus {
-        outline: none;
-        border-color: $color-primary;
-        box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25);
-      }
-    }
-
-    &__textarea {
-      resize: vertical;
-    }
-
-    &__actions {
-      grid-column: 1 / -1;
-      text-align: center;
-      margin-top: $spacing-md;
-    }
-
-    &__btn-submit {
-      display: inline-block;
-      padding: $spacing-md $spacing-xl;
-      background-color: $color-primary;
-      color: $color-background;
-      font-size: $font-size-large;
-      font-weight: 500;
-      border-radius: $border-radius;
-      transition: $transition-base;
-
-      &:hover {
-        background-color: var(--theme-primary-dark, #{$static-primary-darker});
-      }
-    }
-  }
-}
-
-// PRICE LIST PAGE
-.price-list-page {
-  .page-banner {
-    background: linear-gradient(135deg, $color-primary 0%, $color-secondary 100%);
-    position: relative;
-    overflow: hidden;
-    padding: $spacing-xxl 0;
-    color: $color-background;
-    text-align: center;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
-    }
-
-    &__title {
-      font-size: $font-size-xxlarge;
-      font-weight: 700;
-      margin-bottom: $spacing-sm;
-    }
-
-    &__subtitle {
-      font-size: $font-size-large;
-      font-weight: 300;
-    }
-  }
-
-  .price-list-section {
-    padding: $spacing-xxl 0;
-
-    &__container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 $spacing-md;
     }
   }
 
@@ -4152,3 +3143,9 @@ body {
 
 // GLOBAL THEME-AWARE ADMIN COMPONENTS
 // Note: Sidebar trigger is now moved to header, no additional styling needed
+
+// Ensure ScrollToTop works properly
+#root {
+  position: relative;
+  min-height: 100vh;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebook,
@@ -14,10 +14,56 @@ import {
   FaCalculator,
   FaCalendarAlt,
 } from "react-icons/fa";
+import axios from "axios";
+import { API_BASE_URL } from "../../api/config";
 import styles from "./Footer.module.scss";
+import { ROUTERS } from "../../utils/constant";
+
+interface Category {
+  _id: string;
+  Category_Name: string;
+}
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  // Fetch categories from API
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/danh-muc`);
+      setCategories(response.data.categories || []);
+    } catch (error) {
+      console.error("Error fetching categories for footer:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  // Create URL with category filter for PriceListPage
+  const createCategoryLink = (categoryName: string) => {
+    // For special filters
+    if (categoryName === "m" || categoryName === "i") {
+      return `/bang-gia?filter=${categoryName}`;
+    }
+
+    // For regular categories, use the exact category name
+    const filterKey = categoryName.toLowerCase();
+    return `/bang-gia?filter=${encodeURIComponent(filterKey)}`;
+  };
+
+  // Get 5 random categories
+  const getRandomCategories = () => {
+    if (categories.length === 0) return [];
+
+    // Shuffle array and take first 5
+    const shuffled = [...categories].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, 5);
+  };
+
+  const randomCategories = getRandomCategories();
 
   return (
     <div className={styles.bmwFooterContainer}>
@@ -68,53 +114,48 @@ const Footer: React.FC = () => {
           <div className={styles.footerColumn}>
             <h4 className={styles.footerTitle}>TÌM HIỂU VỀ BMW</h4>
             <div className={styles.footerList}>
-              <Link to="/bmw-xtra" className={styles.footerLink}>
+              <Link to="/bang-gia" className={styles.footerLink}>
                 <FaCar className={styles.linkIcon} />
-                BMW Xtra
+                Tất cả dòng xe
               </Link>
-              <Link to="/bmw-m" className={styles.footerLink}>
+              <Link to={createCategoryLink("m")} className={styles.footerLink}>
                 <FaCar className={styles.linkIcon} />
-                BMW M
+                BMW M Series
               </Link>
-              <Link to="/bmw-i" className={styles.footerLink}>
+              <Link to={createCategoryLink("i")} className={styles.footerLink}>
                 <FaCar className={styles.linkIcon} />
-                BMW i
+                BMW i Series
               </Link>
-              <Link to="/bmw-motorrad" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                BMW Motorrad
+              <Link to="/dich-vu" className={styles.footerLink}>
+                <FaTools className={styles.linkIcon} />
+                Dịch vụ BMW
               </Link>
-              <Link to="/bmw-m-performance" className={styles.footerLink}>
+              <Link to="/tin-tuc" className={styles.footerLink}>
                 <FaCar className={styles.linkIcon} />
-                BMW M Performance
+                Tin tức & Sự kiện
               </Link>
             </div>
           </div>
 
-          {/* Products */}
+          {/* Products Column - Dynamic from API */}
           <div className={styles.footerColumn}>
-            <h4 className={styles.footerTitle}>SẢN PHẨM</h4>
+            <h4 className={styles.footerTitle}>DÒNG XE</h4>
             <div className={styles.footerList}>
-              <Link to="/san-pham/sedan" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                Sedan
-              </Link>
-              <Link to="/san-pham/suv" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                SUV
-              </Link>
-              <Link to="/san-pham/coupe" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                Coupe
-              </Link>
-              <Link to="/san-pham/gran-coupe" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                Gran Coupe
-              </Link>
-              <Link to="/san-pham/gran-turismo" className={styles.footerLink}>
-                <FaCar className={styles.linkIcon} />
-                Gran Turismo
-              </Link>
+              {/* Random categories from API */}
+              {randomCategories.map((category) => (
+                <Link
+                  key={category._id}
+                  to={createCategoryLink(category.Category_Name)}
+                  className={styles.footerLink}
+                >
+                  {category.Category_Name}
+                </Link>
+              ))}
+              {categories.length > 5 && (
+                <Link to="/bang-gia" className={styles.footerLink}>
+                  Xem tất cả →
+                </Link>
+              )}
             </div>
           </div>
 
@@ -122,27 +163,27 @@ const Footer: React.FC = () => {
           <div className={styles.footerColumn}>
             <h4 className={styles.footerTitle}>DỊCH VỤ & TIỆN ÍCH</h4>
             <div className={styles.footerList}>
-              <Link to="/services" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.SERVICE} className={styles.footerLink}>
                 <FaTools className={styles.linkIcon} />
                 Bảo hành & Bảo dưỡng
               </Link>
-              <Link to="/services" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.SERVICE} className={styles.footerLink}>
                 <FaShieldAlt className={styles.linkIcon} />
                 Sửa chữa & Phụ tùng
               </Link>
-              <Link to="/bang-gia" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.PRICE_LIST} className={styles.footerLink}>
                 <FaCalculator className={styles.linkIcon} />
                 Bảng giá chi tiết
               </Link>
-              <Link to="/dat-lich-hen" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.TEST_DRIVE} className={styles.footerLink}>
                 <FaCalendarAlt className={styles.linkIcon} />
                 Đặt lịch hẹn
               </Link>
-              <Link to="/test-drive" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.TEST_DRIVE} className={styles.footerLink}>
                 <FaCar className={styles.linkIcon} />
                 Đặt lịch lái thử
               </Link>
-              <Link to="/tinh-toan-tra-gop" className={styles.footerLink}>
+              <Link to={ROUTERS.USER.TEST_DRIVE} className={styles.footerLink}>
                 <FaCalculator className={styles.linkIcon} />
                 Tính toán trả góp
               </Link>

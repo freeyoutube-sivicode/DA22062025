@@ -18,6 +18,7 @@ import {
   FaSignInAlt,
   FaUserPlus,
 } from "react-icons/fa";
+import { ROUTERS } from "../../utils/constant";
 
 // Hàm chuyển hex sang rgba
 function hexToRgba(hex: string, alpha: number) {
@@ -455,13 +456,13 @@ const Header: React.FC = () => {
       <div ref={mainBarRef} style={mainBarStyle} data-theme="main-bar">
         <div style={containerStyle}>
           <div style={rowStyle}>
-            <Link to="/" onClick={closeMobileMenu}>
+            <Link to={ROUTERS.USER.HOME} onClick={closeMobileMenu}>
               <img src="/images/logo.png" alt="Logo" style={logoStyle} />
             </Link>
 
             <nav style={navStyle}>
               <Link
-                to="/"
+                to={ROUTERS.USER.HOME}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -471,7 +472,7 @@ const Header: React.FC = () => {
                 Trang chủ
               </Link>
               <Link
-                to="/xe"
+                to={ROUTERS.USER.CARS}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -481,7 +482,7 @@ const Header: React.FC = () => {
                 Xe thử
               </Link>
               <Link
-                to="/dich-vu"
+                to={ROUTERS.USER.SERVICE}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -491,7 +492,7 @@ const Header: React.FC = () => {
                 Dịch vụ
               </Link>
               <Link
-                to="/bang-gia"
+                to={ROUTERS.USER.PRICE_LIST}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -501,7 +502,7 @@ const Header: React.FC = () => {
                 Bảng giá
               </Link>
               <Link
-                to="/tin-tuc"
+                to={ROUTERS.USER.NEWS}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -511,7 +512,7 @@ const Header: React.FC = () => {
                 Tin tức
               </Link>
               <Link
-                to="/dat-hen-lai-thu"
+                to={ROUTERS.USER.TEST_DRIVE}
                 style={navLinkStyle}
                 onClick={closeMobileMenu}
                 onMouseEnter={handleNavLinkHover}
@@ -524,7 +525,7 @@ const Header: React.FC = () => {
 
             {/* Favorites Link */}
             <Link
-              to="/yeu-thich"
+              to={ROUTERS.USER.FAVORITES}
               style={favoritesLinkStyle}
               onClick={closeMobileMenu}
               onMouseEnter={handleFavoritesHover}
@@ -563,7 +564,7 @@ const Header: React.FC = () => {
         </div>
         <nav style={mobileMenuNavStyle}>
           <Link
-            to="/"
+            to={ROUTERS.USER.HOME}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -574,7 +575,7 @@ const Header: React.FC = () => {
             Trang chủ
           </Link>
           <Link
-            to="/xe"
+            to={ROUTERS.USER.CARS}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -585,7 +586,7 @@ const Header: React.FC = () => {
             Sản phẩm
           </Link>
           <Link
-            to="/dich-vu"
+            to={ROUTERS.USER.SERVICE}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -596,7 +597,7 @@ const Header: React.FC = () => {
             Dịch vụ
           </Link>
           <Link
-            to="/bang-gia"
+            to={ROUTERS.USER.PRICE_LIST}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -607,7 +608,7 @@ const Header: React.FC = () => {
             Bảng giá
           </Link>
           <Link
-            to="/tin-tuc"
+            to={ROUTERS.USER.NEWS}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -618,7 +619,7 @@ const Header: React.FC = () => {
             Tin tức
           </Link>
           <Link
-            to="/dat-hen-lai-thu"
+            to={ROUTERS.USER.TEST_DRIVE}
             style={mobileMenuLinkStyle}
             onClick={closeMobileMenu}
             onMouseEnter={handleMobileLinkHover}
@@ -629,7 +630,7 @@ const Header: React.FC = () => {
             Đăng ký lái thử
           </Link>
           <Link
-            to="/yeu-thich"
+            to={ROUTERS.USER.FAVORITES}
             style={{
               ...mobileMenuLinkStyle,
               display: "flex",
@@ -675,7 +676,7 @@ const Header: React.FC = () => {
           {user ? (
             <>
               <Link
-                to="/profile"
+                to={ROUTERS.USER.PROFILE}
                 style={{
                   ...mobileMenuLinkStyle,
                   padding: isMobile ? "10px 0" : "12px 0",
@@ -692,7 +693,7 @@ const Header: React.FC = () => {
               </Link>
               {user.Role === "admin" && (
                 <Link
-                  to="/admin"
+                  to={ROUTERS.ADMIN.DASHBOARD}
                   style={{
                     ...mobileMenuLinkStyle,
                     padding: isMobile ? "10px 0" : "12px 0",
@@ -732,7 +733,7 @@ const Header: React.FC = () => {
           ) : (
             <>
               <Link
-                to="/login"
+                to={ROUTERS.USER.LOGIN}
                 style={{
                   ...mobileMenuLinkStyle,
                   padding: isMobile ? "10px 0" : "12px 0",
@@ -748,7 +749,7 @@ const Header: React.FC = () => {
                 Đăng nhập
               </Link>
               <Link
-                to="/register"
+                to={ROUTERS.USER.REGISTER}
                 style={{
                   ...mobileMenuLinkStyle,
                   padding: isMobile ? "10px 0" : "12px 0",

@@ -1,0 +1,28 @@
+export const ROUTERS = {
+ USER: {
+  HOME: "",
+  LOGIN: "/login",
+  REGISTER: "/register",
+  PROFILE: "/profile",
+  CARS: "/xe",
+  CARS_DETAIL: "/xe/:id",
+  SERVICE: "/dich-vu",
+  PRICE_LIST: "/bang-gia",
+  PRICE_LIST_DETAIL: "/bang-gia/:id",
+  FAVORITES: "/yeu-thich",
+  NEWS: "/tin-tuc",
+  TEST_DRIVE: "/lai-thu",
+},
+ ADMIN: {
+  DASHBOARD: "/admin",
+  PRODUCTS: "/admin/products",
+  PRODUCTS_ADD: "/admin/products/add",
+  PRODUCTS_EDIT: "/admin/products/edit/:id",
+  ORDERS: "/admin/orders",
+  ORDERS_DETAIL: "/admin/orders/:id",
+  USERS: "/admin/users",
+  CATEGORIES: "/admin/categories",
+  SERVICES: "/admin/services",
+  TEST_DRIVE_BOOKINGS: "/admin/test-drive-bookings",
+ },
+};
