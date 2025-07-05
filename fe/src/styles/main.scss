@@ -1,13 +1,8 @@
 @use 'sass:color';
-
-// Import responsive utilities
 @use './responsive-utilities' as *;
-
-// Use the theme-aware variables
 @use './theme-variables' as *;
-
-// Use global theme styles
-@use './theme-global';
+@use './theme-global' as theme;
+@use './toast-custom.scss' as *;
 
 // Typography
 $font-family-base: 'Roboto', sans-serif;

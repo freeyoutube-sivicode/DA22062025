@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-// No CSS module needed for this component as it's logic-based
+import LoadingSpinner from "./LoadingSpinner";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -22,8 +22,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // console.log("  user Role:", user?.Role);
 
   if (loading) {
-    // You might want to render a loading spinner or a different loading indicator
-    return <div>Loading...</div>;
+    // Show loading spinner while checking authentication status
+    return <LoadingSpinner />;
   }
 
   if (!isAuthenticated) {

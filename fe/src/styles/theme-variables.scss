@@ -191,7 +191,7 @@ $z-index-tooltip: 1070 !default;
 
 // Mixin for applying theme-aware colors
 @mixin theme-color($property, $color-key) {
-  #{$property}: var(--theme-#{$color-key}, #{map-get($theme-fallbacks, $color-key)});
+  #{$property}: var(--theme-#{$color-key}, #059669);
 }
 
 // Mixin for creating theme-aware gradients

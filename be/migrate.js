@@ -328,7 +328,7 @@ async function migrate() {
     console.log('👤 Tạo tài khoản admin...');
     const adminUser = new User({
       UserName: 'admin',
-      Password: 'password123',
+      Password: 'admin123',
       Email: 'admin@bmw.com',
       Phone: '0123456789',
       FullName: 'Administrator',

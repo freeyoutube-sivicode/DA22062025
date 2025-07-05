@@ -1,254 +1,317 @@
-@use 'sass:color';
-
-// Colors
-$color-primary: #0066b1; // BMW Blue
-$color-secondary: #1c1c1c; // Dark Gray
-$color-accent: #f7b500; // BMW Gold
-$color-background: #ffffff;
-$color-background-light: #f8f9fa;
-$color-text: #333333;
-$color-text-light: #666666;
-$color-border: #e0e0e0;
-
-// Typography
-$font-family-base: 'Roboto', sans-serif;
-$font-size-base: 16px;
-$font-size-small: 14px;
-$font-size-large: 18px;
-$font-size-xlarge: 24px;
-$font-size-xxlarge: 32px;
-
-// Spacing
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-xxl: 3rem;
-
-// Border Radius
-$border-radius-sm: 4px;
-$border-radius: 8px;
-$border-radius-lg: 12px;
-
-// Shadows
-$shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.15);
-
-// Transitions
-$transition-base: all 0.3s ease;
-
-// Breakpoints
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+// Screen reader only class for accessibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; // Ensure it takes full viewport height minus header/footer
-  background-color: $color-background-light;
-  padding: $spacing-xxl $spacing-md; // Add padding for smaller screens
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 24px 16px;
 
   &__container {
-    max-width: 400px; // Match max-width of admin login card
+    max-width: 400px;
     width: 100%;
-    padding: $spacing-xl; // Consistent padding inside the card
-    background-color: $color-background;
-    border-radius: $border-radius;
-    box-shadow: $shadow-lg;
+    padding: 32px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center; // Center content horizontally
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+    }
   }
 
   &__logo {
     text-align: center;
-    margin-bottom: $spacing-xl;
+    margin-bottom: 24px;
 
-    img {
-      width: 80px;
-      height: 80px;
+    &-image {
+      width: 60px;
+      height: 60px;
       object-fit: contain;
     }
 
     &-text {
-      font-size: $font-size-large;
+      font-size: 18px;
       font-weight: 700;
-      margin-top: $spacing-xs;
-      color: $color-text;
+      margin-top: 6px;
+      color: #1c1c1c;
+      margin-bottom: 0;
     }
   }
 
   &__title {
     text-align: center;
-    // Use a green color for the title similar to admin login
-    color: $color-secondary; // Or a specific green variable if available
+    color: #1c1c1c;
     font-weight: 700;
-    font-size: $font-size-large; // Match font size with admin login
-    margin-bottom: $spacing-lg; // Adjusted margin
+    font-size: 20px;
+    margin-bottom: 24px;
   }
 
   &__form {
-    width: 100%; // Form takes full width of card
+    width: 100%;
     display: flex;
     flex-direction: column;
-    // Use gap for spacing between form groups
-    gap: $spacing-md;
+    gap: 16px;
   }
 
   &__form-group {
-    margin-bottom: 0; // Remove default margin-bottom if using gap
+    margin-bottom: 0;
   }
 
   &__input-group {
     display: flex;
     align-items: center;
-    border: 1px solid $color-border;
-    border-radius: $border-radius-sm;
-    overflow: hidden; // Hide anything overflowing the border radius
-    width: 100%; // Ensure input group takes full width
+    background: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    position: relative;
 
-    // Focus state for the input group
+    &:hover {
+      background: #f5f5f5;
+      border-color: #d0d0d0;
+    }
     &:focus-within {
-      border-color: $color-primary; // Highlight with primary color
-      box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25); // Add a subtle shadow
+      background: #ffffff;
+      border-color: #059669;
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.08);
+      transform: translateY(-1px);
     }
 
     &-icon {
-      padding: $spacing-sm; // Padding around the icon
-      background-color: transparent; // No background
-      border: none; // No border
-      color: $color-text-light; // Lighter color for icons
-      flex-shrink: 0; // Prevent icon from shrinking
+      padding: 14px 12px;
+      background: transparent;
+      border: none;
+      color: #999999;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      box-shadow: none;
 
-      // Style for the icon element (e.g., <i> or <svg>)
       i,
       svg {
-        font-size: $font-size-base; // Match icon size to base font size
+        font-size: 15px;
+        transition: all 0.3s ease-in-out;
       }
+    }
+
+    &:focus-within &-icon {
+      color: #059669;
+      transform: scale(1.05);
     }
   }
 
   &__input {
-    flex-grow: 1; // Allow input to take remaining space
-    padding: $spacing-sm; // Consistent padding
-    border: none; // Remove border as it's on the input-group
-    font-size: $font-size-base;
-    color: $color-text;
-    width: 100%; // Ensure input takes full width within input-group
+    flex-grow: 1;
+    padding: 14px 12px;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent;
+    font-size: 15px;
+    color: #2c2c2c;
+    font-weight: 400;
+    transition: all 0.3s ease-in-out;
+    line-height: 1.4;
 
     &:focus {
-      outline: none; // Remove default outline
+      outline: none;
+    }
+
+    &::placeholder {
+      color: #999999;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px #fafafa inset !important;
+      -webkit-text-fill-color: #2c2c2c !important;
+    }
+
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
     }
   }
 
   &__options {
     display: flex;
-    justify-content: space-between; // Space out checkbox and forgot password link
+    justify-content: space-between;
     align-items: center;
-    width: 100%; // Ensure options take full width
-    margin-bottom: $spacing-md; // Space below options
+    width: 100%;
+    margin-bottom: 16px;
   }
 
   &__form-check {
     display: flex;
     align-items: center;
-    gap: $spacing-xs; // Space between checkbox and label
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: #059669;
+    }
 
     &-input {
-      // Style for the actual checkbox input
+      width: 18px;
+      height: 18px;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      background: #ffffff;
       cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      position: relative;
+
+      &:checked {
+        background: #059669;
+        border-color: #059669;
+      }
+
+      &:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
     }
 
     &-label {
-      font-size: $font-size-base;
-      color: $color-text;
-      cursor: pointer; // Make label clickable
+      font-size: 14px;
+      color: #333333;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease-in-out;
     }
   }
 
   &__forgot-password-link {
-    font-size: $font-size-base;
-    color: $color-primary; // Use primary color for the link
-    text-decoration: none; // Remove default underline
+    font-size: 14px;
+    color: #059669;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
 
     &:hover {
-      text-decoration: underline; // Add underline on hover
+      color: #047857;
+      text-decoration: underline;
     }
   }
 
   &__button {
     display: block;
     width: 100%;
-    padding: $spacing-md 0; // Adjust padding
-    // Use a green color for the button background
-    background-color: #0f5132; // Using --bmw-dark-green value directly or reference variable
-    border-color: #0f5132; // Match border color
-    color: $color-background; // White text color
-    font-size: $font-size-large; // Adjust font size
-    font-weight: 500;
-    border-radius: $border-radius; // Using defined border radius
-    transition: $transition-base;
-    text-align: center; // Ensure text is centered
+    padding: 12px 0;
+    background: #059669;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
     cursor: pointer;
-    border: none; // Remove default button border
+    transition: all 0.3s ease-in-out;
+    text-align: center;
 
     &:hover:not(:disabled) {
-      background-color: #0a3622; // Darken on hover
-      border-color: #0a3622;
+      background: #047857;
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 0.6;
       cursor: not-allowed;
     }
   }
 
   &__register-text {
     text-align: center;
-    margin-top: $spacing-md; // Space above the link
-    font-size: $font-size-base;
-    color: $color-text-light;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #666666;
 
     a {
-       color: $color-primary; // Use primary color for the link
-       font-weight: 500;
-       text-decoration: none;
+      color: #059669;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease-in-out;
 
-       &:hover {
-         text-decoration: underline; // Add underline on hover
-       }
+      &:hover {
+        color: #047857;
+        text-decoration: underline;
+      }
     }
   }
 
-   // Styles for Alert message if needed (Ant Design Alert)
-   .ant-alert {
-      width: 100%;
-      margin-bottom: $spacing-md;
-   }
+  // Alert styles
+  .ant-alert {
+    width: 100%;
+    margin-bottom: 24px;
+    border-radius: 8px;
+  }
 
-   // Styles for Ant Design form items if you switch back
-  //  .ant-form-item {
-  //     margin-bottom: $spacing-md;
+  // Responsive design
+  @media (max-width: 576px) {
+    padding: 16px;
+    
+    &__container {
+      padding: 32px;
+      border-radius: 12px;
+    }
 
-  //     .ant-form-item-label > label {
-  //        font-size: $font-size-base;
-  //        color: $color-text;
-  //     }
-  //  }
+    &__title {
+      font-size: 20px;
+    }
 
-  //  .ant-input-affix-wrapper {
-  //     border-radius: $border-radius-sm;
-  //     &:focus-within {
-  //         border-color: $color-primary;
-  //         box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25);
-  //     }
-  //  }
+    &__button {
+      padding: 24px 0;
+    }
+  }
+}
 
-  //  .siteFormItemIcon { // Assuming this was for Ant Design icons
-  //     color: $color-text-light;
-  //  }
+// Loading state animation
+.login__button:disabled {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 } 

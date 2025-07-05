@@ -2,18 +2,18 @@ import { LoginCredentials, RegisterData, User } from '../types';
 import { api } from "../index";
 
 export const authService = {
-  // login: async (credentials: LoginCredentials) => {
-  //   const response = await api.post('/nguoi-dung/login', credentials);
-  //   localStorage.setItem('token', response.data.token);
-  //   localStorage.setItem('userId', response.data.user._id); // Save user ID here
-  //   return response.data.user;
-  // },
+  login: async (credentials: LoginCredentials) => {
+    const response = await api.post('/nguoi-dung/login', credentials);
+    localStorage.setItem('token', response.data.data.token);
+    localStorage.setItem('userId', response.data.data.user._id); // Save user ID here
+    return response.data.data.user;
+  },
 
   register: async (data: RegisterData) => {
     const response = await api.post('/nguoi-dung/register', data);
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('userId', response.data.user._id); // Save user ID here
-    return response.data.user;
+    localStorage.setItem('token', response.data.data.token);
+    localStorage.setItem('userId', response.data.data.user._id); // Save user ID here
+    return response.data.data.user;
   },
 
   logout: async () => {

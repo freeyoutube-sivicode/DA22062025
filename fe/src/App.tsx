@@ -8,9 +8,12 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import AdminLayout from "./components/admin/AdminLayout";
 import MainLayout from "./components/layout/MainLayout";
 import ScrollToTop from "./components/ScrollToTop";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Admin Pages
 import DashboardPage from "./pages/admin/DashboardPage";
@@ -65,10 +68,21 @@ const App: React.FC = () => {
                       </MainLayout>
                     }
                   />
-                  <Route path={ROUTERS.USER.LOGIN} element={<LoginPage />} />
+                  <Route
+                    path={ROUTERS.USER.LOGIN}
+                    element={
+                      <PublicRoute>
+                        <LoginPage />
+                      </PublicRoute>
+                    }
+                  />
                   <Route
                     path={ROUTERS.USER.REGISTER}
-                    element={<RegisterPage />}
+                    element={
+                      <PublicRoute>
+                        <RegisterPage />
+                      </PublicRoute>
+                    }
                   />
                   <Route
                     path={ROUTERS.USER.CARS}
@@ -253,6 +267,18 @@ const App: React.FC = () => {
                 </Routes>
               </Router>
             </ConfigProvider>
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
           </FavoritesProvider>
         </AuthProvider>
       </ThemeProvider>
