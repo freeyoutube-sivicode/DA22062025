@@ -644,7 +644,7 @@ $spacing-sizes: (
 
 // BMW Responsive Typography
 .bmw-title {
-  font-family: $font-family-secondary;
+  font-family: var(--font-family-base) !important;
   font-weight: $font-weight-bold;
   
   @include max-width($breakpoint-md) {
@@ -665,7 +665,7 @@ $spacing-sizes: (
 }
 
 .bmw-subtitle {
-  font-family: $font-family-secondary;
+  font-family: var(--font-family-base) !important;
   font-weight: $font-weight-semibold;
   
   @include max-width($breakpoint-md) {
@@ -682,7 +682,7 @@ $spacing-sizes: (
 }
 
 .bmw-body {
-  font-family: $font-family-primary;
+  font-family: var(--font-family-base) !important;
   font-weight: $font-weight-normal;
   line-height: $line-height-normal;
   
@@ -768,7 +768,7 @@ $spacing-sizes: (
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: $font-family-secondary;
+  font-family: var(--font-family-base) !important;
   font-weight: $font-weight-semibold;
   text-decoration: none;
   border-radius: $border-radius-lg;
@@ -888,7 +888,7 @@ $spacing-sizes: (
 }
 
 .bmw-nav-link {
-  font-family: $font-family-secondary;
+  font-family: var(--font-family-base) !important;
   font-weight: $font-weight-medium;
   text-decoration: none;
   transition: all $transition-normal;
@@ -929,7 +929,7 @@ $spacing-sizes: (
   padding: $spacing-md;
   border: 1px solid $color-border-light;
   border-radius: $border-radius-md;
-  font-family: $font-family-primary;
+  font-family: var(--font-family-base) !important;
   font-size: $font-size-base;
   transition: all $transition-normal;
   

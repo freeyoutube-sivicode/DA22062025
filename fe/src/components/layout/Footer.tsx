@@ -71,7 +71,7 @@ const Footer: React.FC = () => {
         <div className={styles.footerContent}>
           {/* Company Information */}
           <div className={styles.footerColumn}>
-            <h3 className={styles.footerMainTitle}>BMW SiVi CAR</h3>
+            <h3 className={styles.footerMainTitle}>SiVi CAR</h3>
             <p className={styles.footerDescription}>
               Đại lý BMW chính hãng hàng đầu tại Việt Nam, chuyên cung cấp xe
               BMW mới 100% với dịch vụ bảo hành, bảo dưỡng chính hãng. Trải
@@ -234,7 +234,7 @@ const Footer: React.FC = () => {
         <div className={styles.footerBottom}>
           <div className={styles.footerBottomContent}>
             <p className={styles.copyright}>
-              © {currentYear} BMW SiVi CAR - Sản phẩm thuộc về SiVi CODE
+              © {currentYear}SiVi CAR - Sản phẩm thuộc về SiVi CODE
             </p>
             <div className={styles.footerLegal}>
               <Link to="/privacy" className={styles.legalLink}>

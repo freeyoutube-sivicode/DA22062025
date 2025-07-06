@@ -17,19 +17,6 @@ const AdminLayout: React.FC = () => {
                 Quản lý Sản phẩm
               </Link>
             </li>
-            {/* Add more navigation links here later */}
-            {/*
-            <li className="mb-2">
-              <Link to="/admin/orders" className="block py-2 px-3 rounded hover:bg-gray-700">
-                Quản lý Đơn hàng
-              </Link>
-            </li>
-             <li className="mb-2">
-              <Link to="/admin/users" className="block py-2 px-3 rounded hover:bg-gray-700">
-                Quản lý Người dùng
-              </Link>
-            </li>
-            */}
           </ul>
         </nav>
       </aside>

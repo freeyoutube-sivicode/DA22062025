@@ -4,6 +4,18 @@
 // Use theme variables
 @use './theme-variables' as *;
 
+// Import Google Fonts in your index.html:
+// <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+
+:root {
+  --font-family-base: 'Inconsolata', Arial, Helvetica, monospace;
+}
+
+html, body, #root, * {
+  font-family: var(--font-family-base) !important;
+  font-weight: 400;
+}
+
 // Apply theme to body and html
 html {
   transition: all 0.3s ease;

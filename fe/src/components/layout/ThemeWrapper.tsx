@@ -27,7 +27,7 @@ const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
           /* Force theme colors with maximum specificity */
           background-color: ${theme.colors.background.primary} !important;
           color: ${theme.colors.text.primary} !important;
-          font-family: ${theme.typography.fontFamily} !important;
+          font-family: var(--font-family-base) !important;
           transition: all 0.3s ease !important;
         }
         

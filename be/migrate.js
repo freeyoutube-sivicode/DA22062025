@@ -11,6 +11,7 @@ const Product = require('./models/Product');
 const Category = require('./models/Category');
 const Service = require('./models/Service');
 const NewsEvent = require('./models/NewsEvent');
+const OrderTestDrive = require('./models/OrderTestDrive');
 
 // Sample data
 const sampleRoles = [
@@ -100,6 +101,110 @@ const sampleCategories = [
     Image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&h=600&fit=crop',
     Status: 'active',
     Order: 4
+  }
+];
+
+// Sample users data
+const sampleUsers = [
+  {
+    UserName: 'user1',
+    Password: 'password123',
+    Email: 'user1@example.com',
+    Phone: '0123456781',
+    FullName: 'Nguyễn Văn An',
+    Address: 'Hà Nội, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user2',
+    Password: 'password123',
+    Email: 'user2@example.com',
+    Phone: '0123456782',
+    FullName: 'Trần Thị Bình',
+    Address: 'TP.HCM, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user3',
+    Password: 'password123',
+    Email: 'user3@example.com',
+    Phone: '0123456783',
+    FullName: 'Lê Văn Cường',
+    Address: 'Đà Nẵng, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user4',
+    Password: 'password123',
+    Email: 'user4@example.com',
+    Phone: '0123456784',
+    FullName: 'Phạm Thị Dung',
+    Address: 'Hải Phòng, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user5',
+    Password: 'password123',
+    Email: 'user5@example.com',
+    Phone: '0123456785',
+    FullName: 'Hoàng Văn Em',
+    Address: 'Cần Thơ, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user6',
+    Password: 'password123',
+    Email: 'user6@example.com',
+    Phone: '0123456786',
+    FullName: 'Vũ Thị Phương',
+    Address: 'Nha Trang, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user7',
+    Password: 'password123',
+    Email: 'user7@example.com',
+    Phone: '0123456787',
+    FullName: 'Đỗ Văn Giang',
+    Address: 'Huế, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user8',
+    Password: 'password123',
+    Email: 'user8@example.com',
+    Phone: '0123456788',
+    FullName: 'Ngô Thị Hoa',
+    Address: 'Vũng Tàu, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user9',
+    Password: 'password123',
+    Email: 'user9@example.com',
+    Phone: '0123456789',
+    FullName: 'Lý Văn Inh',
+    Address: 'Bình Dương, Việt Nam',
+    Role: 'user',
+    Status: 'active'
+  },
+  {
+    UserName: 'user10',
+    Password: 'password123',
+    Email: 'user10@example.com',
+    Phone: '0123456790',
+    FullName: 'Bùi Thị Kim',
+    Address: 'Đồng Nai, Việt Nam',
+    Role: 'user',
+    Status: 'active'
   }
 ];
 
@@ -404,6 +509,76 @@ const sampleNewsEvents = [
   }
 ];
 
+// Function to generate sample test drive orders
+function generateSampleTestDriveOrders(users, products) {
+  const orders = [];
+  const statuses = ['pending', 'confirmed', 'completed', 'cancelled'];
+  const addresses = [
+    '123 Nguyễn Huệ, Quận 1, TP.HCM',
+    '456 Lê Lợi, Quận 3, TP.HCM',
+    '789 Trần Hưng Đạo, Quận 5, TP.HCM',
+    '321 Võ Văn Tần, Quận 3, TP.HCM',
+    '654 Điện Biên Phủ, Quận Bình Thạnh, TP.HCM',
+    '987 Cách Mạng Tháng 8, Quận 10, TP.HCM',
+    '147 Nguyễn Thị Minh Khai, Quận 1, TP.HCM',
+    '258 Lý Tự Trọng, Quận 1, TP.HCM',
+    '369 Hai Bà Trưng, Quận 1, TP.HCM',
+    '741 Đồng Khởi, Quận 1, TP.HCM'
+  ];
+  const now = new Date();
+
+  // Tổng số đơn tối đa cho toàn bộ sản phẩm
+  let totalOrders = 0;
+  const maxTotalOrders = 200;
+
+  // Sinh số lượng đơn cho từng xe: phân phối ngẫu nhiên, có xe nhiều, có xe ít
+  const productOrderCounts = products.map((_, idx) => {
+    // Tăng xác suất xe đầu danh sách nhiều đơn, xe cuối ít đơn
+    let base = Math.floor(Math.random() * 10) + 2; // 2-11
+    if (idx % 7 === 0) base += Math.floor(Math.random() * 8); // Một số xe nổi bật
+    if (idx % 13 === 0) base += Math.floor(Math.random() * 5); // Một số xe rất nổi bật
+    return Math.min(base, 20);
+  });
+
+  products.forEach((product, idx) => {
+    let numOrders = productOrderCounts[idx];
+    if (totalOrders + numOrders > maxTotalOrders) numOrders = maxTotalOrders - totalOrders;
+    if (numOrders < 2) numOrders = 2;
+    for (let i = 0; i < numOrders; i++) {
+      if (totalOrders >= maxTotalOrders) break;
+      const user = users[(idx * 7 + i) % users.length];
+      const status = statuses[(idx + i) % statuses.length];
+      const address = addresses[(idx + i) % addresses.length];
+      // Random date within last 30 days
+      const daysAgo = Math.floor(Math.random() * 30);
+      const orderDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+      // Random test drive date (future date)
+      const testDriveDays = Math.floor(Math.random() * 14) + 1;
+      const testDriveDate = new Date(now.getTime() + testDriveDays * 24 * 60 * 60 * 1000);
+      // Random amount based on product price
+      const baseAmount = product.Price || 2000000000;
+      const amountVariation = Math.random() * 0.3 - 0.15;
+      const finalAmount = Math.round(baseAmount * (1 + amountVariation));
+      // Random ngày tạo đơn (trong 30 ngày gần nhất)
+      const createdAt = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+      orders.push({
+        UserID: user._id,
+        ProductID: product._id,
+        Order_Date: orderDate,
+        Test_Drive_Date: testDriveDate,
+        Address: address,
+        Status: status,
+        Total_Amount: finalAmount,
+        Notes: `Đơn lái thử ${product.Product_Name} cho ${user.FullName}`,
+        ImageUrl: product.Main_Image || null,
+        createdAt
+      });
+      totalOrders++;
+    }
+  });
+  return orders;
+}
+
 // Migration function
 async function migrate() {
   try {
@@ -427,6 +602,7 @@ async function migrate() {
     await Category.deleteMany({});
     await Service.deleteMany({});
     await NewsEvent.deleteMany({});
+    await OrderTestDrive.deleteMany({});
     console.log('✅ Đã xóa dữ liệu cũ');
 
     // Create roles
@@ -480,6 +656,9 @@ async function migrate() {
     await Product.insertMany(productsWithCategories);
     console.log('✅ Đã tạo sản phẩm');
 
+    // Lấy lại danh sách sản phẩm từ DB (có _id thực tế)
+    const dbProducts = await Product.find({});
+
     // Create services
     console.log('🔧 Tạo dịch vụ...');
     await Service.insertMany(sampleServices);
@@ -490,20 +669,37 @@ async function migrate() {
     await NewsEvent.insertMany(sampleNewsEvents);
     console.log('✅ Đã tạo tin tức');
 
+    // Create users
+    console.log('👤 Tạo tài khoản người dùng...');
+    const createdUsers = await User.insertMany(sampleUsers);
+    console.log('✅ Đã tạo tài khoản người dùng');
+
+    // Create test drive orders
+    console.log('🚗 Tạo đơn lái thử...');
+    const testDriveOrders = generateSampleTestDriveOrders(createdUsers, dbProducts);
+    await OrderTestDrive.insertMany(testDriveOrders);
+    console.log('✅ Đã tạo đơn lái thử');
+
     console.log('\n🎉 Migration hoàn thành thành công!');
     console.log('\n📊 Thống kê dữ liệu đã tạo:');
     console.log(`- Vai trò: ${createdRoles.length}`);
     console.log(`- Người dùng admin: 1`);
+    console.log(`- Người dùng thường: ${createdUsers.length}`);
     console.log(`- Danh mục sản phẩm: ${createdProductCategories.length}`);
     console.log(`- Danh mục chung: ${createdCategories.length}`);
     console.log(`- Sản phẩm: ${sampleProducts.length}`);
     console.log(`- Dịch vụ: ${sampleServices.length}`);
     console.log(`- Tin tức: ${sampleNewsEvents.length}`);
+    console.log(`- Đơn lái thử: ${testDriveOrders.length}`);
 
     console.log('\n🔑 Thông tin đăng nhập admin:');
     console.log('Username: admin');
-    console.log('Password: password123');
+    console.log('Password: admin123');
     console.log('Email: admin@bmw.com');
+
+    console.log('\n👥 Thông tin đăng nhập người dùng thường:');
+    console.log('Username: user1-user10');
+    console.log('Password: password123');
 
   } catch (error) {
     console.error('❌ Lỗi trong quá trình migration:', error.message);

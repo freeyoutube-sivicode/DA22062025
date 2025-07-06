@@ -583,7 +583,7 @@ const Header: React.FC = () => {
             data-theme="mobile-menu-link"
           >
             <FaCar />
-            Sản phẩm
+            Xe thử
           </Link>
           <Link
             to={ROUTERS.USER.SERVICE}

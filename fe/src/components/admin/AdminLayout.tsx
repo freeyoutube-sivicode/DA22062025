@@ -8,24 +8,59 @@ import {
   TagsOutlined,
   TeamOutlined,
   UserOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Layout, Menu, Space } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import ThemeController from "../ThemeController";
 import styles from "./AdminLayout.module.css"; // Import CSS module
 import { ROUTERS } from "../../utils/constant";
+import { FaCar } from "react-icons/fa";
 
 const { Header, Content, Footer, Sider } = Layout;
 
+const isMobile = () => window.innerWidth < 992;
+
 const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const { user, logout } = useAuth();
   const { theme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMobileState, setIsMobileState] = useState(isMobile());
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 992) {
+        setCollapsed(true);
+        setShowOverlay(false);
+        setIsMobileState(true);
+      } else {
+        setCollapsed(false);
+        setShowOverlay(false);
+        setIsMobileState(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileState) {
+      if (!collapsed) {
+        setShowOverlay(true);
+      } else {
+        setShowOverlay(false);
+      }
+    } else {
+      setShowOverlay(false);
+    }
+  }, [collapsed, isMobileState]);
 
   const handleLogout = () => {
     logout();
@@ -73,8 +108,8 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     },
     {
       key: "products",
-      icon: <DashboardOutlined />,
-      label: <Link to="/admin/products">Sản phẩm</Link>,
+      icon: <FaCar />,
+      label: <Link to={ROUTERS.ADMIN.PRODUCTS}>Xe thử</Link>,
     },
     {
       key: "orders",
@@ -105,79 +140,72 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Layout className={styles.adminLayout}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
-        className={styles.adminSidebar}
-        trigger={null}
-        width={280}
-        collapsedWidth={80}
-      >
-        <div
-          className={styles.adminLogo}
-          style={{ alignItems: "center", gap: 18 }}
+      {(!isMobileState || (isMobileState && !collapsed)) && (
+        <Sider
+          collapsible
+          collapsed={isMobileState ? collapsed : false}
+          onCollapse={setCollapsed}
+          className={styles.adminSidebar}
+          trigger={null}
+          width={isMobileState ? 280 : 280}
+          collapsedWidth={isMobileState ? 0 : 80}
+          style={
+            isMobileState
+              ? {
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  height: "100vh",
+                  zIndex: 1100,
+                  transition: "left 0.3s",
+                  boxShadow: "2px 0 8px rgba(0,0,0,0.15)",
+                }
+              : {}
+          }
         >
-          <img src="/images/logo.png" alt="Logo" className={styles.logoImg} />
-          {!collapsed && <span className={styles.logoText}>SiVi CAR</span>}
-        </div>
-        <Menu
-          mode="inline"
-          selectedKeys={[getSelectedKey()]}
-          className={styles.adminMenu}
-          items={menuItems}
+          <div
+            className={styles.adminLogo}
+            style={{ alignItems: "center", gap: 18 }}
+          >
+            <img src="/images/logo.png" alt="Logo" className={styles.logoImg} />
+            {!collapsed && <span className={styles.logoText}>SiVi CAR</span>}
+          </div>
+          <Menu
+            mode="inline"
+            selectedKeys={[getSelectedKey()]}
+            className={styles.adminMenu}
+            items={menuItems}
+          />
+        </Sider>
+      )}
+      {showOverlay && isMobileState && !collapsed && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.25)",
+            zIndex: 1000,
+          }}
+          onClick={() => setCollapsed(true)}
         />
-      </Sider>
+      )}
       <Layout
         className={`${styles.adminContentLayout} ${collapsed ? styles.collapsed : ""}`}
       >
         <Header className={styles.adminHeader}>
           <div className={styles.headerLeft}>
-            <button
-              className={styles.sidebarToggle}
-              onClick={() => setCollapsed(!collapsed)}
-              aria-label={collapsed ? "Mở rộng menu" : "Thu gọn menu"}
-              title={collapsed ? "Mở rộng menu" : "Thu gọn menu"}
-              style={{
-                backgroundColor: "transparent",
-                border: "none",
-                color: theme.colors.palette.primary,
-                fontSize: "18px",
-                cursor: "pointer",
-                padding: "8px",
-                borderRadius: "4px",
-                transition: "all 0.3s ease",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: "16px",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  theme.colors.background.light;
-                e.currentTarget.style.color = theme.colors.palette.primaryDark;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = theme.colors.palette.primary;
-              }}
-            >
-              {collapsed ? (
-                <MenuUnfoldOutlined
-                  style={{
-                    fontSize: "18px",
-                    transition: "all 0.2s ease",
-                  }}
-                />
-              ) : (
-                <MenuFoldOutlined
-                  style={{
-                    fontSize: "18px",
-                    transition: "all 0.2s ease",
-                  }}
-                />
-              )}
-            </button>
+            {/* Luôn hiển thị icon menu trigger khi sidebar collapsed */}
+            {collapsed && (
+              <div
+                className={styles.mobileMenuTrigger}
+                onClick={() => setCollapsed(false)}
+              >
+                <MenuUnfoldOutlined />
+              </div>
+            )}
           </div>
           <div className={styles.headerUser}>
             {user && (

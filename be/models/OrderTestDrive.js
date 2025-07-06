@@ -6,6 +6,11 @@ const orderTestDriveSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'ID người dùng là bắt buộc']
   },
+  ProductID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: [true, 'ID sản phẩm là bắt buộc']
+  },
   Order_Date: {
     type: Date,
     required: [true, 'Ngày đặt lịch là bắt buộc']
