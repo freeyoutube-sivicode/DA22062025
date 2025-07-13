@@ -11,15 +11,19 @@ import {
   Tag,
   Typography,
   DatePicker,
+  Card,
+  Tooltip,
 } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import axios from "axios";
+import { api } from "../../api";
 import dayjs from "dayjs";
-// Assuming you have a type definition for OrderTestDrive
+import styles from "./TestDriveBookingListPage.module.scss";
+import Breadcrumb from "../../components/admin/Breadcrumb";
+
 interface UserInfo {
   _id: string;
   UserName: string;
@@ -27,16 +31,26 @@ interface UserInfo {
   Phone: string;
 }
 
+interface Product {
+  _id: string;
+  Product_Name: string;
+  Price: number;
+  Main_Image: string;
+  Description?: string;
+}
+
 interface OrderTestDrive {
   _id: string;
-  UserID: UserInfo; // Populated user info
-  Order_Date: string; // Date of order creation
-  Test_Drive_Date: string; // Requested test drive date
+  UserID: UserInfo;
+  ProductID: string;
+  product?: Product;
+  Order_Date: string;
+  Test_Drive_Date: string;
   Address: string;
   Status: "pending" | "confirmed" | "completed" | "cancelled";
   Notes?: string;
-  Total_Amount: number; // Not directly relevant for test drive, but included based on type
-  ImageUrl?: string; // Not directly relevant for test drive, but included based on type
+  Total_Amount: number;
+  ImageUrl?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -61,6 +75,31 @@ const TestDriveBookingListPage: React.FC = () => {
   const [dateRange, setDateRange] = useState<
     [dayjs.Dayjs | null, dayjs.Dayjs | null] | null
   >(null);
+  const [products, setProducts] = useState<Record<string, Product>>({});
+
+  const fetchProductDetails = async (productIds: string[]) => {
+    try {
+      const uniqueIds = Array.from(new Set(productIds));
+      const response = await api.get("/products", {
+        params: {
+          ids: uniqueIds.join(","),
+        },
+      });
+
+      if (response.data.success) {
+        const productsMap = response.data.data.reduce(
+          (acc: Record<string, Product>, product: Product) => {
+            acc[product._id] = product;
+            return acc;
+          },
+          {}
+        );
+        setProducts(productsMap);
+      }
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+    }
+  };
 
   const fetchBookings = async (
     page: number = pagination.current,
@@ -71,25 +110,36 @@ const TestDriveBookingListPage: React.FC = () => {
   ) => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/lich-lai-thu", {
+      const response = await api.get("/test-drive-orders", {
         params: {
           page,
           limit,
           search,
           status,
-          startDate: dates?.[0]?.toISOString(),
-          endDate: dates?.[1]?.toISOString(),
+          startDate: dates?.[0]?.format("YYYY-MM-DD"),
+          endDate: dates?.[1]?.format("YYYY-MM-DD"),
         },
       });
-      setBookings(response.data.orders);
-      setPagination({
-        ...pagination,
-        current: response.data.pagination.page,
-        pageSize: response.data.pagination.limit,
-        total: response.data.pagination.total,
-      });
+
+      if (response.data.success) {
+        const bookingsData = response.data.data;
+        setBookings(bookingsData);
+        setPagination({
+          ...pagination,
+          current: page,
+          total: response.data.total || 0,
+        });
+
+        // Fetch product details for all bookings
+        const productIds = bookingsData.map(
+          (booking: OrderTestDrive) => booking.ProductID
+        );
+        await fetchProductDetails(productIds);
+      } else {
+        message.error("Không thể tải danh sách đơn đặt lịch lái thử");
+      }
     } catch (error) {
-      message.error("Lỗi khi tải danh sách đăng ký lái thử");
+      message.error("Lỗi khi tải danh sách đơn đặt lịch lái thử");
       console.error("Error fetching test drive bookings:", error);
     }
     setLoading(false);
@@ -97,13 +147,7 @@ const TestDriveBookingListPage: React.FC = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [
-    pagination.current,
-    pagination.pageSize,
-    searchTerm,
-    selectedStatus,
-    dateRange,
-  ]); // Add dependencies
+  }, []);
 
   const handleTableChange = (pagination: any) => {
     fetchBookings(pagination.current, pagination.pageSize);
@@ -111,46 +155,57 @@ const TestDriveBookingListPage: React.FC = () => {
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    setPagination({ ...pagination, current: 1 }); // Reset to first page on search
+    setPagination({ ...pagination, current: 1 });
   };
 
   const handleStatusChange = (value: string) => {
     setSelectedStatus(value === "" ? undefined : value);
-    setPagination({ ...pagination, current: 1 }); // Reset to first page on status change
+    setPagination({ ...pagination, current: 1 });
   };
 
   const handleDateRangeChange = (
     dates: [dayjs.Dayjs | null, dayjs.Dayjs | null] | null
   ) => {
     setDateRange(dates);
-    setPagination({ ...pagination, current: 1 }); // Reset to first page on date change
+    setPagination({ ...pagination, current: 1 });
   };
 
   const handleUpdateStatus = async (bookingId: string, newStatus: string) => {
     try {
-      await axios.put(`/api/lich-lai-thu/${bookingId}`, { Status: newStatus });
-      message.success("Cập nhật trạng thái đăng ký thành công");
-      fetchBookings();
+      const response = await api.put(`/test-drive-orders/${bookingId}/status`, {
+        status: newStatus,
+      });
+
+      if (response.data.success) {
+        message.success("Cập nhật trạng thái đơn đặt lịch thành công");
+        fetchBookings();
+      } else {
+        message.error("Không thể cập nhật trạng thái đơn đặt lịch");
+      }
     } catch (error) {
-      message.error("Lỗi khi cập nhật trạng thái đăng ký");
+      message.error("Lỗi khi cập nhật trạng thái đơn đặt lịch");
       console.error("Error updating booking status:", error);
     }
   };
 
   const handleDelete = async (bookingId: string) => {
     confirm({
-      title: "Bạn có chắc chắn muốn xóa đăng ký lái thử này?",
+      title: "Bạn có chắc chắn muốn xóa đơn đặt lịch này?",
       content: "Hành động này không thể hoàn tác.",
       okText: "Xóa",
       okType: "danger",
       cancelText: "Hủy",
       async onOk() {
         try {
-          await axios.delete(`/api/lich-lai-thu/${bookingId}`);
-          message.success("Xóa đăng ký lái thử thành công");
-          fetchBookings(); // Refresh list
+          const response = await api.delete(`/test-drive-orders/${bookingId}`);
+          if (response.data.success) {
+            message.success("Xóa đơn đặt lịch thành công");
+            fetchBookings();
+          } else {
+            message.error("Không thể xóa đơn đặt lịch");
+          }
         } catch (error) {
-          message.error("Lỗi khi xóa đăng ký lái thử");
+          message.error("Lỗi khi xóa đơn đặt lịch");
           console.error("Error deleting booking:", error);
         }
       },
@@ -158,167 +213,228 @@ const TestDriveBookingListPage: React.FC = () => {
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "orange";
-      case "confirmed":
-        return "blue";
-      case "completed":
-        return "green";
-      case "cancelled":
-        return "red";
-      default:
-        return "default";
-    }
+    const statusColors: { [key: string]: string } = {
+      pending: "#F59E0B",
+      confirmed: "#3B82F6",
+      completed: "#10B981",
+      cancelled: "#EF4444",
+    };
+    return statusColors[status] || "default";
   };
 
   const getStatusText = (status: string) => {
-    switch (status) {
-      case "pending":
-        return "Đang chờ";
-      case "confirmed":
-        return "Đã xác nhận";
-      case "completed":
-        return "Đã hoàn thành";
-      case "cancelled":
-        return "Đã hủy";
-      default:
-        return status;
-    }
+    const statusTexts: { [key: string]: string } = {
+      pending: "Chờ xử lý",
+      confirmed: "Đã xác nhận",
+      completed: "Đã hoàn thành",
+      cancelled: "Đã hủy",
+    };
+    return statusTexts[status] || status;
   };
 
   const columns = [
     {
-      title: "ID Đăng ký",
+      title: "Mã đơn",
       dataIndex: "_id",
       key: "_id",
+      width: 100,
+      fixed: "left" as const,
+      render: (id: string) => (
+        <span className={styles.orderId}>{id.slice(-8).toUpperCase()}</span>
+      ),
     },
     {
-      title: "Người dùng",
-      dataIndex: ["UserID", "UserName"],
-      key: "UserID.UserName",
-      render: (text: string, record: OrderTestDrive) =>
-        record.UserID?.UserName || "N/A",
+      title: "Khách hàng",
+      key: "UserID",
+      width: 150,
+      render: (_: any, record: OrderTestDrive) => (
+        <div className={styles.customerInfo}>
+          <div className={styles.name}>{record.UserID?.UserName}</div>
+          <div className={styles.phone}>{record.UserID?.Phone}</div>
+        </div>
+      ),
     },
     {
-      title: "Email",
-      dataIndex: ["UserID", "Email"],
-      key: "UserID.Email",
-      render: (text: string, record: OrderTestDrive) =>
-        record.UserID?.Email || "N/A",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: ["UserID", "Phone"],
-      key: "UserID.Phone",
-      render: (text: string, record: OrderTestDrive) =>
-        record.UserID?.Phone || "N/A",
-    },
-    {
-      title: "Ngày đặt",
-      dataIndex: "Order_Date",
-      key: "Order_Date",
-      render: (date: string) => new Date(date).toLocaleDateString("vi-VN"),
-    },
-    {
-      title: "Ngày lái thử yêu cầu",
-      dataIndex: "Test_Drive_Date",
-      key: "Test_Drive_Date",
-      render: (date: string) => new Date(date).toLocaleDateString("vi-VN"),
+      title: "Thông tin xe",
+      key: "ProductID",
+      width: 300,
+      render: (_: any, record: OrderTestDrive) => {
+        const product = products[record.ProductID];
+        const productName =
+          record.Notes?.match(/lái thử (.*?) cho/)?.[1] || "Đang cập nhật";
+
+        return (
+          <div className={styles.productInfo}>
+            <div className={styles.productImageWrapper}>
+              <img
+                src={record.ImageUrl || "/images/car-placeholder.png"}
+                alt={productName}
+                className={styles.productImage}
+              />
+            </div>
+            <div className={styles.productDetails}>
+              <div className={styles.productName}>{productName}</div>
+              <div className={styles.productPrice}>
+                {record.Total_Amount?.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </div>
+              {record.Notes && (
+                <div className={styles.productDescription}>{record.Notes}</div>
+              )}
+            </div>
+          </div>
+        );
+      },
     },
     {
       title: "Địa chỉ",
       dataIndex: "Address",
       key: "Address",
+      width: 250,
+      ellipsis: true,
+      render: (address: string) => (
+        <Tooltip title={address} placement="topLeft">
+          <div className={styles.address}>{address}</div>
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Ngày đặt",
+      dataIndex: "Order_Date",
+      key: "Order_Date",
+      width: 120,
+      render: (date: string) => (
+        <Tooltip title={dayjs(date).format("DD/MM/YYYY HH:mm")}>
+          <span className={styles.date}>
+            {dayjs(date).format("DD/MM/YYYY")}
+          </span>
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Ngày lái thử",
+      dataIndex: "Test_Drive_Date",
+      key: "Test_Drive_Date",
+      width: 120,
+      render: (date: string) => (
+        <Tooltip title={dayjs(date).format("DD/MM/YYYY HH:mm")}>
+          <span className={styles.date}>
+            {dayjs(date).format("DD/MM/YYYY")}
+          </span>
+        </Tooltip>
+      ),
     },
     {
       title: "Trạng thái",
       dataIndex: "Status",
       key: "Status",
+      width: 150,
       render: (status: string, record: OrderTestDrive) => (
-        <Space>
-          <Tag color={getStatusColor(status)}>{getStatusText(status)}</Tag>
+        <div className={styles.statusCell}>
           <Select
             value={status}
             onChange={(value) => handleUpdateStatus(record._id, value)}
-            style={{ width: 150 }}
+            className={styles.statusSelect}
           >
-            <Option value="pending">Đang chờ</Option>
+            <Option value="pending">Chờ xử lý</Option>
             <Option value="confirmed">Đã xác nhận</Option>
             <Option value="completed">Đã hoàn thành</Option>
             <Option value="cancelled">Đã hủy</Option>
           </Select>
-        </Space>
+        </div>
       ),
-    },
-    {
-      title: "Ghi chú",
-      dataIndex: "Notes",
-      key: "Notes",
-      ellipsis: true,
     },
     {
       title: "Thao tác",
       key: "action",
+      fixed: "right" as const,
+      width: 150,
       render: (_: any, record: OrderTestDrive) => (
-        <Space size="middle">
-          {/* No edit form needed for test drive bookings, only status update */}
+        <div className={styles.actionButtons}>
+          {record.Status === "pending" && (
+            <Button
+              type="primary"
+              onClick={() => handleUpdateStatus(record._id, "confirmed")}
+              className={styles.confirmButton}
+              size="small"
+            >
+              Xác nhận
+            </Button>
+          )}
+          {record.Status === "confirmed" && (
+            <Button
+              type="primary"
+              onClick={() => handleUpdateStatus(record._id, "completed")}
+              className={styles.completeButton}
+              size="small"
+            >
+              Hoàn thành
+            </Button>
+          )}
           <Button
+            type="primary"
             danger
-            icon={<DeleteOutlined />}
             onClick={() => handleDelete(record._id)}
+            size="small"
           >
             Xóa
           </Button>
-        </Space>
+        </div>
       ),
     },
   ];
 
   return (
-    <div className="p-6">
-      <Title level={2} className="mb-6">
-        Quản lý đăng ký lái thử
-      </Title>
+    <div className={styles.pageContainer}>
+      <Card className={styles.contentCard}>
+        <Breadcrumb
+          title="Quản lý đơn đặt lịch lái thử"
+          showAddButton={false}
+        />
 
-      <div className="mb-4">
-        <Space>
+        <div className={styles.filterSection}>
           <Input.Search
-            placeholder="Tìm kiếm ID, tên, email, SĐT người dùng"
-            onSearch={(value) => handleSearch(value)}
-            style={{ width: 300 }}
+            placeholder="Tìm kiếm theo tên, số điện thoại..."
+            onSearch={handleSearch}
+            className={styles.searchInput}
           />
           <Select
             placeholder="Lọc theo trạng thái"
             allowClear
-            style={{ width: 150 }}
             onChange={handleStatusChange}
+            className={styles.statusFilter}
           >
-            <Option value="">Tất cả trạng thái</Option>
-            <Option value="pending">Đang chờ</Option>
+            <Option value="">Tất cả</Option>
+            <Option value="pending">Chờ xử lý</Option>
             <Option value="confirmed">Đã xác nhận</Option>
             <Option value="completed">Đã hoàn thành</Option>
             <Option value="cancelled">Đã hủy</Option>
           </Select>
           <RangePicker
-            placeholder={["Từ ngày đặt", "Đến ngày đặt"]}
+            placeholder={["Từ ngày", "Đến ngày"]}
             onChange={handleDateRangeChange}
+            className={styles.datePicker}
           />
-        </Space>
-      </div>
+        </div>
 
-      <Table
-        columns={columns}
-        dataSource={bookings}
-        rowKey="_id"
-        loading={loading}
-        pagination={{
-          ...pagination,
-          showSizeChanger: true,
-          showTotal: (total) => `Tổng số ${total} đăng ký`,
-        }}
-        onChange={handleTableChange}
-      />
+        <Table
+          columns={columns}
+          dataSource={bookings}
+          rowKey="_id"
+          loading={loading}
+          pagination={{
+            ...pagination,
+            showSizeChanger: true,
+            showTotal: (total) => `Tổng số ${total} đơn đặt lịch`,
+          }}
+          onChange={handleTableChange}
+          scroll={{ x: 1240 }}
+          size="middle"
+          className={styles.table}
+        />
+      </Card>
     </div>
   );
 };

@@ -25,6 +25,7 @@ import axios from "axios";
 import styles from "./ProductListPage.module.scss";
 import { API_BASE_URL } from "../../api/config";
 import { PaginationWrapper, usePagination } from "../../components/pagination";
+import Breadcrumb from "../../components/admin/Breadcrumb";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -100,7 +101,7 @@ const ProductListPage: React.FC = () => {
       console.error("Error fetching products:", error);
       notification.error({
         message: "Lỗi",
-        description: "Không thể tải danh sách sản phẩm.",
+        description: "Không thể tải danh sách xe cho thuê.",
       });
     } finally {
       setLoading(false);
@@ -134,7 +135,7 @@ const ProductListPage: React.FC = () => {
 
   const handleDeleteProduct = async (productId: string) => {
     confirm({
-      title: "Bạn có chắc chắn muốn xóa sản phẩm này?",
+      title: "Bạn có chắc chắn muốn xóa xe cho thuê này?",
       content: "Hành động này không thể hoàn tác.",
       okText: "Xóa",
       okType: "danger",
@@ -144,14 +145,14 @@ const ProductListPage: React.FC = () => {
           await axios.delete(`${API_BASE_URL}/xe/${productId}`);
           notification.success({
             message: "Thành công",
-            description: "Sản phẩm đã được xóa.",
+            description: "Xe cho thuê đã được xóa.",
           });
           fetchProducts();
         } catch (error) {
           console.error("Error deleting product:", error);
           notification.error({
             message: "Lỗi",
-            description: "Không thể xóa sản phẩm.",
+            description: "Không thể xóa xe cho thuê.",
           });
         }
       },
@@ -176,20 +177,20 @@ const ProductListPage: React.FC = () => {
       render: (image: string) => (
         <img
           src={image}
-          alt="Product"
+          alt="Xe cho thuê"
           style={{ width: 50, height: 50, objectFit: "cover" }}
         />
       ),
     },
     {
-      title: "Tên sản phẩm",
+      title: "Tên xe cho thuê",
       dataIndex: "Product_Name",
       key: "name",
       sorter: (a: Product, b: Product) =>
         a.Product_Name.localeCompare(b.Product_Name),
     },
     {
-      title: "Giá",
+      title: "Giá thuê",
       dataIndex: "Price",
       key: "price",
       render: (price: number) => price.toLocaleString("vi-VN") + " đ",
@@ -212,7 +213,7 @@ const ProductListPage: React.FC = () => {
       key: "status",
       render: (status: string) => (
         <Tag color={status === "available" ? "green" : "red"}>
-          {status === "available" ? "Còn hàng" : "Hết hàng"}
+          {status === "available" ? "Còn cho thuê" : "Hết cho thuê"}
         </Tag>
       ),
     },
@@ -229,7 +230,7 @@ const ProductListPage: React.FC = () => {
             Sửa
           </Button>
           <Popconfirm
-            title="Bạn có chắc chắn muốn xóa sản phẩm này?"
+            title="Bạn có chắc chắn muốn xóa xe cho thuê này?"
             onConfirm={() => handleDeleteProduct(record._id)}
             okText="Có"
             cancelText="Không"
@@ -273,24 +274,17 @@ const ProductListPage: React.FC = () => {
 
   return (
     <div className={styles.productListPage}>
-      <div className={styles.header}>
-        <Title level={2} className={styles.title}>
-          Quản lý sản phẩm
-        </Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => navigate("/admin/products/add")}
-          className={styles.addButton}
-        >
-          Thêm sản phẩm
-        </Button>
-      </div>
+      <Breadcrumb
+        title="Quản lý xe cho thuê"
+        showAddButton={true}
+        addButtonText="Thêm xe cho thuê"
+        onAddClick={() => navigate("/admin/products/add")}
+      />
 
       <Card className={styles.filterCard}>
         <Space size="large">
           <Input
-            placeholder="Tìm kiếm sản phẩm"
+            placeholder="Tìm kiếm xe cho thuê"
             prefix={<SearchOutlined />}
             onChange={(e) => handleSearch(e.target.value)}
             style={{ width: 300 }}
@@ -320,7 +314,7 @@ const ProductListPage: React.FC = () => {
           pagination={{
             ...pagination,
             showSizeChanger: true,
-            showTotal: (total) => `Tổng số ${total} sản phẩm`,
+            showTotal: (total) => `Tổng số ${total} xe cho thuê`,
           }}
           onChange={handleTableChange}
         />

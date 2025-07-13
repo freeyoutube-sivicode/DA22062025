@@ -19,7 +19,6 @@ import "react-toastify/dist/ReactToastify.css";
 import DashboardPage from "./pages/admin/DashboardPage";
 import AdminProductListPage from "./pages/admin/ProductListPage";
 import ProductFormPage from "./pages/admin/ProductFormPage";
-import OrderListPage from "./pages/admin/OrderListPage";
 import OrderDetailPage from "./pages/admin/OrderDetailPage";
 import UserListPage from "./pages/admin/UserListPage";
 import CategoryListPage from "./pages/admin/CategoryListPage";
@@ -218,7 +217,7 @@ const App: React.FC = () => {
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
-                          <OrderListPage />
+                          <TestDriveBookingListPage />
                         </AdminLayout>
                       </ProtectedRoute>
                     }

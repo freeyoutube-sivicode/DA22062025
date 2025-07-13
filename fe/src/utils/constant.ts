@@ -24,6 +24,5 @@ export const ROUTERS = {
   USERS: "/admin/users",
   CATEGORIES: "/admin/categories",
   SERVICES: "/admin/services",
-  TEST_DRIVE_BOOKINGS: "/admin/test-drive-bookings",
  },
 };

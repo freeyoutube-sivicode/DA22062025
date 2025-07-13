@@ -23,7 +23,6 @@ interface ProductFormData {
   Product_Name: string;
   Description?: string;
   Price: number;
-  Stock: number;
   CategoryID: string;
   Main_Image?: string;
   List_Image?: string;
@@ -163,7 +162,7 @@ const ProductFormPage: React.FC = () => {
           layout="vertical"
           onFinish={onFinish}
           {...(!isEditing && {
-            initialValues: { Stock: 0, Price: 0, Status: "available" },
+            initialValues: { Price: 0, Status: "available" },
           })}
         >
           <Form.Item
@@ -193,20 +192,6 @@ const ProductFormPage: React.FC = () => {
               }
               parser={(value: any) => value.replace(/\D/g, "")}
             />
-          </Form.Item>
-
-          <Form.Item
-            name="Stock"
-            label="Tồn kho"
-            rules={[
-              {
-                required: true,
-                message: "Vui lòng nhập số lượng tồn kho!",
-                type: "number",
-              },
-            ]}
-          >
-            <InputNumber min={0} style={{ width: "100%" }} />
           </Form.Item>
 
           <Form.Item

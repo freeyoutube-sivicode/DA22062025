@@ -52,16 +52,17 @@ const getAllOrders = async (req, res) => {
     ]);
 
     res.json({
-      orders,
-      pagination: {
-        total,
-        page: Number(page),
-        limit: Number(limit),
-        totalPages: Math.ceil(total / limit)
-      }
+      success: true,
+      data: orders,
+      total,
+      page: Number(page),
+      limit: Number(limit)
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -72,17 +73,29 @@ const getOrderById = async (req, res) => {
       .populate('UserID', 'UserName Email Phone');
 
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Order not found' 
+      });
     }
 
     // Allow admin or the order owner to get the order data
     if (req.user.role !== 'admin' && order.UserID.toString() !== req.user._id.toString()) {
-        return res.status(403).json({ message: 'Không được phép truy cập lịch lái thử này' });
+        return res.status(403).json({ 
+          success: false,
+          message: 'Không được phép truy cập lịch lái thử này' 
+        });
     }
 
-    res.json(order);
+    res.json({
+      success: true,
+      data: order
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -91,9 +104,15 @@ const createOrder = async (req, res) => {
   try {
     const order = new TestDriveOrder(req.body);
     const savedOrder = await order.save();
-    res.status(201).json(savedOrder);
+    res.status(201).json({
+      success: true,
+      data: savedOrder
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -107,11 +126,20 @@ const updateOrder = async (req, res) => {
     ).populate('UserID', 'UserName Email Phone');
     
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Order not found' 
+      });
     }
-    res.json(order);
+    res.json({
+      success: true,
+      data: order
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -120,11 +148,20 @@ const deleteOrder = async (req, res) => {
   try {
     const order = await TestDriveOrder.findByIdAndDelete(req.params.orderId);
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'Order not found' 
+      });
     }
-    res.json({ message: 'Order deleted successfully' });
+    res.json({ 
+      success: true,
+      message: 'Order deleted successfully' 
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -133,7 +170,10 @@ const getUserOrders = async (req, res) => {
   try {
     // Allow admin to fetch orders for any user, users can only fetch their own
     if (req.user.role !== 'admin' && req.params.userId !== req.user._id.toString()) {
-       return res.status(403).json({ message: 'Không được phép truy cập lịch lái thử của người dùng khác' });
+       return res.status(403).json({ 
+         success: false,
+         message: 'Không được phép truy cập lịch lái thử của người dùng khác' 
+       });
     }
 
     const { page = 1, limit = 10 } = req.query;
@@ -148,16 +188,17 @@ const getUserOrders = async (req, res) => {
     ]);
 
     res.json({
-      orders,
-      pagination: {
-        total,
-        page: Number(page),
-        limit: Number(limit),
-        totalPages: Math.ceil(total / limit)
-      }
+      success: true,
+      data: orders,
+      total,
+      page: Number(page),
+      limit: Number(limit)
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 

@@ -3,22 +3,20 @@ import {
   DashboardOutlined,
   DownOutlined,
   LogoutOutlined,
-  MenuFoldOutlined,
   MenuUnfoldOutlined,
   TagsOutlined,
   TeamOutlined,
   UserOutlined,
-  SettingOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Layout, Menu, Space } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { FaCar } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
+import { ROUTERS } from "../../utils/constant";
 import ThemeController from "../ThemeController";
 import styles from "./AdminLayout.module.css"; // Import CSS module
-import { ROUTERS } from "../../utils/constant";
-import { FaCar } from "react-icons/fa";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -69,11 +67,6 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const userMenuItems = [
     {
-      key: "profile",
-      icon: <UserOutlined />,
-      label: "Profile",
-    },
-    {
       key: "logout",
       icon: <LogoutOutlined />,
       label: "Đăng xuất",
@@ -104,7 +97,12 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     {
       key: "dashboard",
       icon: <DashboardOutlined />,
-      label: <Link to={ROUTERS.ADMIN.DASHBOARD}>Dashboard</Link>,
+      label: <Link to={ROUTERS.ADMIN.DASHBOARD}>Thống kê</Link>,
+    },
+    {
+      key: "users",
+      icon: <TeamOutlined />,
+      label: <Link to="/admin/users">Người dùng</Link>,
     },
     {
       key: "products",
@@ -114,7 +112,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     {
       key: "orders",
       icon: <CarryOutOutlined />,
-      label: <Link to="/admin/orders">Đơn hàng</Link>,
+      label: <Link to="/admin/orders">Đăng ký lái thử</Link>,
     },
     {
       key: "categories",
@@ -125,16 +123,6 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       key: "services",
       icon: <DashboardOutlined />,
       label: <Link to="/admin/services">Dịch vụ</Link>,
-    },
-    {
-      key: "test-drive-bookings",
-      icon: <CarryOutOutlined />,
-      label: <Link to="/admin/test-drive-bookings">Đăng ký lái thử</Link>,
-    },
-    {
-      key: "users",
-      icon: <TeamOutlined />,
-      label: <Link to="/admin/users">Người dùng</Link>,
     },
   ];
 
@@ -166,6 +154,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <div
             className={styles.adminLogo}
             style={{ alignItems: "center", gap: 18 }}
+            onClick={() => navigate(ROUTERS.USER.HOME)}
           >
             <img src="/images/logo.png" alt="Logo" className={styles.logoImg} />
             {!collapsed && <span className={styles.logoText}>SiVi CAR</span>}

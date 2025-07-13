@@ -53,6 +53,7 @@ const newsEventsApis = require('./routes/newsEvents'); // News & Events API
 const statisticsRoutes = require('./routes/statistics');
 const businessRoutes = require('./routes/business');
 const serviceRequestsRouter = require('./routes/serviceRequests');
+const testDriveOrdersRouter = require('./routes/testDriveOrders');
 
 // Sử dụng routes
 app.use('/api/users', userRoutes); // User management routes
@@ -74,6 +75,7 @@ app.use('/api/tin-tuc-su-kien', newsEventsApis);
 app.use('/api/thong-ke', statisticsRoutes);
 app.use('/api', businessRoutes);
 app.use('/api/service-requests', serviceRequestsRouter);
+app.use('/api/test-drive-orders', testDriveOrdersRouter);
 
 // Xử lý lỗi 404
 app.use((req, res) => {

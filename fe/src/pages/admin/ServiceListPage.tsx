@@ -4,6 +4,7 @@ import { EditOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined,
 import axios from 'axios';
 import { API_BASE_URL } from '../../api/config';
 import moment from 'moment';
+import Breadcrumb from '../../components/admin/Breadcrumb';
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -199,9 +200,10 @@ const ServiceListPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <Title level={2}>Quản lý yêu cầu đặt lịch dịch vụ</Title>
-      </div>
+      <Breadcrumb
+        title="Quản lý yêu cầu đặt lịch dịch vụ"
+        showAddButton={false}
+      />
 
       <Table
         columns={columns}
