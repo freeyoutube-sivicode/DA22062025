@@ -96,6 +96,11 @@ const ProductListPage: React.FC = () => {
     0, 10000000000,
   ]);
   const [maxPrice, setMaxPrice] = useState(10000000000);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Responsive breakpoints
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
 
   // Fetch products with filters
   const fetchProducts = async () => {
@@ -161,6 +166,12 @@ const ProductListPage: React.FC = () => {
   useEffect(() => {
     fetchCategories();
     fetchMaxPrice();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -232,7 +243,7 @@ const ProductListPage: React.FC = () => {
     }
   };
 
-  // Filter sidebar
+  // Desktop Filter sidebar
   const FilterSidebar = () => (
     <div className={styles.filterSidebar}>
       <div className={styles.filterSection}>
@@ -377,6 +388,411 @@ const ProductListPage: React.FC = () => {
     </div>
   );
 
+  // Mobile Filter sidebar with Header-like styling
+  const MobileFilterSidebar = () => {
+    const isMobile = windowWidth <= 768;
+    const isTablet = windowWidth > 768 && windowWidth <= 1024;
+
+    // Header-like styles for mobile filter
+    const filterItemStyle: React.CSSProperties = {
+      backgroundColor: "rgba(255, 255, 255, 0.9)",
+      backdropFilter: "blur(20px)",
+      WebkitBackdropFilter: "blur(20px)",
+      borderRadius: "16px",
+      padding: isMobile ? "16px 20px" : "20px 24px",
+      marginBottom: "16px",
+      border: "1px solid rgba(0, 0, 0, 0.08)",
+      boxShadow: "0 4px 16px rgba(0, 0, 0, 0.1)",
+      transition: "all 0.3s ease",
+    };
+
+    const filterLabelStyle: React.CSSProperties = {
+      color: "var(--theme-text-primary)",
+      fontWeight: 600,
+      fontSize: isMobile ? "14px" : "16px",
+      marginBottom: "12px",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+    };
+
+    const searchContainerStyle: React.CSSProperties = {
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+    };
+
+    const searchInputStyle: React.CSSProperties = {
+      width: "100%",
+      border: "2px solid rgba(0, 0, 0, 0.08)",
+      borderRadius: "12px",
+      padding: isMobile ? "12px 16px" : "14px 18px",
+      fontSize: isMobile ? "14px" : "16px",
+      backgroundColor: "rgba(255, 255, 255, 0.8)",
+      outline: "none",
+      transition: "all 0.3s ease",
+      height: isMobile ? "44px" : "48px",
+    };
+
+    const searchButtonStyle: React.CSSProperties = {
+      position: "absolute",
+      right: "4px",
+      width: isMobile ? "36px" : "40px",
+      height: isMobile ? "36px" : "40px",
+      borderRadius: "10px",
+      background: "var(--primary-gradient)",
+      border: "none",
+      color: "#ffffff",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
+    };
+
+    const selectInputStyle: React.CSSProperties = {
+      width: "100%",
+      border: "2px solid rgba(0, 0, 0, 0.08)",
+      borderRadius: "12px",
+      padding: isMobile ? "12px 16px" : "14px 18px",
+      fontSize: isMobile ? "14px" : "16px",
+      backgroundColor: "rgba(255, 255, 255, 0.8)",
+      outline: "none",
+      transition: "all 0.3s ease",
+      minHeight: isMobile ? "44px" : "48px",
+      cursor: "pointer",
+    };
+
+    const priceSliderStyle: React.CSSProperties = {
+      margin: "16px 0",
+    };
+
+    const priceRangeStyle: React.CSSProperties = {
+      textAlign: "center",
+      marginTop: "16px",
+      padding: isMobile ? "10px 16px" : "12px 20px",
+      backgroundColor: "rgba(var(--primary-color-rgb), 0.1)",
+      borderRadius: "12px",
+      border: "2px solid rgba(var(--primary-color-rgb), 0.3)",
+      boxShadow: "0 2px 8px rgba(var(--primary-color-rgb), 0.2)",
+    };
+
+    const priceTextStyle: React.CSSProperties = {
+      color: "var(--theme-text-primary)",
+      fontWeight: 600,
+      margin: 0,
+      fontSize: isMobile ? "14px" : "16px",
+    };
+
+    const checkboxGroupStyle: React.CSSProperties = {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px",
+    };
+
+    const checkboxItemStyle: React.CSSProperties = {
+      display: "flex",
+      alignItems: "center",
+      padding: isMobile ? "12px 16px" : "14px 18px",
+      borderRadius: "12px",
+      transition: "all 0.3s ease",
+      border: "2px solid transparent",
+      cursor: "pointer",
+      backgroundColor: "rgba(255, 255, 255, 0.6)",
+      minHeight: isMobile ? "44px" : "48px",
+    };
+
+    const customCheckboxStyle: React.CSSProperties = {
+      width: "20px",
+      height: "20px",
+      border: "2px solid rgba(0, 0, 0, 0.2)",
+      borderRadius: "4px",
+      marginRight: "12px",
+      position: "relative",
+      transition: "all 0.3s ease",
+      backgroundColor: "rgba(255, 255, 255, 0.8)",
+      flexShrink: 0,
+    };
+
+    const checkboxLabelStyle: React.CSSProperties = {
+      fontWeight: 500,
+      color: "var(--theme-text-primary)",
+      flex: 1,
+      fontSize: isMobile ? "14px" : "15px",
+    };
+
+    const clearButtonStyle: React.CSSProperties = {
+      width: "100%",
+      borderRadius: "12px",
+      height: isMobile ? "48px" : "52px",
+      fontWeight: 600,
+      fontSize: isMobile ? "15px" : "16px",
+      border: "2px solid var(--primary-color)",
+      background: "transparent",
+      color: "var(--primary-color)",
+      transition: "all 0.3s ease",
+      cursor: "pointer",
+      marginTop: "16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "8px",
+    };
+
+    // Event handlers for hover effects
+    const handleSearchInputFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      e.target.style.borderColor = "var(--primary-color)";
+      e.target.style.boxShadow =
+        "0 0 0 3px rgba(var(--primary-color-rgb), 0.2)";
+    };
+
+    const handleSearchInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      e.target.style.borderColor = "rgba(0, 0, 0, 0.08)";
+      e.target.style.boxShadow = "none";
+    };
+
+    const handleSelectFocus = (e: React.FocusEvent<HTMLSelectElement>) => {
+      e.target.style.borderColor = "var(--primary-color)";
+      e.target.style.boxShadow =
+        "0 0 0 3px rgba(var(--primary-color-rgb), 0.2)";
+    };
+
+    const handleSelectBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
+      e.target.style.borderColor = "rgba(0, 0, 0, 0.08)";
+      e.target.style.boxShadow = "none";
+    };
+
+    const handleCheckboxHover = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.currentTarget.style.backgroundColor =
+        "rgba(var(--primary-color-rgb), 0.1)";
+      e.currentTarget.style.borderColor = "rgba(var(--primary-color-rgb), 0.3)";
+      e.currentTarget.style.transform = "translateX(4px)";
+    };
+
+    const handleCheckboxLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+      e.currentTarget.style.borderColor = "transparent";
+      e.currentTarget.style.transform = "translateX(0)";
+    };
+
+    const handleClearButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.backgroundColor = "var(--primary-color)";
+      e.currentTarget.style.color = "#ffffff";
+      e.currentTarget.style.transform = "translateY(-2px)";
+      e.currentTarget.style.boxShadow =
+        "0 6px 16px rgba(var(--primary-color-rgb), 0.3)";
+    };
+
+    const handleClearButtonLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.backgroundColor = "transparent";
+      e.currentTarget.style.color = "var(--primary-color)";
+      e.currentTarget.style.transform = "translateY(0)";
+      e.currentTarget.style.boxShadow = "none";
+    };
+
+    return (
+      <div style={{ padding: "0 4px" }}>
+        {/* Search */}
+        <div style={filterItemStyle}>
+          <div style={filterLabelStyle}>
+            <span style={{ color: "var(--primary-color)", marginRight: "8px" }}>
+              🔍
+            </span>
+            Tìm kiếm
+          </div>
+          <div style={searchContainerStyle}>
+            <input
+              type="text"
+              style={searchInputStyle}
+              placeholder="Tìm kiếm xe..."
+              value={filters.search}
+              onChange={(e) => handleSearch(e.target.value)}
+              onFocus={handleSearchInputFocus}
+              onBlur={handleSearchInputBlur}
+            />
+            <button style={searchButtonStyle}>
+              <SearchOutlined />
+            </button>
+          </div>
+        </div>
+
+        {/* Categories */}
+        <div style={filterItemStyle}>
+          <div style={filterLabelStyle}>
+            <span style={{ color: "var(--primary-color)", marginRight: "8px" }}>
+              📂
+            </span>
+            Danh mục
+          </div>
+          <select
+            style={selectInputStyle}
+            multiple
+            value={filters.category}
+            onChange={(e) => {
+              const selectedOptions = Array.from(
+                e.target.selectedOptions,
+                (option) => option.value
+              );
+              handleCategoryChange(selectedOptions);
+            }}
+            onFocus={handleSelectFocus}
+            onBlur={handleSelectBlur}
+          >
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.Category_Name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Price Range */}
+        <div style={filterItemStyle}>
+          <div style={filterLabelStyle}>
+            <span style={{ color: "var(--primary-color)", marginRight: "8px" }}>
+              💰
+            </span>
+            Khoảng giá
+          </div>
+          <div style={priceSliderStyle}>
+            <Slider
+              range
+              min={0}
+              max={maxPrice}
+              value={priceRange}
+              onChange={(value: number | number[]) => {
+                if (
+                  Array.isArray(value) &&
+                  value.length === 2 &&
+                  value[0] !== undefined &&
+                  value[1] !== undefined &&
+                  value[0] !== null &&
+                  value[1] !== null
+                ) {
+                  handlePriceRangeChange([value[0], value[1]]);
+                }
+              }}
+              tipFormatter={(value) =>
+                value ? `${(value / 1000000).toFixed(1)}M VNĐ` : ""
+              }
+              trackStyle={[{ backgroundColor: "var(--primary-color)" }]}
+              handleStyle={[
+                {
+                  borderColor: "var(--primary-color)",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                },
+                {
+                  borderColor: "var(--primary-color)",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                },
+              ]}
+              railStyle={{ backgroundColor: "rgba(0, 0, 0, 0.1)" }}
+            />
+            <div style={priceRangeStyle}>
+              <div style={priceTextStyle}>
+                {`${(priceRange[0] / 1000000).toFixed(1)}M - ${(priceRange[1] / 1000000).toFixed(1)}M VNĐ`}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Status */}
+        <div style={filterItemStyle}>
+          <div style={filterLabelStyle}>
+            <span style={{ color: "var(--primary-color)", marginRight: "8px" }}>
+              📊
+            </span>
+            Trạng thái
+          </div>
+          <div style={checkboxGroupStyle}>
+            {[
+              { label: "Còn hạn chạy thử", value: "active" },
+              { label: "Hết hạn chạy thử", value: "expired" },
+            ].map((option) => (
+              <div
+                key={option.value}
+                style={checkboxItemStyle}
+                onClick={() => {
+                  const newStatus = filters.status.includes(option.value)
+                    ? filters.status.filter((s) => s !== option.value)
+                    : [...filters.status, option.value];
+                  handleStatusChange(newStatus);
+                }}
+                onMouseEnter={handleCheckboxHover}
+                onMouseLeave={handleCheckboxLeave}
+              >
+                <div
+                  style={{
+                    ...customCheckboxStyle,
+                    backgroundColor: filters.status.includes(option.value)
+                      ? "var(--primary-color)"
+                      : "rgba(255, 255, 255, 0.8)",
+                    borderColor: filters.status.includes(option.value)
+                      ? "var(--primary-color)"
+                      : "rgba(0, 0, 0, 0.2)",
+                  }}
+                >
+                  {filters.status.includes(option.value) && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        color: "#ffffff",
+                        fontSize: "12px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      ✓
+                    </span>
+                  )}
+                </div>
+                <span style={checkboxLabelStyle}>{option.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sort */}
+        <div style={filterItemStyle}>
+          <div style={filterLabelStyle}>
+            <span style={{ color: "var(--primary-color)", marginRight: "8px" }}>
+              🔄
+            </span>
+            Sắp xếp
+          </div>
+          <select
+            style={selectInputStyle}
+            value={`${filters.sortBy}-${filters.sortOrder}`}
+            onChange={(e) => handleSortChange(e.target.value)}
+            onFocus={handleSelectFocus}
+            onBlur={handleSelectBlur}
+          >
+            <option value="createdAt-desc">Mới nhất</option>
+            <option value="Price-asc">Giá: Thấp đến cao</option>
+            <option value="Price-desc">Giá: Cao đến thấp</option>
+            <option value="Product_Name-asc">Tên: A-Z</option>
+            <option value="TestDriveEndDate-asc">Hạn chạy thử: Gần nhất</option>
+          </select>
+        </div>
+
+        {/* Clear Filters */}
+        <button
+          style={clearButtonStyle}
+          onClick={clearFilters}
+          onMouseEnter={handleClearButtonHover}
+          onMouseLeave={handleClearButtonLeave}
+        >
+          <ReloadOutlined />
+          Xóa bộ lọc
+        </button>
+      </div>
+    );
+  };
+
   // Loading overlay
   if (initialLoading) {
     return (
@@ -433,6 +849,17 @@ const ProductListPage: React.FC = () => {
                   icon={<FilterOutlined />}
                   onClick={() => setFiltersVisible(true)}
                   block
+                  size="large"
+                  style={{
+                    height: 56,
+                    borderRadius: 16,
+                    fontSize: 16,
+                    fontWeight: 600,
+                    background: "var(--primary-gradient)",
+                    border: "none",
+                    boxShadow: "0 6px 20px var(--theme-shadow)",
+                    transition: "all 0.3s ease",
+                  }}
                 >
                   Bộ lọc & Sắp xếp
                 </Button>
@@ -710,54 +1137,32 @@ const ProductListPage: React.FC = () => {
       </div>
 
       {/* Mobile Filters Drawer */}
-      <Drawer
-        title={
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <FilterOutlined style={{ fontSize: 20 }} />
-            <span style={{ fontSize: 18, fontWeight: 600 }}>
-              Bộ lọc & Sắp xếp
-            </span>
-          </div>
-        }
-        placement="right"
-        onClose={() => setFiltersVisible(false)}
-        open={filtersVisible}
-        width={380}
-        styles={{
-          header: {
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-            color: "white",
-            padding: "20px 24px",
-            borderBottom: "none",
-          },
-          body: {
-            padding: "24px",
-            background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
-          },
-          mask: {
-            backgroundColor: "rgba(0, 0, 0, 0.6)",
-          },
-        }}
-        closeIcon={
-          <div
-            style={{
-              color: "white",
-              fontSize: 18,
-              background: "rgba(255, 255, 255, 0.2)",
-              borderRadius: "50%",
-              width: 32,
-              height: 32,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            ×
-          </div>
-        }
-      >
-        <FilterSidebar />
-      </Drawer>
+      <div className={styles.mobileFilterDrawer}>
+        <Drawer
+          placement="right"
+          onClose={() => setFiltersVisible(false)}
+          open={filtersVisible}
+          width="85%"
+          zIndex={10000}
+          closable={false}
+          styles={{
+            body: {
+              padding: "24px",
+              background: "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)",
+            },
+            mask: {
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+              backdropFilter: "blur(4px)",
+              zIndex: 9999,
+            },
+            wrapper: {
+              zIndex: 10000,
+            },
+          }}
+        >
+          <MobileFilterSidebar />
+        </Drawer>
+      </div>
     </div>
   );
 };

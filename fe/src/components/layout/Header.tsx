@@ -4,20 +4,20 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useFavorites } from "../../contexts/FavoritesContext";
 import {
-  FaBars,
-  FaTimes,
-  FaHeart,
-  FaHome,
-  FaCar,
-  FaCogs,
-  FaDollarSign,
-  FaNewspaper,
-  FaCalendarAlt,
-  FaUser,
-  FaSignOutAlt,
-  FaSignInAlt,
-  FaUserPlus,
-} from "react-icons/fa";
+  MenuOutlined,
+  CloseOutlined,
+  HeartOutlined,
+  HomeOutlined,
+  CarOutlined,
+  SettingOutlined,
+  DollarOutlined,
+  FileTextOutlined,
+  CalendarOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  LoginOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import { ROUTERS } from "../../utils/constant";
 
 // Hàm chuyển hex sang rgba
@@ -532,7 +532,7 @@ const Header: React.FC = () => {
               onMouseLeave={handleFavoritesLeave}
               data-theme="favorites-link"
             >
-              <FaHeart />
+              <HeartOutlined />
               {favoritesCount > 0 && (
                 <span style={favoritesCountStyle} data-theme="favorites-count">
                   {favoritesCount > 99 ? "99+" : favoritesCount}
@@ -541,7 +541,7 @@ const Header: React.FC = () => {
             </Link>
 
             <button style={mobileMenuButtonStyle} onClick={toggleMobileMenu}>
-              <FaBars />
+              <MenuOutlined />
             </button>
           </div>
         </div>
@@ -559,7 +559,7 @@ const Header: React.FC = () => {
             Danh mục
           </div>
           <button style={mobileMenuCloseStyle} onClick={toggleMobileMenu}>
-            <FaTimes />
+            <CloseOutlined />
           </button>
         </div>
         <nav style={mobileMenuNavStyle}>
@@ -571,7 +571,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaHome />
+            <HomeOutlined />
             Trang chủ
           </Link>
           <Link
@@ -582,7 +582,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaCar />
+            <CarOutlined />
             Xe thử
           </Link>
           <Link
@@ -593,7 +593,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaCogs />
+            <SettingOutlined />
             Dịch vụ
           </Link>
           <Link
@@ -604,7 +604,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaDollarSign />
+            <DollarOutlined />
             Bảng giá
           </Link>
           <Link
@@ -615,7 +615,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaNewspaper />
+            <FileTextOutlined />
             Tin tức
           </Link>
           <Link
@@ -626,7 +626,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaCalendarAlt />
+            <CalendarOutlined />
             Đăng ký lái thử
           </Link>
           <Link
@@ -643,7 +643,7 @@ const Header: React.FC = () => {
             onMouseLeave={handleMobileLinkLeave}
             data-theme="mobile-menu-link"
           >
-            <FaHeart />
+            <HeartOutlined />
             Yêu thích
             {favoritesCount > 0 && (
               <span
@@ -688,7 +688,7 @@ const Header: React.FC = () => {
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
-                <FaUser />
+                <UserOutlined />
                 Thông tin cá nhân
               </Link>
               {user.Role === "admin" && (
@@ -705,7 +705,7 @@ const Header: React.FC = () => {
                   onMouseLeave={handleMobileLinkLeave}
                   data-theme="mobile-menu-link"
                 >
-                  <FaCogs />
+                  <SettingOutlined />
                   Quản trị
                 </Link>
               )}
@@ -726,7 +726,7 @@ const Header: React.FC = () => {
                 onMouseLeave={handleAuthButtonLeave}
                 data-theme="mobile-menu-link"
               >
-                <FaSignOutAlt />
+                <LogoutOutlined />
                 Đăng xuất
               </button>
             </>
@@ -745,7 +745,7 @@ const Header: React.FC = () => {
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
-                <FaSignInAlt />
+                <LoginOutlined />
                 Đăng nhập
               </Link>
               <Link
@@ -761,7 +761,7 @@ const Header: React.FC = () => {
                 onMouseLeave={handleMobileLinkLeave}
                 data-theme="mobile-menu-link"
               >
-                <FaUserPlus />
+                <UserAddOutlined />
                 Đăng ký
               </Link>
             </>

@@ -7,6 +7,14 @@ import { toast } from "react-toastify";
 import styles from "./RegisterPage.module.scss";
 import { RegisterData } from "../api/types";
 import { ROUTERS } from "../utils/constant";
+import {
+  UserOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  IdcardOutlined,
+  EnvironmentOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -145,7 +153,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-user" aria-hidden="true"></i>
+                <UserOutlined />
               </div>
               <input
                 type="text"
@@ -168,7 +176,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-envelope" aria-hidden="true"></i>
+                <MailOutlined />
               </div>
               <input
                 type="email"
@@ -191,7 +199,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-phone" aria-hidden="true"></i>
+                <PhoneOutlined />
               </div>
               <input
                 type="tel"
@@ -214,7 +222,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-id-card" aria-hidden="true"></i>
+                <IdcardOutlined />
               </div>
               <input
                 type="text"
@@ -236,7 +244,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <EnvironmentOutlined />
               </div>
               <input
                 type="text"
@@ -258,7 +266,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-lock" aria-hidden="true"></i>
+                <LockOutlined />
               </div>
               <input
                 type="password"
@@ -281,7 +289,7 @@ const RegisterPage: React.FC = () => {
             </label>
             <div className={styles["register__input-group"]}>
               <div className={styles["register__input-group-icon"]}>
-                <i className="fas fa-lock" aria-hidden="true"></i>
+                <LockOutlined />
               </div>
               <input
                 type="password"

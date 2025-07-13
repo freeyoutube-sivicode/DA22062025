@@ -17,16 +17,20 @@ import {
 const { Option } = Select;
 import { EditOutlined, LockOutlined, UnlockOutlined } from "@ant-design/icons";
 import axios from "axios";
+import CustomPagination from "../../components/CustomPagination";
 import Breadcrumb from "../../components/admin/Breadcrumb";
 
 interface User {
   _id: string;
-  Username: string;
+  UserName: string;
   Email: string;
+  Phone: string;
+  FullName: string;
+  Address: string;
   Role: string;
   Status: string;
-  CreatedAt: string;
-  LastLogin: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const UserListPage: React.FC = () => {
@@ -78,10 +82,19 @@ const UserListPage: React.FC = () => {
     fetchUsers(pagination.current, pagination.pageSize);
   };
 
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    const newPageSize = pageSize || pagination.pageSize;
+    setPagination({
+      ...pagination,
+      current: page,
+      pageSize: newPageSize,
+    });
+  };
+
   const handleEdit = (user: User) => {
     setEditingUser(user);
     form.setFieldsValue({
-      Username: user.Username,
+      UserName: user.UserName,
       Email: user.Email,
       Role: user.Role,
     });
@@ -123,6 +136,11 @@ const UserListPage: React.FC = () => {
       key: "UserName",
     },
     {
+      title: "Họ và tên",
+      dataIndex: "FullName",
+      key: "FullName",
+    },
+    {
       title: "Email",
       dataIndex: "Email",
       key: "Email",
@@ -149,15 +167,15 @@ const UserListPage: React.FC = () => {
     },
     {
       title: "Ngày tạo",
-      dataIndex: "CreatedAt",
-      key: "CreatedAt",
-      render: (date: string) => new Date(date).toLocaleDateString("vi-VN"),
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date: string) => new Date(date).toLocaleString("vi-VN"),
     },
     {
-      title: "Đăng nhập cuối",
-      dataIndex: "LastLogin",
-      key: "LastLogin",
-      render: (date: string) => new Date(date).toLocaleDateString("vi-VN"),
+      title: "Cập nhật cuối",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (date: string) => new Date(date).toLocaleString("vi-VN"),
     },
     {
       title: "Thao tác",
@@ -224,13 +242,18 @@ const UserListPage: React.FC = () => {
         dataSource={users}
         rowKey="_id"
         loading={loading}
-        pagination={{
-          ...pagination,
-          showSizeChanger: true,
-          showTotal: (total) => `Tổng số ${total} người dùng`,
-        }}
+        pagination={false}
         onChange={handleTableChange}
       />
+      <div style={{ marginTop: 16, textAlign: "center" }}>
+        <CustomPagination
+          current={pagination.current}
+          pageSize={pagination.pageSize}
+          total={pagination.total}
+          onChange={handlePaginationChange}
+          pageSizeOptions={["10", "20", "50", "100"]}
+        />
+      </div>
 
       <Modal
         title="Chỉnh sửa thông tin người dùng"

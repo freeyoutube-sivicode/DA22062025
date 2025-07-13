@@ -4,10 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthContext"; // Import useAuth
 import { ROUTERS } from "../utils/constant";
 import styles from "./LoginPage.module.scss"; // Import SCSS module
-
-// Import icons (assuming you are using Font Awesome or similar) or use Ant Design icons if preferred
-// For simplicity, I'll use placeholder <i> tags and suggest adding icon libraries if needed.
-// If using Ant Design icons, you would import them like: import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -73,9 +70,7 @@ const LoginPage: React.FC = () => {
             <div className={styles["login__input-group"]}>
               {/* Icon for username/email field */}
               <div className={styles["login__input-group-icon"]}>
-                <i className="fas fa-user" aria-hidden="true"></i>{" "}
-                {/* Example using Font Awesome */}
-                {/* Or if using Ant Design: <UserOutlined /> */}
+                <UserOutlined />
               </div>
               <input
                 type="text"
@@ -99,9 +94,7 @@ const LoginPage: React.FC = () => {
             <div className={styles["login__input-group"]}>
               {/* Icon for password field */}
               <div className={styles["login__input-group-icon"]}>
-                <i className="fas fa-lock" aria-hidden="true"></i>{" "}
-                {/* Example using Font Awesome */}
-                {/* Or if using Ant Design: <LockOutlined /> */}
+                <LockOutlined />
               </div>
               <input
                 type="password"

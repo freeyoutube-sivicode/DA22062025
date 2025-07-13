@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTERS } from "../utils/constant";
+import {
+  UserOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
 
 const RegistrationPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -41,7 +47,7 @@ const RegistrationPage: React.FC = () => {
               </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                  <i className="fas fa-user"></i>
+                  <UserOutlined />
                 </span>
                 <input
                   type="text"
@@ -61,7 +67,7 @@ const RegistrationPage: React.FC = () => {
               </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                  <i className="fas fa-envelope"></i>
+                  <MailOutlined />
                 </span>
                 <input
                   type="email"
@@ -81,7 +87,7 @@ const RegistrationPage: React.FC = () => {
               </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                  <i className="fas fa-phone"></i>
+                  <PhoneOutlined />
                 </span>
                 <input
                   type="tel"
@@ -101,7 +107,7 @@ const RegistrationPage: React.FC = () => {
               </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                  <i className="fas fa-lock"></i>
+                  <LockOutlined />
                 </span>
                 <input
                   type="password"
@@ -124,7 +130,7 @@ const RegistrationPage: React.FC = () => {
               </label>
               <div className="registration-page__input-group">
                 <span className="registration-page__input-group-text">
-                  <i className="fas fa-lock"></i>
+                  <LockOutlined />
                 </span>
                 <input
                   type="password"

@@ -24,7 +24,7 @@ import {
 import axios from "axios";
 import styles from "./ProductListPage.module.scss";
 import { API_BASE_URL } from "../../api/config";
-import { PaginationWrapper, usePagination } from "../../components/pagination";
+import CustomPagination from "../../components/CustomPagination";
 import Breadcrumb from "../../components/admin/Breadcrumb";
 
 const { Title } = Typography;
@@ -245,7 +245,6 @@ const ProductListPage: React.FC = () => {
   ];
 
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-    setPagination(pagination);
     if (sorter && sorter.columnKey) {
       setSortColumn(
         sorter.columnKey === "Product_Name"
@@ -263,14 +262,24 @@ const ProductListPage: React.FC = () => {
     }
   };
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.Product_Name.toLowerCase().includes(
-      searchText.toLowerCase()
-    );
-    const matchesCategory =
-      !selectedCategory || product.CategoryID._id === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    const newPageSize = pageSize || pagination.pageSize;
+    setPagination({
+      ...pagination,
+      current: page,
+      pageSize: newPageSize,
+    });
+  };
+
+  // Remove client-side filtering since we're doing server-side filtering
+  // const filteredProducts = products.filter((product) => {
+  //   const matchesSearch = product.Product_Name.toLowerCase().includes(
+  //     searchText.toLowerCase()
+  //   );
+  //   const matchesCategory =
+  //     !selectedCategory || product.CategoryID._id === selectedCategory;
+  //   return matchesSearch && matchesCategory;
+  // });
 
   return (
     <div className={styles.productListPage}>
@@ -309,15 +318,20 @@ const ProductListPage: React.FC = () => {
         <Table
           className={styles.table}
           columns={columns}
-          dataSource={filteredProducts}
+          dataSource={products}
           rowKey="_id"
-          pagination={{
-            ...pagination,
-            showSizeChanger: true,
-            showTotal: (total) => `Tổng số ${total} xe cho thuê`,
-          }}
+          pagination={false}
           onChange={handleTableChange}
         />
+        <div className={styles.paginationContainer}>
+          <CustomPagination
+            current={pagination.current}
+            pageSize={pagination.pageSize}
+            total={pagination.total}
+            onChange={handlePaginationChange}
+            pageSizeOptions={["10", "20", "50", "100"]}
+          />
+        </div>
       </Spin>
     </div>
   );

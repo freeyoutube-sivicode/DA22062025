@@ -7,6 +7,7 @@ import {
   FaMapMarkerAlt,
   FaPhone,
   FaClock,
+  FaTimes,
 } from "react-icons/fa";
 import { ToolOutlined } from "@ant-design/icons";
 import PageBanner from "../components/PageBanner";
@@ -21,6 +22,7 @@ const ServicePage: React.FC = () => {
   // Use scroll to top hook
   useScrollToTop();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     FullName: "",
     Phone: "",
@@ -41,29 +43,90 @@ const ServicePage: React.FC = () => {
     setFormData((prevState) => ({ ...prevState, [id]: value }));
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    // Reset form when closing modal
+    setFormData({
+      FullName: "",
+      Phone: "",
+      Email: "",
+      CarModel: "",
+      AppointmentDate: "",
+      AppointmentTime: "",
+      ServiceType: "",
+      Notes: "",
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Basic validation (can be enhanced)
-    if (
-      !formData.FullName ||
-      !formData.Phone ||
-      !formData.Email ||
-      !formData.CarModel ||
-      !formData.AppointmentDate ||
-      !formData.AppointmentTime ||
-      !formData.ServiceType
-    ) {
-      message.error("Vui lòng điền đầy đủ thông tin bắt buộc.");
+    // Enhanced validation with specific error messages
+    const errors: string[] = [];
+
+    if (!formData.FullName.trim()) {
+      errors.push("Họ và tên không được để trống");
+    } else if (formData.FullName.trim().length < 2) {
+      errors.push("Họ và tên phải có ít nhất 2 ký tự");
+    }
+
+    if (!formData.Phone.trim()) {
+      errors.push("Số điện thoại không được để trống");
+    } else if (!/^[0-9+\-\s()]{10,15}$/.test(formData.Phone.trim())) {
+      errors.push("Số điện thoại không hợp lệ");
+    }
+
+    if (!formData.Email.trim()) {
+      errors.push("Email không được để trống");
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.Email.trim())) {
+      errors.push("Email không hợp lệ");
+    }
+
+    if (!formData.CarModel) {
+      errors.push("Vui lòng chọn mẫu xe");
+    }
+
+    if (!formData.AppointmentDate) {
+      errors.push("Vui lòng chọn ngày đặt lịch");
+    } else {
+      const selectedDate = new Date(formData.AppointmentDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        errors.push("Ngày đặt lịch không thể là ngày trong quá khứ");
+      }
+    }
+
+    if (!formData.AppointmentTime) {
+      errors.push("Vui lòng chọn thời gian đặt lịch");
+    }
+
+    if (!formData.ServiceType) {
+      errors.push("Vui lòng chọn loại dịch vụ");
+    }
+
+    // Show all validation errors
+    if (errors.length > 0) {
+      errors.forEach((error) => {
+        message.error(error);
+      });
       return;
     }
 
     try {
-      // Format date if necessary - sending as YYYY-MM-DD string should be fine for Mongoose Date type
+      // Show loading message
+      const loadingMessage = message.loading("Đang gửi yêu cầu đặt lịch...", 0);
+
       const dataToSend = {
         ...formData,
-        // If backend expects a Date object, you might convert like this:
-        // AppointmentDate: new Date(formData.AppointmentDate),
+        FullName: formData.FullName.trim(),
+        Phone: formData.Phone.trim(),
+        Email: formData.Email.trim(),
       };
 
       const response = await axios.post(
@@ -71,9 +134,17 @@ const ServicePage: React.FC = () => {
         dataToSend
       );
 
+      // Close loading message
+      loadingMessage();
+
       if (response.data.success) {
-        message.success("Yêu cầu đặt lịch đã được gửi thành công!");
-        // Reset form fields
+        message.success({
+          content:
+            "Yêu cầu đặt lịch đã được gửi thành công! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.",
+          duration: 5,
+        });
+
+        // Reset form fields and close modal
         setFormData({
           FullName: "",
           Phone: "",
@@ -84,6 +155,7 @@ const ServicePage: React.FC = () => {
           ServiceType: "",
           Notes: "",
         });
+        closeModal();
       } else {
         // Handle specific error messages from backend if any
         message.error(
@@ -92,11 +164,29 @@ const ServicePage: React.FC = () => {
       }
     } catch (error: any) {
       console.error("Error submitting service request:", error);
-      message.error(
-        error.response?.data?.message ||
-          error.message ||
-          "Đã xảy ra lỗi khi gửi yêu cầu đặt lịch."
-      );
+
+      // Handle different types of errors
+      if (error.response?.status === 400) {
+        message.error(
+          "Thông tin không hợp lệ. Vui lòng kiểm tra lại các trường thông tin."
+        );
+      } else if (error.response?.status === 409) {
+        message.error(
+          "Đã có lịch hẹn cho thời gian này. Vui lòng chọn thời gian khác."
+        );
+      } else if (error.response?.status === 500) {
+        message.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+      } else if (error.code === "NETWORK_ERROR") {
+        message.error(
+          "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet."
+        );
+      } else {
+        message.error(
+          error.response?.data?.message ||
+            error.message ||
+            "Đã xảy ra lỗi khi gửi yêu cầu đặt lịch."
+        );
+      }
     }
   };
 
@@ -150,6 +240,14 @@ const ServicePage: React.FC = () => {
                 />
                 <span>Công nghệ chẩn đoán hiện đại</span>
               </div>
+            </div>
+            <div className={styles["service-overview__cta"]}>
+              <button
+                onClick={openModal}
+                className={`${styles["service-overview__btn"]} btn btn--primary`}
+              >
+                Đặt lịch dịch vụ ngay
+              </button>
             </div>
           </div>
         </div>
@@ -367,233 +465,237 @@ const ServicePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Service Booking Form Section */}
-      <section
-        className={`${styles["booking-form-section"]} booking-form-section`}
-      >
-        <div
-          className={`${styles["booking-form-section__container"]} booking-form-section__container`}
-        >
-          <div className={`${styles["booking-form"]} booking-form`}>
-            <h2
-              className={`${styles["booking-form__title"]} booking-form__title`}
-            >
-              ĐẶT LỊCH DỊCH VỤ
-            </h2>
-            <p
-              className={`${styles["booking-form__subtitle"]} booking-form__subtitle`}
-            >
-              Điền thông tin để đặt lịch dịch vụ tại trung tâm BMW gần nhất
-            </p>
-            <form
-              className={`${styles["booking-form__form"]} booking-form__form`}
-              onSubmit={handleSubmit}
-            >
-              <div
-                className={`${styles["booking-form__row"]} booking-form__row`}
+      {/* Modal */}
+      {isModalOpen && (
+        <div className={styles["modal-overlay"]} onClick={closeModal}>
+          <div className={styles["modal"]} onClick={(e) => e.stopPropagation()}>
+            <div className={styles["modal-header"]}>
+              <h2 className={styles["modal-title"]}>ĐẶT LỊCH DỊCH VỤ</h2>
+              <button
+                className={styles["modal-close"]}
+                onClick={closeModal}
+                aria-label="Đóng"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <div className={styles["modal-body"]}>
+              <p className={styles["modal-subtitle"]}>
+                Điền thông tin để đặt lịch dịch vụ tại trung tâm BMW gần nhất
+              </p>
+              <form
+                className={`${styles["booking-form__form"]} booking-form__form`}
+                onSubmit={handleSubmit}
               >
                 <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
+                  className={`${styles["booking-form__row"]} booking-form__row`}
                 >
-                  <label
-                    htmlFor="fullName"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Họ và tên
-                  </label>
-                  <input
-                    type="text"
-                    id="FullName"
-                    className={`${styles["booking-form__input"]} booking-form__input`}
-                    placeholder="Nhập họ và tên"
-                    value={formData.FullName}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
-                >
-                  <label
-                    htmlFor="phoneNumber"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                    <label
+                      htmlFor="fullName"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Họ và tên
+                    </label>
+                    <input
+                      type="text"
+                      id="FullName"
+                      className={`${styles["booking-form__input"]} booking-form__input`}
+                      placeholder="Nhập họ và tên"
+                      value={formData.FullName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Số điện thoại
-                  </label>
-                  <input
-                    type="text"
-                    id="Phone"
-                    className={`${styles["booking-form__input"]} booking-form__input`}
-                    placeholder="Nhập số điện thoại"
-                    value={formData.Phone}
-                    onChange={handleInputChange}
-                  />
+                    <label
+                      htmlFor="phoneNumber"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Số điện thoại
+                    </label>
+                    <input
+                      type="text"
+                      id="Phone"
+                      className={`${styles["booking-form__input"]} booking-form__input`}
+                      placeholder="Nhập số điện thoại"
+                      value={formData.Phone}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div
-                className={`${styles["booking-form__row"]} booking-form__row`}
-              >
                 <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
+                  className={`${styles["booking-form__row"]} booking-form__row`}
                 >
-                  <label
-                    htmlFor="email"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="Email"
-                    className={`${styles["booking-form__input"]} booking-form__input`}
-                    placeholder="Nhập email"
-                    value={formData.Email}
-                    onChange={handleInputChange}
-                  />
+                    <label
+                      htmlFor="email"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="Email"
+                      className={`${styles["booking-form__input"]} booking-form__input`}
+                      placeholder="Nhập email"
+                      value={formData.Email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
+                  >
+                    <label
+                      htmlFor="carModel"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Mẫu xe
+                    </label>
+                    <select
+                      id="CarModel"
+                      className={`${styles["booking-form__select"]} booking-form__select`}
+                      value={formData.CarModel}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Chọn mẫu xe</option>
+                      <option value="BMW 3 Series">BMW 3 Series</option>
+                      <option value="BMW 5 Series">BMW 5 Series</option>
+                      <option value="BMW X3">BMW X3</option>
+                      <option value="BMW X5">BMW X5</option>
+                      <option value="Other">Khác</option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
-                >
-                  <label
-                    htmlFor="carModel"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
-                  >
-                    Mẫu xe
-                  </label>
-                  <select
-                    id="CarModel"
-                    className={`${styles["booking-form__select"]} booking-form__select`}
-                    value={formData.CarModel}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Chọn mẫu xe</option>
-                    {/* Add car model options here dynamically if needed, or hardcode */}
-                    <option value="BMW 3 Series">BMW 3 Series</option>
-                    <option value="BMW 5 Series">BMW 5 Series</option>
-                    <option value="BMW X3">BMW X3</option>
-                    <option value="BMW X5">BMW X5</option>
-                    <option value="Other">Khác</option>
-                  </select>
-                </div>
-              </div>
 
-              <div
-                className={`${styles["booking-form__row"]} booking-form__row`}
-              >
                 <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
+                  className={`${styles["booking-form__row"]} booking-form__row`}
                 >
-                  <label
-                    htmlFor="bookingDate"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Ngày đặt lịch
-                  </label>
-                  {/* Using type="date" provides a native date picker */}
-                  <input
-                    type="date"
-                    id="AppointmentDate"
-                    className={`${styles["booking-form__input"]} booking-form__input`}
-                    placeholder="mm/dd/yyyy"
-                    value={formData.AppointmentDate}
-                    onChange={handleInputChange}
-                  />
+                    <label
+                      htmlFor="bookingDate"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Ngày đặt lịch
+                    </label>
+                    <input
+                      type="date"
+                      id="AppointmentDate"
+                      className={`${styles["booking-form__input"]} booking-form__input`}
+                      placeholder="mm/dd/yyyy"
+                      value={formData.AppointmentDate}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
+                  >
+                    <label
+                      htmlFor="bookingTime"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Thời gian
+                    </label>
+                    <select
+                      id="AppointmentTime"
+                      className={`${styles["booking-form__select"]} booking-form__select`}
+                      value={formData.AppointmentTime}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Chọn thời gian</option>
+                      <option value="08:00">08:00</option>
+                      <option value="10:00">10:00</option>
+                      <option value="13:00">13:00</option>
+                      <option value="15:00">15:00</option>
+                      <option value="17:00">17:00</option>
+                    </select>
+                  </div>
                 </div>
-                <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
-                >
-                  <label
-                    htmlFor="bookingTime"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
-                  >
-                    Thời gian
-                  </label>
-                  <select
-                    id="AppointmentTime"
-                    className={`${styles["booking-form__select"]} booking-form__select`}
-                    value={formData.AppointmentTime}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Chọn thời gian</option>
-                    {/* Add time options based on backend enum */}
-                    <option value="08:00">08:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="17:00">17:00</option>
-                  </select>
-                </div>
-              </div>
 
-              <div
-                className={`${styles["booking-form__row"]} booking-form__row ${styles["booking-form__full-width"]}`}
-              >
                 <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
+                  className={`${styles["booking-form__row"]} booking-form__row ${styles["booking-form__full-width"]}`}
                 >
-                  <label
-                    htmlFor="serviceType"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Loại dịch vụ
-                  </label>
-                  <select
-                    id="ServiceType"
-                    className={`${styles["booking-form__select"]} booking-form__select`}
-                    value={formData.ServiceType}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Chọn loại dịch vụ</option>
-                    {/* Options based on backend enum */}
-                    <option value="Bảo dưỡng định kỳ">Bảo dưỡng định kỳ</option>
-                    <option value="Sửa chữa">Sửa chữa</option>
-                    <option value="Đồng sơn">Đồng sơn</option>
-                    <option value="Nâng cấp hiệu suất">
-                      Nâng cấp hiệu suất
-                    </option>
-                    <option value="Khác">Khác</option>
-                  </select>
+                    <label
+                      htmlFor="serviceType"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Loại dịch vụ
+                    </label>
+                    <select
+                      id="ServiceType"
+                      className={`${styles["booking-form__select"]} booking-form__select`}
+                      value={formData.ServiceType}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Chọn loại dịch vụ</option>
+                      <option value="Bảo dưỡng định kỳ">
+                        Bảo dưỡng định kỳ
+                      </option>
+                      <option value="Sửa chữa">Sửa chữa</option>
+                      <option value="Đồng sơn">Đồng sơn</option>
+                      <option value="Nâng cấp hiệu suất">
+                        Nâng cấp hiệu suất
+                      </option>
+                      <option value="Khác">Khác</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              {/* Optional: Additional notes/message */}
-              <div
-                className={`${styles["booking-form__row"]} booking-form__row ${styles["booking-form__full-width"]}`}
-              >
                 <div
-                  className={`${styles["booking-form__col"]} booking-form__col`}
+                  className={`${styles["booking-form__row"]} booking-form__row ${styles["booking-form__full-width"]}`}
                 >
-                  <label
-                    htmlFor="notes"
-                    className={`${styles["booking-form__label"]} booking-form__label`}
+                  <div
+                    className={`${styles["booking-form__col"]} booking-form__col`}
                   >
-                    Ghi chú (Tùy chọn)
-                  </label>
-                  {/* Use a textarea for notes */}
-                  <textarea
-                    id="Notes"
-                    className={`${styles["booking-form__textarea"]} booking-form__textarea`}
-                    rows={4}
-                    value={formData.Notes}
-                    onChange={handleInputChange}
-                  ></textarea>
+                    <label
+                      htmlFor="notes"
+                      className={`${styles["booking-form__label"]} booking-form__label`}
+                    >
+                      Ghi chú (Tùy chọn)
+                    </label>
+                    <textarea
+                      id="Notes"
+                      className={`${styles["booking-form__textarea"]} booking-form__textarea`}
+                      rows={4}
+                      value={formData.Notes}
+                      onChange={handleInputChange}
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
 
-              <div
-                className={`${styles["booking-form__actions"]} booking-form__actions`}
-              >
-                <button
-                  type="submit"
-                  className={`${styles["booking-form__btn-submit"]} booking-form__btn-submit btn btn--primary`}
+                <div
+                  className={`${styles["booking-form__actions"]} booking-form__actions`}
                 >
-                  Đặt lịch ngay
-                </button>
-              </div>
-            </form>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className={`${styles["booking-form__btn-cancel"]} booking-form__btn-cancel btn btn--secondary`}
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    type="submit"
+                    className={`${styles["booking-form__btn-submit"]} booking-form__btn-submit btn btn--primary`}
+                  >
+                    Đặt lịch ngay
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </section>
+      )}
     </div>
   );
 };

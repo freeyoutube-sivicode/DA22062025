@@ -7,9 +7,6 @@ interface CustomPaginationProps {
   pageSize: number;
   total: number;
   onChange: (page: number, pageSize?: number) => void;
-  showSizeChanger?: boolean;
-  showQuickJumper?: boolean;
-  showTotal?: (total: number, range: [number, number]) => string;
   pageSizeOptions?: string[];
   className?: string;
 }
@@ -19,12 +16,21 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   pageSize,
   total,
   onChange,
-  showSizeChanger = false,
-  showQuickJumper = false,
-  showTotal,
   pageSizeOptions = ["12", "24", "48", "96"],
   className,
 }) => {
+  // Detect mobile screen size
+  const isMobile = window.innerWidth <= 768;
+  const isSmallMobile = window.innerWidth <= 480;
+
+  // Mobile-specific pagination settings
+  const mobileSettings = {
+    size: (isSmallMobile ? "small" : "default") as "small" | "default",
+    showSizeChanger: false, // Disable on mobile for better UX
+    showQuickJumper: false, // Disable on mobile for better UX
+    showLessItems: isSmallMobile, // Show fewer items on very small screens
+  };
+
   return (
     <div className={`${styles.customPagination} ${className || ""}`}>
       <AntPagination
@@ -32,11 +38,12 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
         pageSize={pageSize}
         total={total}
         onChange={onChange}
-        showSizeChanger={showSizeChanger}
-        showQuickJumper={showQuickJumper}
-        showTotal={showTotal}
+        showSizeChanger={false}
+        showQuickJumper={false}
         pageSizeOptions={pageSizeOptions}
         className={styles.pagination}
+        size={mobileSettings.size}
+        showLessItems={mobileSettings.showLessItems}
       />
     </div>
   );

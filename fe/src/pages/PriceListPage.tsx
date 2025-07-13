@@ -20,6 +20,7 @@ import {
   UpOutlined,
   CloseOutlined,
   PlusOutlined,
+  InfoCircleOutlined,
 } from "@ant-design/icons";
 import { productService } from "../api/services/product";
 import PageBanner from "../components/PageBanner";
@@ -697,9 +698,6 @@ const PriceListPage: React.FC = () => {
           {/* Price Filter */}
           <div className="price-filter">
             <div className="price-filter__row">
-              <div className="price-filter__col">
-                <h4 className="price-filter__title">Lọc theo dòng xe</h4>
-              </div>
               <div className="price-filter__col">{renderFilterButtons()}</div>
             </div>
           </div>
@@ -707,50 +705,103 @@ const PriceListPage: React.FC = () => {
           {/* Price Table */}
           <div className="price-table-container">
             <Spin spinning={loading}>
-              <table className="price-table">
-                <thead>
-                  <tr>
-                    <th>Mẫu xe</th>
-                    <th>Phiên bản</th>
-                    <th>Giá niêm yết (VNĐ)</th>
-                    <th>Khuyến mãi</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentPageData.map((item) => (
-                    <tr key={item._id} className="price-table__row">
-                      <td>
-                        <div className="price-table__model-info">
-                          <img
-                            src={item.Main_Image}
-                            alt={item.Product_Name}
-                            className="price-table__model-image"
-                          />
-                          <span className="price-table__model-name">
+              {/* Desktop Table View */}
+              <div className="price-table-desktop">
+                <table className="price-table">
+                  <thead>
+                    <tr>
+                      <th>Mẫu xe</th>
+                      <th>Phiên bản</th>
+                      <th>Giá niêm yết (VNĐ)</th>
+                      <th>Khuyến mãi</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentPageData.map((item) => (
+                      <tr key={item._id} className="price-table__row">
+                        <td>
+                          <div className="price-table__model-info">
+                            <img
+                              src={item.Main_Image}
+                              alt={item.Product_Name}
+                              className="price-table__model-image"
+                            />
+                            <span className="price-table__model-name">
+                              {item.Product_Name}
+                            </span>
+                          </div>
+                        </td>
+                        <td>{item.Variant || "Standard"}</td>
+                        <td>{formatCurrency(item.Price)}</td>
+                        <td>
+                          <span className="price-table__discount">
+                            {item.Discount}
+                          </span>
+                        </td>
+                        <td>
+                          <a
+                            href={`/xe/${item._id}`}
+                            className="price-table__btn-detail"
+                          >
+                            Chi tiết
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="price-table-mobile">
+                {currentPageData.map((item) => (
+                  <div key={item._id} className="price-card">
+                    <div className="price-card__header">
+                      <div className="price-card__model-info">
+                        <img
+                          src={item.Main_Image}
+                          alt={item.Product_Name}
+                          className="price-card__model-image"
+                        />
+                        <div className="price-card__model-details">
+                          <h4 className="price-card__model-name">
                             {item.Product_Name}
+                          </h4>
+                          <span className="price-card__variant">
+                            {item.Variant || "Standard"}
                           </span>
                         </div>
-                      </td>
-                      <td>{item.Variant || "Standard"}</td>
-                      <td>{formatCurrency(item.Price)}</td>
-                      <td>
-                        <span className="price-table__discount">
+                      </div>
+                    </div>
+
+                    <div className="price-card__body">
+                      <div className="price-card__info-row">
+                        <span className="price-card__label">Giá niêm yết:</span>
+                        <span className="price-card__price">
+                          {formatCurrency(item.Price)}
+                        </span>
+                      </div>
+
+                      <div className="price-card__info-row">
+                        <span className="price-card__label">Khuyến mãi:</span>
+                        <span className="price-card__discount">
                           {item.Discount}
                         </span>
-                      </td>
-                      <td>
-                        <a
-                          href={`/xe/${item._id}`}
-                          className="price-table__btn-detail"
-                        >
-                          Chi tiết
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </div>
+                    </div>
+
+                    <div className="price-card__footer">
+                      <a
+                        href={`/xe/${item._id}`}
+                        className="price-card__btn-detail"
+                      >
+                        Xem chi tiết
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </Spin>
           </div>
 
@@ -772,16 +823,15 @@ const PriceListPage: React.FC = () => {
           {/* Price Notes */}
           <div className="price-notes">
             <p>
-              <i className="fas fa-info-circle"></i> Giá xe đã bao gồm thuế VAT
-              10%
+              <InfoCircleOutlined /> Giá xe đã bao gồm thuế VAT 10%
             </p>
             <p>
-              <i className="fas fa-info-circle"></i> Giá xe chưa bao gồm phí
-              trước bạ, đăng ký biển số và các chi phí khác
+              <InfoCircleOutlined /> Giá xe chưa bao gồm phí trước bạ, đăng ký
+              biển số và các chi phí khác
             </p>
             <p>
-              <i className="fas fa-info-circle"></i> Giá có thể thay đổi tùy
-              theo thời điểm và chính sách của BMW Việt Nam
+              <InfoCircleOutlined /> Giá có thể thay đổi tùy theo thời điểm và
+              chính sách của BMW Việt Nam
             </p>
           </div>
         </div>

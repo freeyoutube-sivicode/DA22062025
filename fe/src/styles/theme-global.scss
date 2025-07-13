@@ -386,4 +386,67 @@ html body footer.user-footer[data-theme="footer"] {
 [id^="theme-wrapper-"] .user-footer[data-theme="footer"] {
   background-color: #00ff00 !important; /* Test GREEN */
   color: #ffffff !important;
+}
+
+// ===== Ant Design Popover - Global Custom Style =====
+.ant-popover {
+  z-index: $z-index-popover !important;
+
+  .ant-popover-inner {
+    background: #fff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 1.5px 6px rgba(0,0,0,0.08) !important;
+    border: none !important;
+    padding: 1.5rem !important;
+    min-width: 260px;
+    max-width: 340px;
+    transition: box-shadow 0.25s, background 0.25s;
+  }
+
+  .ant-popover-inner-content {
+    padding: 0 !important;
+  }
+
+  .ant-popover-arrow {
+    display: none !important;
+  }
+
+  .ant-popover-content {
+    animation: popoverFadeIn 0.22s cubic-bezier(0.4,0,0.2,1);
+  }
+}
+
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.97);}
+  to { opacity: 1; transform: translateY(0) scale(1);}
+}
+
+// ===== Popover Item Hover & Spacing =====
+.ant-popover-inner-content ul,
+.ant-popover-inner-content .popover-list,
+.ant-popover-inner-content .price-filter__popover-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ant-popover-inner-content li,
+.ant-popover-inner-content .popover-list > *,
+.ant-popover-inner-content .price-filter__popover-list > * {
+  border-radius: 8px;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  background: transparent;
+
+  &:hover, &:focus {
+    background: rgba(0,102,177,0.08);
+    color: #0066b1;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,102,177,0.08);
+  }
 } 

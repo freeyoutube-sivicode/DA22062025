@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Space, Modal, Form, Input, message } from "antd";
 import { EditOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
+import CustomPagination from "../../components/CustomPagination";
 import Breadcrumb from "../../components/admin/Breadcrumb";
 
 interface Category {
@@ -53,6 +54,15 @@ const CategoryListPage: React.FC = () => {
 
   const handleTableChange = (pagination: any) => {
     fetchCategories(pagination.current, pagination.pageSize);
+  };
+
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    const newPageSize = pageSize || pagination.pageSize;
+    setPagination({
+      ...pagination,
+      current: page,
+      pageSize: newPageSize,
+    });
   };
 
   const handleAdd = () => {
@@ -161,13 +171,18 @@ const CategoryListPage: React.FC = () => {
         dataSource={categories}
         rowKey="_id"
         loading={loading}
-        pagination={{
-          ...pagination,
-          showSizeChanger: true,
-          showTotal: (total) => `Tổng số ${total} danh mục`,
-        }}
+        pagination={false}
         onChange={handleTableChange}
       />
+      <div style={{ marginTop: 16, textAlign: 'center' }}>
+        <CustomPagination
+          current={pagination.current}
+          pageSize={pagination.pageSize}
+          total={pagination.total}
+          onChange={handlePaginationChange}
+          pageSizeOptions={["10", "20", "50", "100"]}
+        />
+      </div>
 
       <Modal
         title={editingCategory ? "Chỉnh sửa danh mục" : "Thêm danh mục mới"}

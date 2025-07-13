@@ -22,6 +22,7 @@ import {
 import { api } from "../../api";
 import dayjs from "dayjs";
 import styles from "./TestDriveBookingListPage.module.scss";
+import CustomPagination from "../../components/CustomPagination";
 import Breadcrumb from "../../components/admin/Breadcrumb";
 
 interface UserInfo {
@@ -101,34 +102,27 @@ const TestDriveBookingListPage: React.FC = () => {
     }
   };
 
-  const fetchBookings = async (
-    page: number = pagination.current,
-    limit: number = pagination.pageSize,
-    search: string = searchTerm,
-    status: string | undefined = selectedStatus,
-    dates: [dayjs.Dayjs | null, dayjs.Dayjs | null] | null = dateRange
-  ) => {
+  const fetchBookings = async () => {
     setLoading(true);
     try {
       const response = await api.get("/test-drive-orders", {
         params: {
-          page,
-          limit,
-          search,
-          status,
-          startDate: dates?.[0]?.format("YYYY-MM-DD"),
-          endDate: dates?.[1]?.format("YYYY-MM-DD"),
+          page: pagination.current,
+          limit: pagination.pageSize,
+          search: searchTerm,
+          status: selectedStatus,
+          startDate: dateRange?.[0]?.format("YYYY-MM-DD"),
+          endDate: dateRange?.[1]?.format("YYYY-MM-DD"),
         },
       });
 
       if (response.data.success) {
         const bookingsData = response.data.data;
         setBookings(bookingsData);
-        setPagination({
-          ...pagination,
-          current: page,
+        setPagination((prev) => ({
+          ...prev,
           total: response.data.total || 0,
-        });
+        }));
 
         // Fetch product details for all bookings
         const productIds = bookingsData.map(
@@ -147,27 +141,43 @@ const TestDriveBookingListPage: React.FC = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, []);
+  }, [
+    pagination.current,
+    pagination.pageSize,
+    searchTerm,
+    selectedStatus,
+    dateRange,
+  ]);
 
   const handleTableChange = (pagination: any) => {
-    fetchBookings(pagination.current, pagination.pageSize);
+    // This function is no longer needed since we're using CustomPagination
+    // The pagination is handled by handlePaginationChange
+  };
+
+  const handlePaginationChange = (page: number, pageSize?: number) => {
+    const newPageSize = pageSize || pagination.pageSize;
+    setPagination({
+      ...pagination,
+      current: page,
+      pageSize: newPageSize,
+    });
   };
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    setPagination({ ...pagination, current: 1 });
+    setPagination((prev) => ({ ...prev, current: 1 }));
   };
 
   const handleStatusChange = (value: string) => {
     setSelectedStatus(value === "" ? undefined : value);
-    setPagination({ ...pagination, current: 1 });
+    setPagination((prev) => ({ ...prev, current: 1 }));
   };
 
   const handleDateRangeChange = (
     dates: [dayjs.Dayjs | null, dayjs.Dayjs | null] | null
   ) => {
     setDateRange(dates);
-    setPagination({ ...pagination, current: 1 });
+    setPagination((prev) => ({ ...prev, current: 1 }));
   };
 
   const handleUpdateStatus = async (bookingId: string, newStatus: string) => {
@@ -424,16 +434,21 @@ const TestDriveBookingListPage: React.FC = () => {
           dataSource={bookings}
           rowKey="_id"
           loading={loading}
-          pagination={{
-            ...pagination,
-            showSizeChanger: true,
-            showTotal: (total) => `Tổng số ${total} đơn đặt lịch`,
-          }}
+          pagination={false}
           onChange={handleTableChange}
           scroll={{ x: 1240 }}
           size="middle"
           className={styles.table}
         />
+        <div className={styles.paginationContainer}>
+          <CustomPagination
+            current={pagination.current}
+            pageSize={pagination.pageSize}
+            total={pagination.total}
+            onChange={handlePaginationChange}
+            pageSizeOptions={["10", "20", "50", "100"]}
+          />
+        </div>
       </Card>
     </div>
   );

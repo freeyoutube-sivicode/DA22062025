@@ -1,235 +1,141 @@
 .customPagination {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 24px 0;
+  padding: 16px 0;
   background: transparent;
   border-radius: 16px;
   box-shadow: none;
-  margin: 24px 0;
+  margin: 16px 0;
+  width: 100%;
+
 
   .pagination {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+
+    :global(.ant-pagination) {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      flex-wrap: wrap !important;
+    }
+
     :global(.ant-pagination-total-text) {
       text-align: center;
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 0;
+      margin-top: 0;
+      order: -1;
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
     }
 
-    :global(.ant-pagination-item) {
-      border: 1px solid var(--theme-border-light);
+    :global(.ant-pagination-item),
+    :global(.ant-pagination-prev),
+    :global(.ant-pagination-next) {
+      border: 1.5px solid var(--theme-border-light);
       background: #fff;
-      border-radius: 12px;
-      min-width: 40px;
-      height: 40px;
+      border-radius: 8px;
+      min-width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
       color: var(--theme-text-primary);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: none;
-
-      &:hover {
-        border-color: var(--theme-primary, #059669);
-        color: var(--theme-primary, #059669);
-        background: #fff;
-        transform: none;
-        box-shadow: none;
-      }
-
-      &:global(.ant-pagination-item-active) {
-        border-color: var(--theme-primary, #059669);
-        color: var(--theme-primary, #059669);
-        background: #fff;
-        font-weight: 700;
-        box-shadow: none;
-        transform: none;
-      }
-
-      a {
-        color: inherit;
-        font-weight: inherit;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-      }
+      flex-shrink: 0;
+      padding: 0 6px;
     }
 
-    // Previous/Next buttons
-    :global(.ant-pagination-prev),
-    :global(.ant-pagination-next) {
-      border: 1px solid var(--theme-border-light);
+    :global(.ant-pagination-item) {
+      margin: 0 2px;
+    }
+
+    :global(.ant-pagination-item-active) {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
       background: #fff;
-      border-radius: 12px;
-      min-width: 40px;
-      height: 40px;
+      font-weight: 700;
+      box-shadow: none;
+      transform: none;
+    }
+
+    :global(.ant-pagination-item):hover,
+    :global(.ant-pagination-prev):hover,
+    :global(.ant-pagination-next):hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      background: #fff;
+      box-shadow: none;
+      transform: none;
+    }
+
+    :global(.ant-pagination-item a) {
+      color: inherit;
+      font-weight: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: none;
-
-      &:hover {
-        border-color: var(--theme-primary, #059669);
-        color: var(--theme-primary, #059669);
-        background: #fff;
-        transform: none;
-        box-shadow: none;
-
-        :global(.ant-pagination-item-link) {
-          color: var(--theme-primary, #059669);
-        }
-      }
-
-      &:global(.ant-pagination-disabled) {
-        opacity: 0.5;
-        cursor: not-allowed;
-        background: #f5f5f5;
-        border-color: var(--theme-border-light);
-
-        &:hover {
-          transform: none;
-          box-shadow: none;
-          border-color: var(--theme-border-light);
-          background: #f5f5f5;
-
-          :global(.ant-pagination-item-link) {
-            color: var(--theme-text-muted);
-          }
-        }
-      }
-
-      :global(.ant-pagination-item-link) {
-        color: var(--theme-text-primary);
-        font-size: 16px;
-        transition: color 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: transparent;
-      }
-    }
-
-    // Jump to page input
-    :global(.ant-pagination-options) {
-      display: none !important;
-    }
-
-    // Jump prev/next buttons
-    :global(.ant-pagination-jump-prev),
-    :global(.ant-pagination-jump-next) {
-      border: 1px solid var(--theme-border-light);
-      background: #fff;
-      border-radius: 12px;
-      min-width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: none;
-
-      &:hover {
-        border-color: var(--theme-primary, #059669);
-        color: var(--theme-primary, #059669);
-        background: #fff;
-        transform: none;
-        box-shadow: none;
-
-        :global(.ant-pagination-item-link) {
-          color: var(--theme-primary, #059669);
-        }
-      }
-
-      :global(.ant-pagination-item-link) {
-        color: var(--theme-text-primary);
-        font-size: 14px;
-        transition: color 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        border: none;
-        background: transparent;
-        font-weight: 600;
-      }
+      width: 100%;
+      height: 100%;
     }
   }
 }
 
-:global(.customPagination .pagination .ant-pagination) {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 8px !important;
-}
-
-// Responsive design
-@media (max-width: 768px) {
+// Tablet
+@media (max-width: 1024px) {
   .customPagination {
-    padding: 16px 0;
-    margin: 16px 0;
-
     .pagination {
-      :global(.ant-pagination) {
-        flex-wrap: wrap;
-        gap: 4px;
-      }
-
       :global(.ant-pagination-item),
       :global(.ant-pagination-prev),
       :global(.ant-pagination-next) {
-        min-width: 36px;
-        height: 36px;
-        font-size: 13px;
+        min-width: 32px;
+        height: 32px;
+        font-size: 14px;
+        border-radius: 7px;
       }
-
-      :global(.ant-pagination-options) {
-        margin-left: 8px;
-        margin-top: 8px;
-
-        :global(.ant-pagination-options-quick-jumper) {
-          font-size: 13px;
-
-          input {
-            padding: 4px 8px;
-            font-size: 13px;
-            width: 60px;
-          }
-        }
-      }
-
       :global(.ant-pagination-total-text) {
-        font-size: 13px;
-        margin-right: 8px;
+        font-size: 14px;
+        min-height: 32px;
       }
     }
   }
 }
 
-@media (max-width: 480px) {
+// Mobile
+@media (max-width: 600px) {
   .customPagination {
+    padding: 8px 0;
+    margin: 8px 0;
     .pagination {
-      :global(.ant-pagination) {
-        justify-content: center;
+      gap: 4px;
+      :global(.ant-pagination-item),
+      :global(.ant-pagination-prev),
+      :global(.ant-pagination-next) {
+        min-width: 28px;
+        height: 28px;
+        font-size: 13px;
+        border-radius: 6px;
       }
-
-      :global(.ant-pagination-options) {
-        width: 100%;
-        justify-content: center;
-        margin-top: 12px;
+      :global(.ant-pagination-total-text) {
+        font-size: 13px;
+        min-height: 28px;
       }
     }
   }
@@ -240,12 +146,17 @@
   :global(.ant-pagination-item-link-icon) {
     color: var(--theme-text-primary) !important;
   }
-
   :global(.ant-pagination-item-ellipsis) {
     display: none !important;
   }
-
   :global(.anticon) {
     color: var(--theme-text-primary) !important;
   }
-} 
+}
+
+:global(.ant-pagination-next:hover > .ant-pagination-item-link),
+:global(.ant-pagination-prev:hover > .ant-pagination-item-link) {
+  background: white !important;
+  box-shadow: none !important;
+  outline: none !important;
+}

@@ -69,6 +69,29 @@
     }
   }
 
+  .service-overview__cta {
+    margin-top: $spacing-xl;
+    text-align: center;
+  }
+
+  .service-overview__btn {
+    display: inline-block;
+    padding: $spacing-md $spacing-xl;
+    background-color: $color-primary;
+    color: $color-background;
+    font-size: $font-size-large;
+    font-weight: 500;
+    border-radius: $border-radius;
+    transition: $transition-base;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-primary-hover;
+      transform: translateY(-2px);
+    }
+  }
+
   // Service Categories Section
    .service-categories__row {
       display: grid;
@@ -307,16 +330,34 @@
       display: inline-block;
       margin-top: $spacing-md;
       padding: $spacing-sm $spacing-md;
-      border: 1px solid $color-primary;
+      border: 2px solid $color-primary;
       border-radius: $border-radius-sm;
       color: $color-primary;
       font-size: $font-size-base;
+      font-weight: 500;
+      text-decoration: none;
       transition: $transition-base;
       text-align: center;
+      background-color: transparent;
+      cursor: pointer;
+      min-width: 120px;
 
       &:hover {
         background-color: $color-primary;
         color: $color-background;
+        text-decoration: none;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba($color-primary, 0.3);
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.25);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba($color-primary, 0.3);
       }
     }
   }
@@ -427,4 +468,147 @@
       background-color: $color-primary-hover;
     }
   }
+
+  &__btn-cancel {
+    display: inline-block;
+    padding: $spacing-md $spacing-xl;
+    background-color: transparent;
+    color: $color-text;
+    font-size: $font-size-large;
+    font-weight: 500;
+    border: 1px solid $color-border;
+    border-radius: $border-radius;
+    transition: $transition-base;
+    margin-right: $spacing-md;
+
+    &:hover {
+      background-color: $color-background-light;
+      border-color: $color-text-light;
+    }
+  }
 } 
+
+
+
+// MODAL STYLES
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-md;
+  animation: fadeIn 0.3s ease-out;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.modal {
+  background-color: $color-background;
+  border-radius: $border-radius;
+  box-shadow: $shadow-lg;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease-out;
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: $breakpoint-md) {
+    max-width: 95%;
+    margin: $spacing-md;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg $spacing-xl;
+  border-bottom: 1px solid $color-border;
+  background-color: $color-background-light;
+  border-radius: $border-radius $border-radius 0 0;
+}
+
+.modal-title {
+  font-size: $font-size-xlarge;
+  font-weight: 700;
+  color: $color-text;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: $font-size-large;
+  color: $color-text-light;
+  cursor: pointer;
+  padding: $spacing-sm;
+  border-radius: 50%;
+  transition: $transition-base;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid transparent;
+
+  &:hover {
+    background-color: $color-background-light;
+    color: $color-text;
+    border-color: $color-border;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: $color-background-light;
+    color: $color-text;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.25);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: $transition-base;
+  }
+}
+
+.modal-body {
+  padding: $spacing-xl;
+}
+
+.modal-subtitle {
+  font-size: $font-size-base;
+  color: $color-text-light;
+  margin-bottom: $spacing-lg;
+  text-align: center;
+}
