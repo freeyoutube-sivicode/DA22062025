@@ -6,7 +6,8 @@ import { FaTachometerAlt, FaGasPump, FaCog } from "react-icons/fa";
 import { ROUTERS } from "../../utils/constant";
 import { useFavorites } from "../../contexts/FavoritesContext";
 import { useAuth } from "../../contexts/AuthContext";
-import { notification, Button, Space, Tooltip } from "antd";
+import { useTheme } from "../../contexts/ThemeContext";
+import { notification, Button, Space, Tooltip, Typography } from "antd";
 import { HeartOutlined, EyeOutlined } from "@ant-design/icons";
 
 interface ProductCardProps {
@@ -16,6 +17,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { theme } = useTheme();
   const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
   const [isHovered, setIsHovered] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -155,10 +157,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const specsStyle: React.CSSProperties = {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: isMobile ? "6px" : "8px",
     marginBottom: isMobile ? "10px" : "15px",
+    cursor: "pointer",
   };
 
   const specStyle: React.CSSProperties = {
@@ -347,20 +347,68 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
         </div>
 
-        <div style={specsStyle}>
-          <span style={specStyle}>
-            <FaTachometerAlt size={isMobile ? 10 : 12} />
-            300 HP
-          </span>
-          <span style={specStyle}>
-            <FaGasPump size={isMobile ? 10 : 12} />
-            Xăng
-          </span>
-          <span style={specStyle}>
-            <FaCog size={isMobile ? 10 : 12} />
-            Tự động
-          </span>
-        </div>
+        <Tooltip
+          title={
+            <div>
+              {(() => {
+                const specs = product.Specifications || {};
+                const specEntries = Object.entries(specs);
+
+                if (specEntries.length > 0) {
+                  return specEntries.map(([key, value], index) => (
+                    <div key={index} style={{ marginBottom: "4px" }}>
+                      <Typography.Text strong style={{ color: "#ffffff" }}>
+                        {key}:
+                      </Typography.Text>{" "}
+                      <Typography.Text style={{ color: "#ffffff" }}>
+                        {value}
+                      </Typography.Text>
+                    </div>
+                  ));
+                } else {
+                  return (
+                    <Typography.Text style={{ color: "#ffffff" }}>
+                      Không có thông số
+                    </Typography.Text>
+                  );
+                }
+              })()}
+            </div>
+          }
+          placement="top"
+          color={theme.colors.palette.primary}
+        >
+          <div style={specsStyle}>
+            {(() => {
+              const specs = product.Specifications || {};
+              const specEntries = Object.entries(specs);
+
+              if (specEntries.length > 0) {
+                // Hiển thị 2 specs đầu tiên
+                const displaySpecs = specEntries.slice(0, 2);
+                const hasMore = specEntries.length > 2;
+
+                return (
+                  <Typography.Text
+                    type="secondary"
+                    style={{ fontSize: isMobile ? "12px" : "13px" }}
+                  >
+                    {displaySpecs
+                      .map(([key, value]) => `${key}: ${value}`)
+                      .join(" • ")}
+                    {hasMore && "..."}
+                  </Typography.Text>
+                );
+              } else {
+                return (
+                  <Typography.Text type="secondary">
+                    Không có thông số
+                  </Typography.Text>
+                );
+              }
+            })()}
+          </div>
+        </Tooltip>
 
         <div style={priceStyle}>{formatCurrency(product.Price)}</div>
 

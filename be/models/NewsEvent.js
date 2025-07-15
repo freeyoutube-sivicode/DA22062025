@@ -19,8 +19,8 @@ const newsEventSchema = new mongoose.Schema({
   },
   Status: {
     type: String,
-    enum: ['draft', 'published', 'archived'],
-    default: 'draft'
+    enum: ['draft', 'published', 'archived', 'active', 'inactive'],
+    default: 'active'
   },
   // Add any other relevant fields (e.g., author, tags, category)
 }, { timestamps: true });

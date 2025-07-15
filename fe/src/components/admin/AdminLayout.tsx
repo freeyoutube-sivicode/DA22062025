@@ -1,19 +1,18 @@
 import {
   CarryOutOutlined,
   DashboardOutlined,
-  DownOutlined,
   LogoutOutlined,
   MenuUnfoldOutlined,
   TagsOutlined,
   TeamOutlined,
   UserOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import { Dropdown, Layout, Menu, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { FaCar } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { useTheme } from "../../contexts/ThemeContext";
 import { ROUTERS } from "../../utils/constant";
 import ThemeController from "../ThemeController";
 import styles from "./AdminLayout.module.css"; // Import CSS module
@@ -26,7 +25,6 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const { user, logout } = useAuth();
-  const { theme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileState, setIsMobileState] = useState(isMobile());
@@ -87,6 +85,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (path.startsWith("/admin/users")) return "users";
     if (path.startsWith("/admin/categories")) return "categories";
     if (path.startsWith("/admin/services")) return "services";
+    if (path.startsWith("/admin/news")) return "news";
     if (path.startsWith("/admin/test-drive-bookings"))
       return "test-drive-bookings";
     return "dashboard"; // Default to dashboard
@@ -123,6 +122,11 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       key: "services",
       icon: <DashboardOutlined />,
       label: <Link to="/admin/services">Dịch vụ</Link>,
+    },
+    {
+      key: "news",
+      icon: <FileTextOutlined />,
+      label: <Link to={ROUTERS.ADMIN.NEWS}>Tin tức</Link>,
     },
   ];
 
@@ -208,8 +212,10 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                   className={styles.userDropdownLink}
                 >
                   <Space>
-                    <UserOutlined />
-                    {user.UserName} <DownOutlined />
+                    <div className={styles.userAvatar}>
+                      <UserOutlined />
+                    </div>
+                    <span className={styles.userName}>{user.UserName}</span>
                   </Space>
                 </a>
               </Dropdown>

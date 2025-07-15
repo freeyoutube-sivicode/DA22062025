@@ -1,36 +1,22 @@
 import {
   CameraOutlined,
   CarOutlined,
-  CrownOutlined,
   DeleteOutlined,
-  DollarOutlined,
   EyeOutlined,
-  FireOutlined,
-  GlobalOutlined,
   InfoCircleOutlined,
   MinusCircleOutlined,
   PlusOutlined,
-  RocketOutlined,
   RollbackOutlined,
   SaveOutlined,
-  ThunderboltOutlined,
   ToolOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-
-// Custom VND icon component
-const VNDIcon = () => (
-  <span style={{ fontSize: "14px", color: "#666" }}>₫</span>
-);
+import { Editor } from "@tinymce/tinymce-react";
 import {
-  Alert,
   Button,
   Card,
   Col,
   DatePicker,
-  Descriptions,
-  Divider,
-  Empty,
   Form,
   Image,
   Input,
@@ -41,27 +27,27 @@ import {
   Progress,
   Row,
   Select,
-  Slider,
   Space,
-  Tag,
+  Spin,
   Tooltip,
   Typography,
   Upload,
-  Spin,
 } from "antd";
 import axios from "axios";
-import { Moment } from "moment";
-import React, { useEffect, useState, useRef } from "react";
+import moment, { Moment } from "moment";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Editor } from "@tinymce/tinymce-react";
 import { API_BASE_URL } from "../../api/config";
 import Breadcrumb from "../../components/admin/Breadcrumb";
 import styles from "./ProductFormPage.module.scss";
-import moment from "moment";
+
+// Custom VND icon component
+const VNDIcon = () => (
+  <span style={{ fontSize: "14px", color: "#666" }}>₫</span>
+);
 
 const { Title, Text } = Typography;
 const { Option } = Select;
-const { TextArea } = Input;
 
 interface ProductFormData {
   Product_Name: string;

@@ -4,6 +4,7 @@ import PageBanner from "../components/PageBanner";
 import { usePagination } from "../hooks/usePagination";
 import PaginationWrapper from "../components/PaginationWrapper";
 import { useNavigate } from "react-router-dom";
+import { ROUTERS } from "../utils/constant";
 
 const NewsPage: React.FC = () => {
   const [newsEvents, setNewsEvents] = useState<NewsEvent[]>([]);
@@ -58,8 +59,10 @@ const NewsPage: React.FC = () => {
   };
 
   const truncateContent = (content: string, maxLength: number = 150) => {
-    if (content.length <= maxLength) return content;
-    return content.substring(0, maxLength) + "...";
+    // Remove HTML tags for truncation
+    const plainText = content.replace(/<[^>]*>/g, "");
+    if (plainText.length <= maxLength) return plainText;
+    return plainText.substring(0, maxLength) + "...";
   };
 
   if (loading) {
@@ -120,10 +123,20 @@ const NewsPage: React.FC = () => {
                 <div className="news-item__content">
                   <h3 className="news-item__title">{newsEvent.Title}</h3>
                   <p className="news-item__meta">
-                    Ngày đăng: {formatDate(newsEvent.PublishDate)} | Trạng thái:{" "}
+                    Ngày đăng:{" "}
+                    {formatDate(newsEvent.PublishDate || newsEvent.createdAt)} |
+                    Trạng thái:{" "}
                     {newsEvent.Status === "published"
                       ? "Đã xuất bản"
-                      : "Bản nháp"}
+                      : newsEvent.Status === "draft"
+                        ? "Bản nháp"
+                        : newsEvent.Status === "active"
+                          ? "Hoạt động"
+                          : newsEvent.Status === "inactive"
+                            ? "Không hoạt động"
+                            : newsEvent.Status === "archived"
+                              ? "Đã lưu trữ"
+                              : "Bản nháp"}
                   </p>
                   <p className="news-item__summary">
                     {truncateContent(newsEvent.Content)}
@@ -131,7 +144,9 @@ const NewsPage: React.FC = () => {
                   <button
                     className="news-item__btn-more"
                     onClick={() =>
-                      navigate(`/tin-tuc-su-kien/${newsEvent._id}`)
+                      navigate(
+                        ROUTERS.USER.NEWS_DETAIL.replace(":id", newsEvent._id)
+                      )
                     }
                   >
                     Xem chi tiết

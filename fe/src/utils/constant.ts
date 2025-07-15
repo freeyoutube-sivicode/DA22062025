@@ -11,7 +11,7 @@ export const ROUTERS = {
   PRICE_LIST_DETAIL: "/bang-gia/:id",
   FAVORITES: "/yeu-thich",
   NEWS: "/tin-tuc",
-  NEWS_DETAIL: "/tin-tuc/:id",
+  NEWS_DETAIL: "/tin-tuc-su-kien/:id",
   TEST_DRIVE: "/lai-thu",
  },
  ADMIN: {
@@ -24,5 +24,8 @@ export const ROUTERS = {
   USERS: "/admin/users",
   CATEGORIES: "/admin/categories",
   SERVICES: "/admin/services",
+  NEWS: "/admin/news",
+  NEWS_ADD: "/admin/news/add",
+  NEWS_EDIT: "/admin/news/edit/:id",
  },
 };

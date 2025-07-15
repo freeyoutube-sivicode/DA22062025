@@ -60,26 +60,23 @@ const NewsDetailPage: React.FC = () => {
   return (
     <div className="news-detail-page">
       <PageBanner title={news.Title} />
-      <div
-        className="news-detail-content"
-        style={{
-          maxWidth: 800,
-          margin: "0 auto",
-          background: "#fff",
-          borderRadius: 12,
-          padding: 24,
-        }}
-      >
+      <div className="news-detail-content">
         <img
           src={news.ImageUrl || "/images/default-news-image.jpg"}
           alt={news.Title}
-          style={{ width: "100%", borderRadius: 8, marginBottom: 24 }}
         />
         <div style={{ color: "#666", marginBottom: 12 }}>
-          Ngày đăng: {formatDate(news.PublishDate)} | Trạng thái:{" "}
-          {news.Status === "published" ? "Đã xuất bản" : "Bản nháp"}
+          Ngày đăng: {formatDate(news.PublishDate || news.createdAt)} | Trạng thái:{" "}
+          {news.Status === "published" ? "Đã xuất bản" : 
+           news.Status === "draft" ? "Bản nháp" :
+           news.Status === "active" ? "Hoạt động" :
+           news.Status === "inactive" ? "Không hoạt động" :
+           news.Status === "archived" ? "Đã lưu trữ" : "Bản nháp"}
         </div>
-        <div style={{ fontSize: 18, lineHeight: 1.7 }}>{news.Content}</div>
+        <div 
+          style={{ fontSize: 18, lineHeight: 1.7 }}
+          dangerouslySetInnerHTML={{ __html: news.Content }}
+        />
       </div>
     </div>
   );

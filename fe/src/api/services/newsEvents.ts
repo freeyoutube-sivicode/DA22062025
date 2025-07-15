@@ -4,9 +4,9 @@ export interface NewsEvent {
   _id: string;
   Title: string;
   Content: string;
-  PublishDate: string;
+  PublishDate?: string;
   ImageUrl?: string;
-  Status: 'draft' | 'published' | 'archived';
+  Status: 'draft' | 'published' | 'archived' | 'active' | 'inactive';
   createdAt: string;
   updatedAt: string;
 }
@@ -52,7 +52,7 @@ export const getNewsEventById = async (id: string): Promise<NewsEvent> => {
 };
 
 // Create news event (Admin only)
-export const createNewsEvent = async (newsEventData: Partial<NewsEvent>): Promise<NewsEvent> => {
+export const createNewsEvent = async (newsEventData: Partial<NewsEvent> | FormData): Promise<NewsEvent> => {
   try {
     const response = await api.post('/tin-tuc-su-kien', newsEventData);
     return response.data.data;
@@ -62,7 +62,7 @@ export const createNewsEvent = async (newsEventData: Partial<NewsEvent>): Promis
 };
 
 // Update news event (Admin only)
-export const updateNewsEvent = async (id: string, newsEventData: Partial<NewsEvent>): Promise<NewsEvent> => {
+export const updateNewsEvent = async (id: string, newsEventData: Partial<NewsEvent> | FormData): Promise<NewsEvent> => {
   try {
     const response = await api.put(`/tin-tuc-su-kien/${id}`, newsEventData);
     return response.data.data;

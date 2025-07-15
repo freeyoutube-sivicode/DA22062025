@@ -24,6 +24,8 @@ import UserListPage from "./pages/admin/UserListPage";
 import CategoryListPage from "./pages/admin/CategoryListPage";
 import ServiceListPage from "./pages/admin/ServiceListPage";
 import TestDriveBookingListPage from "./pages/admin/TestDriveBookingListPage";
+import NewsListPage from "./pages/admin/NewsListPage";
+import NewsFormPage from "./pages/admin/NewsFormPage";
 
 // Public Pages
 import HomePage from "./pages/HomePage";
@@ -109,7 +111,7 @@ const App: React.FC = () => {
                     }
                   />
                   <Route
-                    path="/tin-tuc-su-kien/:id"
+                    path={ROUTERS.USER.NEWS_DETAIL}
                     element={
                       <MainLayout>
                         <NewsDetailPage />
@@ -268,6 +270,36 @@ const App: React.FC = () => {
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
                           <TestDriveBookingListPage />
+                        </AdminLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path={ROUTERS.ADMIN.NEWS}
+                    element={
+                      <ProtectedRoute requireAdmin>
+                        <AdminLayout>
+                          <NewsListPage />
+                        </AdminLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path={ROUTERS.ADMIN.NEWS_ADD}
+                    element={
+                      <ProtectedRoute requireAdmin>
+                        <AdminLayout>
+                          <NewsFormPage />
+                        </AdminLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path={ROUTERS.ADMIN.NEWS_EDIT}
+                    element={
+                      <ProtectedRoute requireAdmin>
+                        <AdminLayout>
+                          <NewsFormPage />
                         </AdminLayout>
                       </ProtectedRoute>
                     }

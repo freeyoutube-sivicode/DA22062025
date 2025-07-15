@@ -102,7 +102,7 @@ const Header: React.FC = () => {
     padding: isMobile ? "3px 0" : "5px 0",
     fontSize: isMobile ? "13px" : "15px",
     width: "100%",
-    display: "block",
+    display: isMobile ? "none" : "block",
     backdropFilter: "blur(32px)",
     WebkitBackdropFilter: "blur(32px)",
     borderBottom: "1px solid rgba(255, 255, 255, 0.12)",

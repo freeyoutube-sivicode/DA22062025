@@ -389,7 +389,14 @@ const ProductDetailPage: React.FC = () => {
         <div className="product-detail__description-row">
           <div className="product-detail__description-section">
             <div className="product-detail__description-content">
-              <Paragraph>{product.Description || "Đang cập nhật..."}</Paragraph>
+              {product.Description ? (
+                <div
+                  dangerouslySetInnerHTML={{ __html: product.Description }}
+                  className="product-detail__description-html"
+                />
+              ) : (
+                <Paragraph>Đang cập nhật...</Paragraph>
+              )}
             </div>
           </div>
         </div>

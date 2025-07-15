@@ -65,17 +65,17 @@ const getNewsEventById = async (req, res) => {
 // @access  Private (Admin)
 const createNewsEvent = async (req, res) => {
   try {
-    const { Title, Content, PublishDate, Status } = req.body;
+    const { Title, Content, PublishDate, Status, ImageUrl } = req.body;
     
-    // Get image URL from uploaded file if exists
-    const ImageUrl = req.file ? req.file.path : null;
+    // Get image URL from uploaded file if exists, otherwise use provided URL
+    const finalImageUrl = req.file ? req.file.path : (ImageUrl || null);
 
     const newsEvent = new NewsEvent({
       Title,
       Content,
       PublishDate,
       Status,
-      ImageUrl
+      ImageUrl: finalImageUrl
     });
     
     const createdNewsEvent = await newsEvent.save();
@@ -93,7 +93,7 @@ const createNewsEvent = async (req, res) => {
 // @access  Private (Admin)
 const updateNewsEvent = async (req, res) => {
   try {
-    const { Title, Content, PublishDate, Status } = req.body;
+    const { Title, Content, PublishDate, Status, ImageUrl } = req.body;
     const newsEventId = req.params.newsEventId;
 
     // Find the existing news or event
@@ -110,6 +110,9 @@ const updateNewsEvent = async (req, res) => {
       // Optional: Delete old image from cloudinary before updating URL
       // if (newsEvent.ImageUrl) { /* delete old image */ }
       newImageUrl = req.file.path; // Use the new image URL
+    } else if (ImageUrl !== undefined) {
+      // ImageUrl provided in body (could be URL or empty string)
+      newImageUrl = ImageUrl || null;
     }
 
     // Update news event fields
