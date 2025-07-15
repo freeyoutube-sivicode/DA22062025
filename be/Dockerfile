@@ -3,14 +3,15 @@ FROM node:18-alpine
 # Tạo thư mục làm việc
 WORKDIR /app
 
-# Copy package files từ thư mục be
+# Copy package files và lock file từ thư mục be
 COPY be/package*.json ./
+COPY be/package-lock.json ./
 
 # Copy lock file nếu tồn tại
 COPY be/package-lock.json* ./
 
 # Cài đặt dependencies
-RUN npm install --omit=dev
+RUN npm ci --omit=dev
 
 # Copy toàn bộ source code từ thư mục be
 COPY be/ .

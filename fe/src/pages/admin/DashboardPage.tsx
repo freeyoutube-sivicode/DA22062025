@@ -1,16 +1,13 @@
-import { Area, Bar, Column } from "@ant-design/charts";
 import {
   CarOutlined,
   ProfileOutlined,
   UserOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
-import { Alert, Card, Col, Row, Spin, Typography } from "antd";
+import { Alert, Card, Col, Row, Spin } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./DashboardPage.module.css";
-
-const { Title } = Typography;
 
 const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -261,22 +258,18 @@ const DashboardPage: React.FC = () => {
             styles={{ body: { padding: 16 } }}
             style={{ height: "100%" }}
           >
-            {areaConfig.data.length > 0 ? (
-              <Area {...areaConfig} height={260} tooltip={false} />
-            ) : (
-              <div
-                style={{
-                  height: 260,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#aaa",
-                  fontSize: 18,
-                }}
-              >
-                Không có dữ liệu
-              </div>
-            )}
+            <div
+              style={{
+                height: 260,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#aaa",
+                fontSize: 18,
+              }}
+            >
+              Biểu đồ tạm thời bị ẩn
+            </div>
           </Card>
         </Col>
         <Col xs={24} lg={12} style={{ height: "100%" }}>
@@ -286,47 +279,18 @@ const DashboardPage: React.FC = () => {
             styles={{ body: { padding: 16 } }}
             style={{ height: "100%" }}
           >
-            {chartError ? (
-              <Alert
-                message="Lỗi hiển thị biểu đồ"
-                description={chartError}
-                type="error"
-                showIcon
-              />
-            ) : columnConfig.data.length > 0 ? (
-              (() => {
-                try {
-                  return (
-                    <Column {...columnConfig} height={260} tooltip={false} />
-                  );
-                } catch (err: any) {
-                  setChartError(
-                    err?.message || "Lỗi không xác định khi hiển thị biểu đồ"
-                  );
-                  return (
-                    <Alert
-                      message="Lỗi hiển thị biểu đồ"
-                      description={err?.message}
-                      type="error"
-                      showIcon
-                    />
-                  );
-                }
-              })()
-            ) : (
-              <div
-                style={{
-                  height: 260,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#aaa",
-                  fontSize: 18,
-                }}
-              >
-                Không có dữ liệu
-              </div>
-            )}
+            <div
+              style={{
+                height: 260,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#aaa",
+                fontSize: 18,
+              }}
+            >
+              Biểu đồ tạm thời bị ẩn
+            </div>
           </Card>
         </Col>
         <Col xs={24} lg={12} style={{ height: "100%" }}>
@@ -336,22 +300,18 @@ const DashboardPage: React.FC = () => {
             styles={{ body: { padding: 16 } }}
             style={{ height: "100%" }}
           >
-            {barConfig.data.length > 0 ? (
-              <Bar {...barConfig} />
-            ) : (
-              <div
-                style={{
-                  height: 260,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#aaa",
-                  fontSize: 18,
-                }}
-              >
-                Không có dữ liệu
-              </div>
-            )}
+            <div
+              style={{
+                height: 260,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#aaa",
+                fontSize: 18,
+              }}
+            >
+              Biểu đồ tạm thời bị ẩn
+            </div>
           </Card>
         </Col>
       </Row>
