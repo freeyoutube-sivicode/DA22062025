@@ -582,7 +582,7 @@ function generateSampleTestDriveOrders(users, products) {
 // Migration function
 async function migrate() {
   try {
-    
+    const forceReset = process.argv.includes('--force');
     
     if (!process.env.MONGO_URI) {
       throw new Error('MONGO_URI chưa được cấu hình trong file .env');
@@ -590,16 +590,20 @@ async function migrate() {
     
     await mongoose.connect(process.env.MONGO_URI);
 
-    // Clear existing data
-    await User.deleteMany({});
-    await Role.deleteMany({});
-    await RoleUser.deleteMany({});
-    await ProductCategory.deleteMany({});
-    await Product.deleteMany({});
-    await Category.deleteMany({});
-    await Service.deleteMany({});
-    await NewsEvent.deleteMany({});
-    await OrderTestDrive.deleteMany({});
+    if (forceReset) {
+      console.log('🗑️  Xóa dữ liệu cũ...');
+      // Clear existing data
+      await User.deleteMany({});
+      await Role.deleteMany({});
+      await RoleUser.deleteMany({});
+      await ProductCategory.deleteMany({});
+      await Product.deleteMany({});
+      await Category.deleteMany({});
+      await Service.deleteMany({});
+      await NewsEvent.deleteMany({});
+      await OrderTestDrive.deleteMany({});
+      console.log('✅ Đã xóa dữ liệu cũ');
+    }
 
     // Create roles
     const createdRoles = await Role.insertMany(sampleRoles);
