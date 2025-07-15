@@ -30,14 +30,18 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
 
 // Middleware log request (tạm thời để debug)
 app.use((req, res, next) => {
-
+  console.log(`${req.method} ${req.path}`);
   next();
 });
 
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGO_URI)
-
-  .catch((err) => console.error('Lỗi kết nối MongoDB:', err));
+  .then(() => {
+    console.log('✅ Kết nối MongoDB thành công');
+  })
+  .catch((err) => {
+    console.error('❌ Lỗi kết nối MongoDB:', err);
+  });
 
 // Import routes
 const categoryRoutes = require('./routes/categories');
@@ -98,4 +102,7 @@ app.use((err, req, res, next) => {
 // Khởi động server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+  console.log(`🚀 Server đang chạy trên port ${PORT}`);
+  console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
+  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
 }); 

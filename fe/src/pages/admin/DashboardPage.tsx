@@ -1,13 +1,27 @@
 import {
+  BarChartOutlined,
   CarOutlined,
+  LineChartOutlined,
   ProfileOutlined,
   UserOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
-import { Alert, Card, Col, Row, Spin } from "antd";
+import {
+  Alert,
+  Card,
+  Col,
+  List,
+  Row,
+  Spin,
+  Statistic,
+  Tag,
+  Typography,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./DashboardPage.module.css";
+
+const { Title, Text } = Typography;
 
 const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +45,6 @@ const DashboardPage: React.FC = () => {
   });
   const [topCars, setTopCars] = useState<any[]>([]);
   const [registrationsByDate, setRegistrationsByDate] = useState<any[]>([]);
-  const [chartError, setChartError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -202,116 +215,252 @@ const DashboardPage: React.FC = () => {
   }
 
   return (
-    <div className={styles.dashboardPage} style={{ padding: 16 }}>
-      <Row gutter={[16, 16]} align="stretch">
-        <Col xs={24} lg={12} style={{ height: "100%" }}>
-          <Card
-            className={styles.dashboardCard}
-            title="Thống kê nhanh"
-            styles={{ body: { padding: 16 } }}
-            style={{ height: "100%" }}
-          >
-            <div className={styles.quickStats}>
-              <div className={styles.statItem}>
-                <UserOutlined />
-                <div className={styles.statContent}>
-                  <div className={styles.statValue}>
-                    {userStats.totalUsers || 0}
-                  </div>
-                  <div className={styles.statLabel}>Tổng người dùng</div>
-                </div>
-              </div>
-              <div className={styles.statItem}>
-                <UserSwitchOutlined />
-                <div className={styles.statContent}>
-                  <div className={styles.statValue}>
-                    {userStats.bookedUsers || 0}
-                  </div>
-                  <div className={styles.statLabel}>Người dùng đã lái thử</div>
-                </div>
-              </div>
-              <div className={styles.statItem}>
-                <CarOutlined />
-                <div className={styles.statContent}>
-                  <div className={styles.statValue}>
-                    {productStats.totalProducts || 0}
-                  </div>
-                  <div className={styles.statLabel}>Tổng sản phẩm</div>
-                </div>
-              </div>
-              <div className={styles.statItem}>
-                <ProfileOutlined />
-                <div className={styles.statContent}>
-                  <div className={styles.statValue}>
-                    {orderStats.totalOrders || 0}
-                  </div>
-                  <div className={styles.statLabel}>Tổng đơn lái thử</div>
-                </div>
-              </div>
-            </div>
+    <div className={styles.dashboardPage}>
+      <Title level={2} className={styles.dashboardTitle}>
+        Dashboard
+      </Title>
+
+      <Row gutter={[24, 24]}>
+        {/* Thống kê nhanh */}
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={styles.statCard}>
+            <Statistic
+              title="Tổng người dùng"
+              value={userStats.totalUsers || 0}
+              prefix={<UserOutlined />}
+              valueStyle={{ color: "white" }}
+            />
           </Card>
         </Col>
-        <Col xs={24} lg={12} style={{ height: "100%" }}>
-          <Card
-            className={styles.dashboardCard}
-            title="Đăng ký lái thử theo ngày"
-            styles={{ body: { padding: 16 } }}
-            style={{ height: "100%" }}
-          >
-            <div
-              style={{
-                height: 260,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#aaa",
-                fontSize: 18,
-              }}
-            >
-              Biểu đồ tạm thời bị ẩn
-            </div>
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={styles.statCard}>
+            <Statistic
+              title="Người dùng đã lái thử"
+              value={userStats.bookedUsers || 0}
+              prefix={<UserSwitchOutlined />}
+              valueStyle={{ color: "white" }}
+            />
           </Card>
         </Col>
-        <Col xs={24} lg={12} style={{ height: "100%" }}>
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={styles.statCard}>
+            <Statistic
+              title="Tổng sản phẩm"
+              value={productStats.totalProducts || 0}
+              prefix={<CarOutlined />}
+              valueStyle={{ color: "white" }}
+            />
+          </Card>
+        </Col>
+        <Col xs={24} sm={12} lg={6}>
+          <Card className={styles.statCard}>
+            <Statistic
+              title="Tổng đơn lái thử"
+              value={orderStats.totalOrders || 0}
+              prefix={<ProfileOutlined />}
+              valueStyle={{ color: "white" }}
+            />
+          </Card>
+        </Col>
+
+        {/* Chi tiết đơn hàng */}
+        <Col xs={24} lg={12}>
           <Card
-            className={styles.dashboardCard}
+            title="Trạng thái đơn lái thử"
+            extra={<BarChartOutlined />}
+            className={styles.chartCard}
+          >
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <div className={styles.statItem}>
+                  <div className={styles.statContent}>
+                    <div className={styles.statValue}>
+                      {orderStats.pendingOrders || 0}
+                    </div>
+                    <div className={styles.statLabel}>Chờ xác nhận</div>
+                  </div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.statItem}>
+                  <div className={styles.statContent}>
+                    <div className={styles.statValue}>
+                      {orderStats.confirmedOrders || 0}
+                    </div>
+                    <div className={styles.statLabel}>Đã duyệt</div>
+                  </div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.statItem}>
+                  <div className={styles.statContent}>
+                    <div className={styles.statValue}>
+                      {orderStats.completedOrders || 0}
+                    </div>
+                    <div className={styles.statLabel}>Hoàn tất</div>
+                  </div>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.statItem}>
+                  <div className={styles.statContent}>
+                    <div className={styles.statValue}>
+                      {orderStats.cancelledOrders || 0}
+                    </div>
+                    <div className={styles.statLabel}>Đã hủy</div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+
+        {/* Top xe được lái thử */}
+        <Col xs={24} lg={12}>
+          <Card
             title="Top xe được lái thử nhiều nhất"
-            styles={{ body: { padding: 16 } }}
-            style={{ height: "100%" }}
+            extra={<LineChartOutlined />}
+            className={styles.chartCard}
           >
-            <div
-              style={{
-                height: 260,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#aaa",
-                fontSize: 18,
-              }}
-            >
-              Biểu đồ tạm thời bị ẩn
-            </div>
+            {topCars && topCars.length > 0 ? (
+              <List
+                size="small"
+                dataSource={topCars.slice(0, 5)}
+                renderItem={(item: any, index: number) => (
+                  <List.Item>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            background: `linear-gradient(135deg, ${palette[index % palette.length]} 0%, ${palette[(index + 1) % palette.length]} 100%)`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "white",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {index + 1}
+                        </div>
+                        <Text strong>{item.carName || `Xe ${index + 1}`}</Text>
+                      </div>
+                      <Tag color="blue" style={{ fontWeight: "600" }}>
+                        {item.count || 0} lượt
+                      </Tag>
+                    </div>
+                  </List.Item>
+                )}
+              />
+            ) : (
+              <div
+                style={{
+                  textAlign: "center",
+                  color: "#aaa",
+                  padding: "40px 20px",
+                  background: "rgba(0,0,0,0.02)",
+                  borderRadius: "8px",
+                }}
+              >
+                <BarChartOutlined
+                  style={{
+                    fontSize: "48px",
+                    marginBottom: "16px",
+                    opacity: 0.3,
+                  }}
+                />
+                <div>Chưa có dữ liệu</div>
+              </div>
+            )}
           </Card>
         </Col>
-        <Col xs={24} lg={12} style={{ height: "100%" }}>
-          <Card
-            className={styles.dashboardCard}
-            title="Phân bố trạng thái đơn lái thử"
-            styles={{ body: { padding: 16 } }}
-            style={{ height: "100%" }}
-          >
-            <div
-              style={{
-                height: 260,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#aaa",
-                fontSize: 18,
-              }}
-            >
-              Biểu đồ tạm thời bị ẩn
-            </div>
+
+        {/* Đăng ký theo ngày */}
+        <Col xs={24}>
+          <Card title="Đăng ký lái thử theo ngày" className={styles.chartCard}>
+            {registrationsByDate && registrationsByDate.length > 0 ? (
+              <List
+                size="small"
+                dataSource={registrationsByDate.slice(0, 10)}
+                renderItem={(item: any, index: number) => (
+                  <List.Item>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            background:
+                              "linear-gradient(135deg, #52c41a 0%, #73d13d 100%)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "white",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {index + 1}
+                        </div>
+                        <Text strong>{item._id || "Ngày không xác định"}</Text>
+                      </div>
+                      <Tag color="green" style={{ fontWeight: "600" }}>
+                        {item.count || 0} lượt đăng ký
+                      </Tag>
+                    </div>
+                  </List.Item>
+                )}
+              />
+            ) : (
+              <div
+                style={{
+                  textAlign: "center",
+                  color: "#aaa",
+                  padding: "40px 20px",
+                  background: "rgba(0,0,0,0.02)",
+                  borderRadius: "8px",
+                }}
+              >
+                <LineChartOutlined
+                  style={{
+                    fontSize: "48px",
+                    marginBottom: "16px",
+                    opacity: 0.3,
+                  }}
+                />
+                <div>Chưa có dữ liệu đăng ký</div>
+              </div>
+            )}
           </Card>
         </Col>
       </Row>
