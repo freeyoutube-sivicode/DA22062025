@@ -7,7 +7,7 @@ WORKDIR /app
 COPY be/package*.json ./
 
 # Cài đặt dependencies
-RUN npm ci --omit=dev
+RUN yarn install --production
 
 # Copy toàn bộ source code từ thư mục be
 COPY be/ .
@@ -15,5 +15,5 @@ COPY be/ .
 # Expose port
 EXPOSE 3000
 
-# Start command
-CMD ["npm", "start"] 
+# Start command with migration
+CMD ["sh", "-c", "yarn migrate && yarn start"] 
