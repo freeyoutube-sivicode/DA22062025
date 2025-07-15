@@ -142,6 +142,7 @@ const CategoryListPage: React.FC = () => {
             type="primary"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
+            size="small"
           >
             Sửa
           </Button>
@@ -149,6 +150,7 @@ const CategoryListPage: React.FC = () => {
             danger
             icon={<DeleteOutlined />}
             onClick={() => handleDelete(record._id)}
+            size="small"
           >
             Xóa
           </Button>
@@ -174,7 +176,7 @@ const CategoryListPage: React.FC = () => {
         pagination={false}
         onChange={handleTableChange}
       />
-      <div style={{ marginTop: 16, textAlign: 'center' }}>
+      <div style={{ marginTop: 16, textAlign: "center" }}>
         <CustomPagination
           current={pagination.current}
           pageSize={pagination.pageSize}

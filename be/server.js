@@ -30,15 +30,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
 
 // Middleware log request (tạm thời để debug)
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalUrl}`);
-  // console.log('Request Headers:', req.headers); // Uncomment for detailed headers
-  // console.log('Request Body:', req.body); // Uncomment for request body
+
   next();
 });
 
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('Đã kết nối thành công đến MongoDB'))
+
   .catch((err) => console.error('Lỗi kết nối MongoDB:', err));
 
 // Import routes
@@ -54,6 +52,7 @@ const statisticsRoutes = require('./routes/statistics');
 const businessRoutes = require('./routes/business');
 const serviceRequestsRouter = require('./routes/serviceRequests');
 const testDriveOrdersRouter = require('./routes/testDriveOrders');
+const filesRouter = require('./routes/files');
 
 // Sử dụng routes
 app.use('/api/users', userRoutes); // User management routes
@@ -76,6 +75,7 @@ app.use('/api/thong-ke', statisticsRoutes);
 app.use('/api', businessRoutes);
 app.use('/api/service-requests', serviceRequestsRouter);
 app.use('/api/test-drive-orders', testDriveOrdersRouter);
+app.use('/api/files', filesRouter);
 
 // Xử lý lỗi 404
 app.use((req, res) => {
@@ -98,5 +98,4 @@ app.use((err, req, res, next) => {
 // Khởi động server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server đang chạy trên port ${PORT}`);
 }); 

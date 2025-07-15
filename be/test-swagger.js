@@ -26,12 +26,10 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-console.log('Swagger specs generated:');
-console.log('Number of paths found:', Object.keys(specs.paths || {}).length);
-console.log('Paths:', Object.keys(specs.paths || {}));
+
 
 if (Object.keys(specs.paths || {}).length === 0) {
-  console.log('\n❌ No paths found! Check your JSDoc comments and file paths.');
+  // No paths found
 } else {
-  console.log('\n✅ Swagger configuration is working!');
+  // Swagger configuration is working
 } 

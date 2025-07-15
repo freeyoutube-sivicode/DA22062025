@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@ant-design/charts": "^2.6.0"
+    "@ant-design/charts": "^2.6.0",
+    "react-quill": "^2.0.0"
   }
 }

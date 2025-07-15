@@ -19,6 +19,7 @@ const newsEventsRouter = require('./routes/newsEvents');
 const reviewsRouter = require('./routes/reviews');
 const statisticsRouter = require('./routes/statistics');
 const testDriveOrdersRouter = require('./routes/testDriveOrders');
+const filesRouter = require('./routes/files');
 
 // Middleware
 app.use(cors());
@@ -38,6 +39,7 @@ app.use('/api/news-events', newsEventsRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/statistics', statisticsRouter);
 app.use('/api/test-drive-orders', testDriveOrdersRouter);
+app.use('/api/files', filesRouter);
 
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

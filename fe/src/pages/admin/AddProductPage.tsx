@@ -70,7 +70,6 @@ const AdminAddProductPage: React.FC = () => {
   const handleAddSpecification = () => {
     // You might want a more sophisticated way to add/manage specs
     // For simplicity, let's just log for now
-    console.log("Add Specification clicked");
     // A common pattern is to add input fields dynamically
   };
 

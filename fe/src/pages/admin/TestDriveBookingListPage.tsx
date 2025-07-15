@@ -383,12 +383,7 @@ const TestDriveBookingListPage: React.FC = () => {
               Hoàn thành
             </Button>
           )}
-          <Button
-            type="primary"
-            danger
-            onClick={() => handleDelete(record._id)}
-            size="small"
-          >
+          <Button danger onClick={() => handleDelete(record._id)} size="small">
             Xóa
           </Button>
         </div>

@@ -227,8 +227,10 @@
   gap: 8px;
 
   button {
-    padding: 4px 12px;
     border-radius: 4px;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 8px;
     
     &.confirmButton, &.completeButton {
       background: #8B4513;
@@ -238,6 +240,33 @@
         background: #9B5523;
         border-color: #9B5523;
       }
+    }
+  }
+
+  :global(.ant-btn-sm) {
+    height: 24px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+    line-height: 22px !important;
+  }
+
+  :global(.ant-btn) {
+    &.ant-btn-sm {
+      height: 24px !important;
+      padding: 0 8px !important;
+      font-size: 12px !important;
+      line-height: 22px !important;
+    }
+  }
+
+  // Most specific override for action buttons
+  :global(.ant-btn) {
+    &.ant-btn-sm {
+      height: 24px !important;
+      padding: 0 8px !important;
+      font-size: 12px !important;
+      line-height: 22px !important;
+      min-width: auto !important;
     }
   }
 }

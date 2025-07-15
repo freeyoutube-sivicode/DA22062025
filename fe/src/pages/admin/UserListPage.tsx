@@ -186,6 +186,7 @@ const UserListPage: React.FC = () => {
             type="primary"
             icon={<EditOutlined />}
             onClick={() => handleEdit(record)}
+            size="small"
           >
             Sửa
           </Button>
@@ -194,6 +195,7 @@ const UserListPage: React.FC = () => {
               danger
               icon={<LockOutlined />}
               onClick={() => handleStatusChange(record._id, "inactive")}
+              size="small"
             >
               Khóa
             </Button>
@@ -202,6 +204,7 @@ const UserListPage: React.FC = () => {
               type="primary"
               icon={<UnlockOutlined />}
               onClick={() => handleStatusChange(record._id, "active")}
+              size="small"
             >
               Mở khóa
             </Button>

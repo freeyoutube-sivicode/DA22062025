@@ -29,13 +29,12 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const productId = req.params.productId;
-    console.log(`Attempting to find product with ID: ${productId}`); // Log ID nhận được
+
 
     const product = await Product.findById(productId)
       .populate('CategoryID', 'Category_Name');
 
-    console.log(`Product find result for ID ${productId}: ${product ? 'Found' : 'Not Found'}`); // Log kết quả tìm kiếm
-    console.log('Found product object:', product); // Log toàn bộ object nếu tìm thấy (cẩn thận với dữ liệu nhạy cảm)
+    
     
     if (!product) {
       console.warn(`Product with ID ${productId} not found in DB.`); // Log cảnh báo nếu không tìm thấy
@@ -69,8 +68,16 @@ const createProduct = async (req, res) => {
       return errorResponse(res, 'URL hình ảnh chính là bắt buộc', HTTP_STATUS.BAD_REQUEST);
     }
 
-    // Không cần upload ảnh lên Cloudinary nữa, chỉ cần lưu URL
-    // Bỏ qua phần xử lý req.files và Cloudinary upload
+    // Tạo ngày mặc định cho test drive nếu không được cung cấp
+    const defaultStartDate = TestDriveStartDate ? new Date(TestDriveStartDate) : new Date();
+    const defaultEndDate = TestDriveEndDate ? new Date(TestDriveEndDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 ngày từ hiện tại
+
+    // Map status từ frontend sang backend
+    const mapStatus = (status) => {
+      if (status === 'available') return 'active';
+      if (status === 'sold_out') return 'expired';
+      return 'active';
+    };
 
     const product = new Product({
       Product_Name,
@@ -78,11 +85,11 @@ const createProduct = async (req, res) => {
       Description,
       Price,
       Main_Image: Main_Image, // Lưu URL ảnh chính
-      List_Image: List_Image, // Lưu danh sách URLs ảnh phụ
-      Specifications,
-      TestDriveStartDate,
-      TestDriveEndDate,
-      Status
+      List_Image: List_Image || [], // Lưu danh sách URLs ảnh phụ
+      Specifications: Specifications || {},
+      TestDriveStartDate: defaultStartDate,
+      TestDriveEndDate: defaultEndDate,
+      Status: mapStatus(Status)
     });
 
     await product.save();
@@ -116,18 +123,28 @@ const updateProduct = async (req, res) => {
       return errorResponse(res, 'Không tìm thấy sản phẩm', HTTP_STATUS.NOT_FOUND);
     }
 
+    // Xử lý ngày test drive
+    const updatedStartDate = TestDriveStartDate ? new Date(TestDriveStartDate) : product.TestDriveStartDate;
+    const updatedEndDate = TestDriveEndDate ? new Date(TestDriveEndDate) : product.TestDriveEndDate;
+
+    // Map status từ frontend sang backend
+    const mapStatus = (status) => {
+      if (status === 'available') return 'active';
+      if (status === 'sold_out') return 'expired';
+      return 'active';
+    };
+
     // Cập nhật tất cả các thông tin từ body
-    // Không cần kiểm tra req.files hay upload/xóa ảnh Cloudinary nữa
-    product.Product_Name = Product_Name;
-    product.CategoryID = CategoryID;
-    product.Description = Description;
-    product.Price = Price;
-    product.Specifications = Specifications; // Lưu trực tiếp object/json
-    product.TestDriveStartDate = TestDriveStartDate;
-    product.TestDriveEndDate = TestDriveEndDate;
-    product.Status = Status;
-    product.Main_Image = Main_Image; // Lưu URL ảnh chính
-    product.List_Image = List_Image; // Lưu danh sách URLs ảnh phụ
+    product.Product_Name = Product_Name || product.Product_Name;
+    product.CategoryID = CategoryID || product.CategoryID;
+    product.Description = Description || product.Description;
+    product.Price = Price !== undefined ? Price : product.Price;
+    product.Specifications = Specifications || product.Specifications;
+    product.TestDriveStartDate = updatedStartDate;
+    product.TestDriveEndDate = updatedEndDate;
+    product.Status = Status ? mapStatus(Status) : product.Status;
+    product.Main_Image = Main_Image || product.Main_Image;
+    product.List_Image = List_Image || product.List_Image;
 
     await product.save();
     successResponse(res, product, 'Cập nhật sản phẩm thành công');

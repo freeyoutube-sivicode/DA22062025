@@ -582,18 +582,15 @@ function generateSampleTestDriveOrders(users, products) {
 // Migration function
 async function migrate() {
   try {
-    console.log('🔗 Kết nối đến MongoDB...');
-    console.log('📝 MONGO_URI:', process.env.MONGO_URI ? 'Đã cấu hình' : 'CHƯA CẤU HÌNH');
+    
     
     if (!process.env.MONGO_URI) {
       throw new Error('MONGO_URI chưa được cấu hình trong file .env');
     }
     
     await mongoose.connect(process.env.MONGO_URI);
-    console.log('✅ Đã kết nối thành công đến MongoDB');
 
     // Clear existing data
-    console.log('🧹 Xóa dữ liệu cũ...');
     await User.deleteMany({});
     await Role.deleteMany({});
     await RoleUser.deleteMany({});
@@ -603,17 +600,13 @@ async function migrate() {
     await Service.deleteMany({});
     await NewsEvent.deleteMany({});
     await OrderTestDrive.deleteMany({});
-    console.log('✅ Đã xóa dữ liệu cũ');
 
     // Create roles
-    console.log('👥 Tạo vai trò...');
     const createdRoles = await Role.insertMany(sampleRoles);
     const adminRole = createdRoles.find(role => role.Role_Name === 'admin');
     const userRole = createdRoles.find(role => role.Role_Name === 'user');
-    console.log('✅ Đã tạo vai trò');
 
     // Create admin user
-    console.log('👤 Tạo tài khoản admin...');
     const adminUser = new User({
       UserName: 'admin',
       Password: 'admin123',
@@ -632,20 +625,14 @@ async function migrate() {
       RoleID: adminRole._id,
       Status: 'active'
     });
-    console.log('✅ Đã tạo tài khoản admin');
 
     // Create product categories
-    console.log('📂 Tạo danh mục sản phẩm...');
     const createdProductCategories = await ProductCategory.insertMany(sampleProductCategories);
-    console.log('✅ Đã tạo danh mục sản phẩm');
 
     // Create general categories
-    console.log('📁 Tạo danh mục chung...');
     const createdCategories = await Category.insertMany(sampleCategories);
-    console.log('✅ Đã tạo danh mục chung');
 
     // Create products with category references
-    console.log('🚗 Tạo sản phẩm...');
     const productsWithCategories = sampleProducts.map((product, index) => {
       const categoryIndex = index % createdProductCategories.length;
       return {
@@ -654,52 +641,24 @@ async function migrate() {
       };
     });
     await Product.insertMany(productsWithCategories);
-    console.log('✅ Đã tạo sản phẩm');
 
     // Lấy lại danh sách sản phẩm từ DB (có _id thực tế)
     const dbProducts = await Product.find({});
 
     // Create services
-    console.log('🔧 Tạo dịch vụ...');
     await Service.insertMany(sampleServices);
-    console.log('✅ Đã tạo dịch vụ');
 
     // Create news events
-    console.log('📰 Tạo tin tức...');
     await NewsEvent.insertMany(sampleNewsEvents);
-    console.log('✅ Đã tạo tin tức');
 
     // Create users
-    console.log('👤 Tạo tài khoản người dùng...');
     const createdUsers = await User.insertMany(sampleUsers);
-    console.log('✅ Đã tạo tài khoản người dùng');
 
     // Create test drive orders
-    console.log('🚗 Tạo đơn lái thử...');
     const testDriveOrders = generateSampleTestDriveOrders(createdUsers, dbProducts);
     await OrderTestDrive.insertMany(testDriveOrders);
-    console.log('✅ Đã tạo đơn lái thử');
 
-    console.log('\n🎉 Migration hoàn thành thành công!');
-    console.log('\n📊 Thống kê dữ liệu đã tạo:');
-    console.log(`- Vai trò: ${createdRoles.length}`);
-    console.log(`- Người dùng admin: 1`);
-    console.log(`- Người dùng thường: ${createdUsers.length}`);
-    console.log(`- Danh mục sản phẩm: ${createdProductCategories.length}`);
-    console.log(`- Danh mục chung: ${createdCategories.length}`);
-    console.log(`- Sản phẩm: ${sampleProducts.length}`);
-    console.log(`- Dịch vụ: ${sampleServices.length}`);
-    console.log(`- Tin tức: ${sampleNewsEvents.length}`);
-    console.log(`- Đơn lái thử: ${testDriveOrders.length}`);
 
-    console.log('\n🔑 Thông tin đăng nhập admin:');
-    console.log('Username: admin');
-    console.log('Password: admin123');
-    console.log('Email: admin@bmw.com');
-
-    console.log('\n👥 Thông tin đăng nhập người dùng thường:');
-    console.log('Username: user1-user10');
-    console.log('Password: password123');
 
   } catch (error) {
     console.error('❌ Lỗi trong quá trình migration:', error.message);
@@ -712,7 +671,6 @@ async function migrate() {
   } finally {
     if (mongoose.connection.readyState === 1) {
       await mongoose.disconnect();
-      console.log('🔌 Đã ngắt kết nối MongoDB');
     }
   }
 }

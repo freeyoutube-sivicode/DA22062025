@@ -372,17 +372,10 @@ const PriceListPage: React.FC = () => {
     const filterParam = searchParams.get("filter");
     const filtersParam = searchParams.get("filters");
 
-    console.log("URL params:", location.search);
-    console.log("Filter param:", filterParam);
-    console.log("Filters param:", filtersParam);
-    console.log("Categories loaded:", categories.length);
-    console.log("Current selected filters:", selectedFilters);
-
     // Handle single filter from Footer links
     if (filterParam) {
       // Decode and apply the filter
       const decodedFilter = decodeURIComponent(filterParam);
-      console.log("Decoded filter:", decodedFilter);
 
       // Check if filter exists in available filters
       const allFilters = [
@@ -396,8 +389,6 @@ const PriceListPage: React.FC = () => {
         { key: "i", label: "BMW i" },
       ];
 
-      console.log("Available filters:", allFilters);
-
       const matchingFilter = allFilters.find(
         (f) =>
           f.key === decodedFilter.toLowerCase() ||
@@ -406,11 +397,7 @@ const PriceListPage: React.FC = () => {
           decodedFilter.toLowerCase().includes(f.key)
       );
 
-      console.log("Matching filter:", matchingFilter);
-
       if (matchingFilter) {
-        console.log("Applying filter:", matchingFilter.key);
-
         // Clear existing filters and apply new filter
         setSelectedFilters([matchingFilter.key]);
         setCurrentPage(1);
@@ -426,14 +413,13 @@ const PriceListPage: React.FC = () => {
         const newUrl = `${location.pathname}?${newSearchParams.toString()}`;
         navigate(newUrl, { replace: true });
       } else {
-        console.log("No matching filter found");
+        // No matching filter found
       }
     }
 
     // Handle multiple filters from URL state
     else if (filtersParam && selectedFilters.length === 0) {
       const filterKeys = filtersParam.split(",").filter(Boolean);
-      console.log("Loading filters from URL:", filterKeys);
 
       if (filterKeys.length > 0) {
         setSelectedFilters(filterKeys);
@@ -449,7 +435,6 @@ const PriceListPage: React.FC = () => {
       const filterParam = searchParams.get("filter");
 
       if (filterParam) {
-        console.log("URL changed, re-parsing filter:", filterParam);
         // Handle URL change
       }
     }

@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
-  Table,
-  Button,
-  Space,
-  Typography,
-  Modal,
-  Input,
-  Select,
-  Spin,
-  notification,
-  Card,
-  Popconfirm,
-  message,
-  Tag,
-} from "antd";
-import {
-  EditOutlined,
   DeleteOutlined,
-  PlusOutlined,
+  EditOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  Input,
+  Modal,
+  Popconfirm,
+  Select,
+  Space,
+  Spin,
+  Table,
+  Tag,
+  Typography,
+  notification,
+} from "antd";
 import axios from "axios";
-import styles from "./ProductListPage.module.scss";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../api/config";
 import CustomPagination from "../../components/CustomPagination";
 import Breadcrumb from "../../components/admin/Breadcrumb";
+import styles from "./ProductListPage.module.scss";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -197,12 +195,6 @@ const ProductListPage: React.FC = () => {
       sorter: (a: Product, b: Product) => a.Price - b.Price,
     },
     {
-      title: "Tồn kho",
-      dataIndex: "Stock",
-      key: "stock",
-      sorter: (a: Product, b: Product) => a.Stock - b.Stock,
-    },
-    {
       title: "Danh mục",
       dataIndex: ["CategoryID", "Category_Name"],
       key: "category",
@@ -212,10 +204,28 @@ const ProductListPage: React.FC = () => {
       dataIndex: "Status",
       key: "status",
       render: (status: string) => (
-        <Tag color={status === "available" ? "green" : "red"}>
-          {status === "available" ? "Còn cho thuê" : "Hết cho thuê"}
+        <Tag color={status === "active" ? "green" : "red"}>
+          {status === "active" ? "Còn cho thuê" : "Hết cho thuê"}
         </Tag>
       ),
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date: string) => {
+        const dateObj = new Date(date);
+        return dateObj.toLocaleString("vi-VN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      },
+      sorter: (a: Product, b: Product) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     },
     {
       title: "Thao tác",
@@ -226,6 +236,7 @@ const ProductListPage: React.FC = () => {
             type="primary"
             icon={<EditOutlined />}
             onClick={() => navigate(`/admin/products/edit/${record._id}`)}
+            size="small"
           >
             Sửa
           </Button>
@@ -235,7 +246,7 @@ const ProductListPage: React.FC = () => {
             okText="Có"
             cancelText="Không"
           >
-            <Button type="primary" danger icon={<DeleteOutlined />}>
+            <Button danger icon={<DeleteOutlined />} size="small">
               Xóa
             </Button>
           </Popconfirm>
@@ -251,8 +262,8 @@ const ProductListPage: React.FC = () => {
           ? "Product_Name"
           : sorter.columnKey === "Price"
             ? "Price"
-            : sorter.columnKey === "Stock"
-              ? "Stock"
+            : sorter.columnKey === "createdAt"
+              ? "createdAt"
               : sorter.columnKey
       );
       setSortOrder(sorter.order);
@@ -270,16 +281,6 @@ const ProductListPage: React.FC = () => {
       pageSize: newPageSize,
     });
   };
-
-  // Remove client-side filtering since we're doing server-side filtering
-  // const filteredProducts = products.filter((product) => {
-  //   const matchesSearch = product.Product_Name.toLowerCase().includes(
-  //     searchText.toLowerCase()
-  //   );
-  //   const matchesCategory =
-  //     !selectedCategory || product.CategoryID._id === selectedCategory;
-  //   return matchesSearch && matchesCategory;
-  // });
 
   return (
     <div className={styles.productListPage}>

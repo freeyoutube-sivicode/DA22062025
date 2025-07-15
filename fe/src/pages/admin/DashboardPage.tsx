@@ -1,16 +1,14 @@
-import { Card, Typography, Row, Col, Spin, Alert, message } from "antd";
-import { Column, Area, Pie, Bar } from "@ant-design/charts";
+import { Area, Bar, Column } from "@ant-design/charts";
+import {
+  CarOutlined,
+  ProfileOutlined,
+  UserOutlined,
+  UserSwitchOutlined,
+} from "@ant-design/icons";
+import { Alert, Card, Col, Row, Spin, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styles from "./DashboardPage.module.css";
-import {
-  UserOutlined,
-  UserSwitchOutlined,
-  CarOutlined,
-  InboxOutlined,
-  ProfileOutlined,
-  DollarOutlined,
-} from "@ant-design/icons";
 
 const { Title } = Typography;
 

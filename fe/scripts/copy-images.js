@@ -20,6 +20,6 @@ fs.readdirSync(sourceDir).forEach(file => {
   
   if (fs.statSync(sourcePath).isFile()) {
     fs.copyFileSync(sourcePath, targetPath);
-    console.log(`Copied: ${file}`);
+
   }
 }); 
