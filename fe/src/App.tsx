@@ -16,7 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Admin Pages
-import DashboardPage from "./pages/admin/DashboardPage";
+// import DashboardPage from "./pages/admin/DashboardPage";
 import AdminProductListPage from "./pages/admin/ProductListPage";
 import ProductFormPage from "./pages/admin/ProductFormPage";
 import OrderDetailPage from "./pages/admin/OrderDetailPage";
@@ -179,7 +179,10 @@ const App: React.FC = () => {
                     element={
                       <ProtectedRoute requireAdmin>
                         <AdminLayout>
-                          <DashboardPage />
+                          <div style={{ padding: 20, textAlign: "center" }}>
+                            <h2>Dashboard</h2>
+                            <p>Dashboard tạm thời bị ẩn</p>
+                          </div>
                         </AdminLayout>
                       </ProtectedRoute>
                     }
