@@ -5,7 +5,7 @@ const isProduction = import.meta.env.PROD;
 // Base URL configuration
 export const API_BASE_URL = isDevelopment 
   ? "http://localhost:3000/api"
-  : "https://your-railway-app.railway.app/api"; // Thay đổi URL này sau khi deploy backend
+  : (import.meta.env.VITE_API_BASE_URL || "https://da22062025.onrender.com/api"); // Render backend URL
 
 // API timeout
 export const API_TIMEOUT = 10000; // 10 seconds
