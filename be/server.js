@@ -12,32 +12,46 @@ dotenv.config();
 // Khởi tạo Express app
 const app = express();
 
-// Middleware
-app.use(cors({
-  origin: [
-    'http://localhost:5173', 
-    'http://localhost:3000', 
-    'http://localhost:3001',
-    'https://da22062025.vercel.app',
-    'https://da22062025-git-master-freeyoutube-sivicode.vercel.app',
-    'https://da22062025-freeyoutube-sivicode.vercel.app'
-  ],
+// CORS configuration - Allow specific origins
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:3000', 
+      'http://localhost:3001',
+      'https://da-22062025.vercel.app',
+      'https://da22062025.vercel.app',
+      'https://da22062025-git-master-freeyoutube-sivicode.vercel.app',
+      'https://da22062025-freeyoutube-sivicode.vercel.app',
+      'https://vercel.app',
+      'https://*.vercel.app'
+    ];
+    
+    // Check if origin is allowed
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Origin', 'Accept'],
+  optionsSuccessStatus: 200
+};
+
+// Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Swagger Documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
-  customCss: '.swagger-ui .topbar { display: none }',
-  customSiteTitle: 'Test Drive Booking API Documentation'
-}));
-
 // Middleware log request (tạm thời để debug)
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.path}`);
+  console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
   next();
 });
 
@@ -65,21 +79,18 @@ const serviceRequestsRouter = require('./routes/serviceRequests');
 const testDriveOrdersRouter = require('./routes/testDriveOrders');
 const filesRouter = require('./routes/files');
 
-// Sử dụng routes
+// Mount API routes FIRST (before Swagger)
 app.use('/api/users', userRoutes); // User management routes
-// Consider consolidating user-related routes if userRoutes and roleUserRoutes overlap
 app.use('/api/nguoi-dung', userRoutes); // Example mount for userRoutes
 app.use('/api/vai-tro', roleRoutes); // Example mount for roleRoutes
 app.use('/api/nguoi-dung', roleUserRoutes); // Example mount for roleUserRoutes
 
 // Mount category routes
 app.use('/api/danh-muc', categoryRoutes);
-
 app.use('/api/xe', productRoutes);
 
 // Mount favorites routes
 app.use('/api/yeu-thich', favoritesRoutes);
-
 app.use('/api/dich-vu', servicesApis);
 app.use('/api/tin-tuc-su-kien', newsEventsApis);
 app.use('/api/thong-ke', statisticsRoutes);
@@ -88,11 +99,27 @@ app.use('/api/service-requests', serviceRequestsRouter);
 app.use('/api/test-drive-orders', testDriveOrdersRouter);
 app.use('/api/files', filesRouter);
 
+// Swagger Documentation - Mount AFTER API routes
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Test Drive Booking API Documentation'
+}));
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    success: true, 
+    message: 'API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Xử lý lỗi 404
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: 'Không tìm thấy API endpoint'
+    message: 'Không tìm thấy API endpoint',
+    path: req.path
   });
 });
 
@@ -112,4 +139,5 @@ app.listen(PORT, () => {
   console.log(`🚀 Server đang chạy trên port ${PORT}`);
   console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
   console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
 }); 
