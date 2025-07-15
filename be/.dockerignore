@@ -15,4 +15,6 @@ coverage
 dist
 build
 .vscode
-.idea 
+.idea
+fe/
+doc/ 

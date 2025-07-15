@@ -3,14 +3,14 @@ FROM node:18-alpine
 # Tạo thư mục làm việc
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files từ thư mục be
+COPY be/package*.json ./
 
 # Cài đặt dependencies
 RUN npm ci --only=production
 
-# Copy source code
-COPY . .
+# Copy toàn bộ source code từ thư mục be
+COPY be/ .
 
 # Expose port
 EXPOSE 3000

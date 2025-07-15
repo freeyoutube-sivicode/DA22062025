@@ -31,7 +31,7 @@ git push origin master
 4. Chọn repository của bạn
 5. Chọn branch `master`
 
-**Lưu ý:** Railway sẽ tự động detect và build từ thư mục `be/` nhờ file `railway.json` ở thư mục gốc
+**Lưu ý:** Railway sẽ sử dụng Dockerfile trong thư mục `be/` để build và deploy backend
 
 ### 2.3. Cấu hình Environment Variables
 
