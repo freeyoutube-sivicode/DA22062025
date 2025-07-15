@@ -23,8 +23,8 @@ const options = {
         description: 'Development server'
       },
       {
-        url: 'https://your-production-domain.com',
-        description: 'Production server'
+        url: 'https://da22062025.onrender.com',
+        description: 'Production server (Render)'
       }
     ],
     components: {
