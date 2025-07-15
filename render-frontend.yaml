@@ -4,7 +4,6 @@ services:
     env: static
     plan: free
     buildCommand: cd fe && npm install && npm run build
-    startCommand: cd fe && npm run preview
     staticPublishPath: ./fe/dist
     envVars:
       - key: VITE_API_BASE_URL

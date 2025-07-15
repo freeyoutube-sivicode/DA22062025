@@ -27,7 +27,9 @@ const corsOptions = {
       'https://da22062025-git-master-freeyoutube-sivicode.vercel.app',
       'https://da22062025-freeyoutube-sivicode.vercel.app',
       'https://vercel.app',
-      'https://*.vercel.app'
+      'https://*.vercel.app',
+      'https://da22062025-1.onrender.com',
+      'https://*.onrender.com'
     ];
     
     // Check if origin is allowed
