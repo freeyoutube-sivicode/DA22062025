@@ -288,12 +288,18 @@ function generateSampleProducts() {
   ];
 
   for (let i = 0; i < carNames.length; i++) {
+    const now = new Date();
+    const startDate = new Date(now.getTime() + (i * 7) * 24 * 60 * 60 * 1000); // Mỗi xe cách nhau 7 ngày
+    const endDate = new Date(startDate.getTime() + 30 * 24 * 60 * 60 * 1000); // Kéo dài 30 ngày
+    
     products.push({
       Product_Name: carNames[i],
       Description: descriptions[i],
       Price: prices[i],
       Main_Image: images[i],
       Images: [images[i]],
+      TestDriveStartDate: startDate,
+      TestDriveEndDate: endDate,
       Specifications: {
         Engine: '2.0L Turbo',
         Power: '184 hp',
