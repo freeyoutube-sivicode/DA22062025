@@ -6,8 +6,11 @@ WORKDIR /app
 # Copy package files từ thư mục be
 COPY be/package*.json ./
 
+# Copy lock file nếu tồn tại
+COPY be/package-lock.json* ./
+
 # Cài đặt dependencies
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # Copy toàn bộ source code từ thư mục be
 COPY be/ .
