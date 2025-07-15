@@ -321,44 +321,39 @@ const sampleProducts = generateSampleProducts();
 // Sample services data
 const sampleServices = [
   {
-    Service_Name: 'Bảo dưỡng định kỳ',
+    Name: 'Bảo dưỡng định kỳ',
     Description: 'Dịch vụ bảo dưỡng định kỳ theo tiêu chuẩn BMW',
     Price: 2000000,
-    Duration: '2-3 giờ',
-    Image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop',
-    Status: 'active'
+    Status: 'available',
+    ImageUrl: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&h=600&fit=crop'
   },
   {
-    Service_Name: 'Thay dầu động cơ',
+    Name: 'Thay dầu động cơ',
     Description: 'Thay dầu động cơ và lọc dầu chính hãng BMW',
     Price: 1500000,
-    Duration: '1-2 giờ',
-    Image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=600&fit=crop',
-    Status: 'active'
+    Status: 'available',
+    ImageUrl: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=600&fit=crop'
   },
   {
-    Service_Name: 'Kiểm tra hệ thống điện',
+    Name: 'Kiểm tra hệ thống điện',
     Description: 'Kiểm tra toàn bộ hệ thống điện và điện tử',
     Price: 1000000,
-    Duration: '1 giờ',
-    Image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop',
-    Status: 'active'
+    Status: 'available',
+    ImageUrl: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=800&h=600&fit=crop'
   },
   {
-    Service_Name: 'Thay phanh',
+    Name: 'Thay phanh',
     Description: 'Thay phanh trước và sau, kiểm tra hệ thống phanh',
     Price: 3000000,
-    Duration: '2-3 giờ',
-    Image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&h=600&fit=crop',
-    Status: 'active'
+    Status: 'available',
+    ImageUrl: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=800&h=600&fit=crop'
   },
   {
-    Service_Name: 'Sửa chữa điều hòa',
+    Name: 'Sửa chữa điều hòa',
     Description: 'Kiểm tra và sửa chữa hệ thống điều hòa không khí',
     Price: 2500000,
-    Duration: '2-4 giờ',
-    Image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=600&fit=crop',
-    Status: 'active'
+    Status: 'available',
+    ImageUrl: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&h=600&fit=crop'
   }
 ];
 
